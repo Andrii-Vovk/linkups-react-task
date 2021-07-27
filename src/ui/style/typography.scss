@@ -1,0 +1,52 @@
+@import "./funcs";
+
+html {
+  font-size: 16px;
+}
+
+h3 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+h4 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #c9cad1;
+}
+
+p {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: toRem(12);
+  color: #808080;
+}
+
+a {
+  font-family: Poppins;
+  font-weight: 300;
+  color: #c9cad1;
+  font-size: toRem(11);
+}
+
+a:visited,
+a:link {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.subtext {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: toRem(12);
+  color: #c9cad1;
+}

@@ -1,9 +1,7 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.scss";
 
-import RouterNav from "./pages/router";
-import { Router } from "react-router";
+import RouterNav from "./ui/boot/router";
 
 function App() {
   return (

@@ -1,0 +1,47 @@
+@import "../style/funcs";
+@import "../style/typography.scss";
+
+.post-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 30%;
+}
+
+.post-img-wrapper {
+  & img {
+    object-fit: cover;
+    width: toRem(400);
+    height: toRem(400);
+
+    overflow: hidden;
+
+    border-radius: 3rem;
+  }
+}
+
+.share-link {
+  @extend h3;
+  color: black;
+
+  &::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\00a0\00a0\f061";
+  }
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+
+    & .left-footer-part {
+        display: flex;
+    }
+}
+
+.like-counter::before {
+    content: ;
+}
