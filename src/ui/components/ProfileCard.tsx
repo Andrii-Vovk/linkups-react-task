@@ -15,15 +15,21 @@ type ProfilePropsType = {
 
 export interface ProfileCardProps {
   props: ProfilePropsType;
+  variant: "Homepage" | "Profilepage";
 }
 
-const ProfileCard = ({ props }: ProfileCardProps) => {
+const ProfileCard = ({ props, variant }: ProfileCardProps) => {
 
   let isInterest = false;
   if (props.interest) {
     isInterest = true;
   } else {
     isInterest = false;
+  }
+
+  let showLinks = true;
+  if(variant !== 'Homepage') {
+    showLinks = false;
   }
 
   return (
@@ -60,7 +66,10 @@ const ProfileCard = ({ props }: ProfileCardProps) => {
           <button className="blue-btn">New Post</button>
         </div>
 
-        <div className="refs">
+        {
+          showLinks &&
+          <>
+          <div className="refs">
             <a href="https://google.com">About</a>
             <a href="https://google.com">Help</a>
             <a href="https://google.com">Privacy</a>
@@ -71,6 +80,8 @@ const ProfileCard = ({ props }: ProfileCardProps) => {
         <div className="refs">
             <a href="https://google.com">&copy; 2020 Linkstagram</a>
         </div>
+        </>
+      }
       </div>
     </>
   );

@@ -1,19 +1,26 @@
+@import "../../ui/style/funcs";
+
 .layout-parent {
   display: flex;
   justify-content: space-between;
 
   margin: 0 20%;
-
 }
 
 .layout-left {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    
-    & > * {
-        margin: 20px 0;
-    }
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+
+  & > * {
+    margin: 20px 0;
+  }
+}
+
+.layout-right {
+  position: sticky;
+  top: toRem(100);
+  align-self: flex-start;
 }
 
 @media (max-width: 800px) {
@@ -22,21 +29,34 @@
     margin: 0 0;
   }
   .layout-left {
-      width: 60%;
+    width: 60%;
+  }
+
+  .layout-right {
+    display: none;
   }
 }
 
 @media (max-width: 600px) {
-    .layout-parent {
-      justify-content: center;
+  .layout-parent {
+    justify-content: center;
+    margin: 0 0;
+  }
+  .layout-left {
+    width: 90%;
+
+    & > * {
       margin: 0 0;
     }
-    .layout-left {
-        width: 90%;
-
-        & > * {
-          margin: 0 0;
-      }
-    }
   }
-  
+}
+
+@media (max-width: 800px){
+  .buttons .hideable {
+    display: none;
+  }
+
+  header {
+    padding: 0 1rem;
+  }
+}

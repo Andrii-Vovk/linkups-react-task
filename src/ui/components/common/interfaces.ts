@@ -14,3 +14,18 @@ export interface CommentProps {
   likes: number;
   isLiked: boolean
 }
+
+export type PostPropsType = {
+  name: string;
+  time: Date;
+  avatar: string;
+  imageUrl: string[];
+  about: string;
+  likes: number;
+  isliked?: boolean;
+  comments?: CommentProps[];
+};
+
+export interface PostProps {
+  props: PostPropsType;
+}

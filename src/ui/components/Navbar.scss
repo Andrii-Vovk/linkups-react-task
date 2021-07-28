@@ -39,14 +39,3 @@ header {
   font-weight: 800;
   font-size: 1rem;
 }
-
-
-@media (max-width: 800px){
-  .buttons button {
-    display: none;
-  }
-
-  header {
-    padding: 0 1rem;
-  }
-}

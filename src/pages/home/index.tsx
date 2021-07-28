@@ -122,16 +122,17 @@ const HomePage = () => {
   },
 ]
 
+
   return (
     <>
-      <Navbar />
+      <Navbar variant="Homepage"/>
       <div className="layout-parent">
         <div className="layout-left">
           <StoriesLine avatarArray={arr} />
           {PlaceholderPostProps.map(item => <Post props={item} />)}
         </div>
         <div className="layout-right">
-          <ProfileCard props={PlaceholderProfileProps} />
+          <ProfileCard props={PlaceholderProfileProps} variant="Homepage"/>
         </div>
       </div>
     </>

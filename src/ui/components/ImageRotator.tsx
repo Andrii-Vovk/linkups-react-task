@@ -1,17 +1,14 @@
+import RespPhoto from "./common/ResponsivePhoto/ResponsivePhoto";
 import "./ImageRotator.scss";
 
 export interface ImageRotatorProps {
-    url: string;
+  url: string;
 }
- 
+
 const ImageRotator = ({ url }: ImageRotatorProps) => {
-    return ( 
-        <div className="square-container">
-            <div className="square-content">
-                <img src={url} alt="Post" />
-            </div>
-        </div>
-     );
-}
- 
+  return <div className="wrapper">
+      <RespPhoto url={url} />
+  </div>;
+};
+
 export default ImageRotator;

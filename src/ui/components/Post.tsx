@@ -1,24 +1,9 @@
 import { getRelativeTime, thousandstoK } from "./common/functions";
-import { CommentProps } from "./common/interfaces";
+import { PostProps } from "./common/interfaces";
 import ImageRotator from "./ImageRotator";
 import Avatar from "./StoriesAvatar";
 import "./Post.scss";
 import { useState } from "react";
-
-type PostPropsType = {
-  name: string;
-  time: Date;
-  avatar: string;
-  imageUrl: string[];
-  about: string;
-  likes: number;
-  isliked?: boolean;
-  comments?: CommentProps[];
-};
-
-export interface PostProps {
-  props: PostPropsType;
-}
 
 const Post = ({ props }: PostProps) => {
   const [liked, setLiked] = useState(props.isliked);
