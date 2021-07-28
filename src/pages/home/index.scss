@@ -1,13 +1,42 @@
 .layout-parent {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    margin: 0 20% ;
+  margin: 0 20%;
+
 }
-
 
 .layout-left {
     display: flex;
     flex-direction: column;
     width: 50%;
+    
+    & > * {
+        margin: 20px 0;
+    }
 }
+
+@media (max-width: 800px) {
+  .layout-parent {
+    justify-content: center;
+    margin: 0 0;
+  }
+  .layout-left {
+      width: 60%;
+  }
+}
+
+@media (max-width: 600px) {
+    .layout-parent {
+      justify-content: center;
+      margin: 0 0;
+    }
+    .layout-left {
+        width: 90%;
+
+        & > * {
+          margin: 0 0;
+      }
+    }
+  }
+  
