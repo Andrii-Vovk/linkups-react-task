@@ -101,7 +101,8 @@ const HomePage = () => {
     },
   };
 
-  const PlaceholderPostProps = {
+  const PlaceholderPostProps =[
+     {
     name: "Bill Murray",
     time: new Date("January 16, 2021"),
     avatar: "https://www.fillmurray.com/645/360?u=4",
@@ -109,7 +110,17 @@ const HomePage = () => {
     about:
       "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
     likes: 1230,
-  };
+  },
+     {
+    name: "Bill Murray",
+    time: new Date("July 26, 2021"),
+    avatar: "https://www.fillmurray.com/645/360?u=4",
+    imageUrl: ["https://www.fillmurray.com/642/360?u=4"],
+    about:
+      "Golf was my first glimpse of comedy. I was a caddy when I was a kid. I was on the golf course rather than being in lessons, but I can play better now than I could then.",
+    likes: 1230,
+  },
+]
 
   return (
     <>
@@ -117,7 +128,7 @@ const HomePage = () => {
       <div className="layout-parent">
         <div className="layout-left">
           <StoriesLine avatarArray={arr} />
-          <Post props={PlaceholderPostProps} />
+          {PlaceholderPostProps.map(item => <Post props={item} />)}
         </div>
         <div className="layout-right">
           <ProfileCard props={PlaceholderProfileProps} />
