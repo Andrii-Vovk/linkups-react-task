@@ -1,0 +1,13 @@
+.layout-parent {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 0 20% ;
+}
+
+
+.layout-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}

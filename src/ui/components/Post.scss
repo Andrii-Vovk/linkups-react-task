@@ -1,24 +1,26 @@
 @import "../style/funcs";
+@import "../style/colors";
 @import "../style/typography.scss";
 
 .post-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  & > * {
+    margin: .5rem 0;
+  }
 
-  width: 30%;
+  width: 100%;
+}
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 
-.post-img-wrapper {
-  & img {
-    object-fit: cover;
-    width: toRem(400);
-    height: toRem(400);
-
-    overflow: hidden;
-
-    border-radius: 3rem;
-  }
+.title-bar-left {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+  align-items: center;
 }
 
 .share-link {
@@ -32,16 +34,58 @@
   }
 }
 
+.post-about {
+  margin-right: auto;
+  text-align: left;
+}
+
 .post-footer {
     display: flex;
     justify-content: space-between;
-    width: 95%;
+    width: 100%;
 
     & .left-footer-part {
         display: flex;
+        align-items: center;
+    }
+
+    & .like-wrapper {
+      display: flex;
+      align-items: baseline;
+    }
+
+    & .comment-count-wrapper {
+      display: flex;
+      align-items: center;
     }
 }
+.fa-heart {
+  cursor: pointer;
+  margin-right: 12px;
+}
 
-.like-counter::before {
-    content: ;
+.red-heart {
+  color: $red-accent;
+}
+
+.like-counter {
+  margin-right: 45px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.comment-svg {
+  position: relative;
+  margin-right: 12px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 2px;
+    background-color: red;
+    z-index: 3;
+  }
 }

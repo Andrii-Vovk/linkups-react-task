@@ -4,6 +4,7 @@ import Post from "../../ui/components/Post";
 import ProfileCard from "../../ui/components/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine";
 import "../../ui/style/buttons.scss";
+import "./index.scss";
 
 const HomePage = () => {
   const arr = [
@@ -101,20 +102,27 @@ const HomePage = () => {
   };
 
   const PlaceholderPostProps = {
-    name: "Ryan Gosling",
+    name: "Bill Murray",
     time: new Date("January 16, 2021"),
-    avatar: "https://www.fillmurray.com/640/360?u=3",
-    imageUrl: ["https://www.fillmurray.com/640/360?u=3"],
-    about: "I`m very handsome",
+    avatar: "https://www.fillmurray.com/645/360?u=4",
+    imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
+    about:
+      "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
     likes: 1230,
   };
 
   return (
     <>
       <Navbar />
-      <StoriesLine avatarArray={arr} />
-      <Post props={PlaceholderPostProps} />
-      <ProfileCard props={PlaceholderProfileProps} />
+      <div className="layout-parent">
+        <div className="layout-left">
+          <StoriesLine avatarArray={arr} />
+          <Post props={PlaceholderPostProps} />
+        </div>
+        <div className="layout-right">
+          <ProfileCard props={PlaceholderProfileProps} />
+        </div>
+      </div>
     </>
   );
 };
