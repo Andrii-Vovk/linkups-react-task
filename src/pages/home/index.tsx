@@ -110,6 +110,35 @@ const HomePage = () => {
     about:
       "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
     likes: 1230,
+    comments: [
+      {
+        avatar: {
+          url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
+        },
+        text: "wow, this is really cool 👍 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim praesentium saepe dolorem omnis, aut qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        time: new Date("july 29, 2021"),
+        likes: 30,
+        isLiked: true
+      },
+      {
+        avatar: {
+          url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
+        },
+        text: "wow, this is really cool 👍 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim praesentium saepe dolorem omnis, aut qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        time: new Date("july 29, 2021"),
+        likes: 30,
+        isLiked: true
+      },
+      {
+        avatar: {
+          url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
+        },
+        text: "wow, this is really qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        time: new Date("july 29, 2021"),
+        likes: 30,
+        isLiked: true
+      }
+    ]
   },
      {
     name: "Bill Murray",

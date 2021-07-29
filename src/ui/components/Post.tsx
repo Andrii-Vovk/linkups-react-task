@@ -4,16 +4,24 @@ import ImageRotator from "./ImageRotator";
 import Avatar from "./StoriesAvatar";
 import "./Post.scss";
 import { useState } from "react";
+import PostPopUp from "./common/PostPopUp/PostPopUp";
+//import PostComment from "./common/comment/PostComment";
 
 const Post = ({ props }: PostProps) => {
   const [liked, setLiked] = useState(props.isliked);
+  const [isPopUpVisible, setIsPopUpVisible] = useState(false);
 
   function handleLikeClick() {
     setLiked(!liked);
   }
 
+  function togglePopUp() {
+    setIsPopUpVisible(!isPopUpVisible);
+  }
+
   return (
     <>
+      {isPopUpVisible && <PostPopUp props={props} closeFunc={togglePopUp} />}
       <div className="post-wrapper">
         <div className="title-bar">
           <div className="title-bar-left">
@@ -28,7 +36,7 @@ const Post = ({ props }: PostProps) => {
           </div>
         </div>
 
-        <div className="post-img-wrapper">
+        <div onClick={() => togglePopUp()} className="post-img-wrapper">
           <ImageRotator url={props.imageUrl[0]} />
         </div>
 
@@ -72,6 +80,15 @@ const Post = ({ props }: PostProps) => {
             </a>
           </div>
         </div>
+        {/* {props.comments && (
+          <PostComment
+            avatar={props.comments[0].avatar}
+            text={props.comments[0].text}
+            isLiked={props.comments[0].isLiked}
+            likes={props.comments[0].likes}
+            time={props.comments[0].time}
+          />
+        )} */}
       </div>
     </>
   );

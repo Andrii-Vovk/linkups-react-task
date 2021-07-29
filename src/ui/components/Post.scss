@@ -4,10 +4,14 @@
 
 .post-wrapper {
   & > * {
-    margin: .5rem 0;
+    margin: 0.5rem 0;
   }
 
   width: 100%;
+
+  & .post-img-wrapper {
+    cursor: pointer;
+  }
 }
 .title-bar {
   display: flex;
@@ -40,28 +44,31 @@
 }
 
 .post-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  & .left-footer-part {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    align-items: center;
+  }
 
-    & .left-footer-part {
-        display: flex;
-        align-items: center;
-    }
+  & .like-wrapper {
+    display: flex;
+    align-items: baseline;
 
-    & .like-wrapper {
-      display: flex;
-      align-items: baseline;
+    & .fa-heart {
+      margin-right: 12px;
     }
+  }
 
-    & .comment-count-wrapper {
-      display: flex;
-      align-items: center;
-    }
+  & .comment-count-wrapper {
+    display: flex;
+    align-items: center;
+  }
 }
 .fa-heart {
   cursor: pointer;
-  margin-right: 12px;
 }
 
 .red-heart {
