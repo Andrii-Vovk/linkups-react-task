@@ -4,8 +4,8 @@ import "./Post.scss";
 import { useState } from "react";
 import PostPopUp from "../common/PostPopUp/PostPopUp";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
-import { CommentProps } from "../common/comment/PostComment";
-//import PostComment from "./common/comment/PostComment";
+import PostComment, { CommentProps } from "../common/comment/PostComment";
+import classNames from "classnames";
 
 export type PostPropsType = {
   name: string;
@@ -25,6 +25,7 @@ export interface PostProps {
 const Post = ({ props }: PostProps) => {
   const [liked, setLiked] = useState(props.isliked);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
+  const [showCommments, setShowComments] = useState(false);
 
   function handleLikeClick() {
     setLiked(!liked);
@@ -59,16 +60,23 @@ const Post = ({ props }: PostProps) => {
 
         <div className="post-footer">
           <div className="left-footer-part">
-            <div className="like-wrapper">
+            <div className={classNames({'like-wrapper': true, 'hide-likes': showCommments})}>
               <i
-                className={liked ? "fas fa-heart red-heart" : "fas fa-heart"}
+                className={classNames({
+                  fas: true,
+                  "fa-heart": true,
+                  "red-heart": liked,
+                })}
                 onClick={() => handleLikeClick()}
               ></i>
-              <h3 className="like-counter" onClick={() => handleLikeClick()}>
+              <h3 className="like-countes" onClick={() => handleLikeClick()}>
                 {thousandstoK(props.likes)}
               </h3>
             </div>
-            <div className="comment-count-wrapper">
+            <div
+              className="comment-count-wrapper"
+              onClick={() => setShowComments(!showCommments)}
+            >
               <svg
                 className="comment-svg"
                 width="16"
@@ -95,15 +103,23 @@ const Post = ({ props }: PostProps) => {
             </a>
           </div>
         </div>
-        {/* {props.comments && (
-          <PostComment
-            avatar={props.comments[0].avatar}
-            text={props.comments[0].text}
-            isLiked={props.comments[0].isLiked}
-            likes={props.comments[0].likes}
-            time={props.comments[0].time}
-          />
-        )} */}
+        <div
+          className={classNames({
+            "post-hidden-comments": true,
+            "come-out": showCommments,
+          })}
+        >
+          {props.comments &&
+            props.comments.map((item) => (
+              <PostComment
+                avatar={item.avatar}
+                text={item.text}
+                isLiked={item.isLiked}
+                likes={item.likes}
+                time={item.time}
+              />
+            ))}
+        </div>
       </div>
     </>
   );

@@ -135,7 +135,7 @@ const HomePage = () => {
         avatar: {
           url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
         },
-        text: "wow, this is really cool 👍 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim praesentium saepe dolorem omnis, aut qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        text: "wow, this is really cool 👍 ", 
         time: new Date("july 29, 2021"),
         likes: 30,
         isLiked: true
@@ -144,7 +144,7 @@ const HomePage = () => {
         avatar: {
           url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
         },
-        text: "wow, this is really cool 👍 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim praesentium saepe dolorem omnis, aut qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        text: "wow, this is really cool 👍 ", 
         time: new Date("july 29, 2021"),
         likes: 30,
         isLiked: true
@@ -153,7 +153,7 @@ const HomePage = () => {
         avatar: {
           url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90)
         },
-        text: "wow, this is really qui, quae quos deleniti quasi optio minima cupiditate explicabo ipsam, suscipit delectus ratione laudantium tenetur eos.", 
+        text: "wow, this is really 👍", 
         time: new Date("july 29, 2021"),
         likes: 30,
         isLiked: true

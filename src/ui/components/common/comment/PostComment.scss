@@ -1,11 +1,7 @@
 .comment-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-
-    & .fas {
-        margin-top: 10px;
-    }
+  align-items: center;
 
   & .left-comment-part {
     display: grid;
@@ -18,25 +14,25 @@
     column-gap: 15px;
 
     & .comment-avatar {
-        grid-area: avatar;
-       align-self: start;
-       justify-self: center;
+      grid-area: avatar;
+      align-self: start;
+      justify-self: center;
     }
-    
+
     & .comment-text {
-        grid-area: text;
+      grid-area: text;
     }
 
     & #time {
-        grid-area: time;
+      grid-area: time;
     }
 
     & #likes {
-        grid-area: likes;
+      grid-area: likes;
     }
 
     & #reply {
-        grid-area: reply;
+      grid-area: reply;
     }
   }
 }
