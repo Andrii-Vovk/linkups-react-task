@@ -1,9 +1,16 @@
 import { useState } from "react";
-import Avatar from "../../StoriesAvatar";
+import Avatar, { AvatarProps } from "../../StoriesAvatar/StoriesAvatar";
 import { getRelativeTime, thousandstoK } from "../functions";
-import { CommentProps } from "../interfaces";
 import "./PostComment.scss";
 
+
+export interface CommentProps {
+  avatar: AvatarProps;
+  time: Date;
+  text: string;
+  likes: number;
+  isLiked: boolean
+}
 
 const PostComment = ({ avatar, text, time, likes, isLiked }: CommentProps) => {
   const [liked, setIsLiked] = useState(isLiked);

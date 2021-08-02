@@ -1,15 +1,17 @@
-import { AvatarProps } from "./common/interfaces";
-import Avatar from "./StoriesAvatar";
+import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 import "./StoriesLine.scss";
 
+interface tStoriesLineProps extends AvatarProps{
+  key: number;
+}
 export interface StoriesLineProps {
-  avatarArray: AvatarProps[];
+  avatarArray: tStoriesLineProps[];
 }
 
 const StoriesLine = ({ avatarArray }: StoriesLineProps) => {
-  const arr = avatarArray.map((number) => (
-      <li>
-        <Avatar url={number.url} bordered={number.bordered} />
+  const arr = avatarArray.map((item) => (
+      <li key={item.key}>
+        <Avatar url={item.url} bordered={item.bordered} />
       </li>
   ));
 

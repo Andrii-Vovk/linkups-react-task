@@ -1,5 +1,5 @@
-import { PostProps } from "./common/interfaces";
-import RespPhoto from "./common/ResponsivePhoto/ResponsivePhoto";
+import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
+import { PostProps } from "../Post/Post";
 import "./ProfilePhotoGrid.scss";
 
 export interface ProfilePhotoGridProps {

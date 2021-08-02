@@ -1,86 +1,105 @@
 import React from "react";
-import Navbar from "../../ui/components/Navbar";
-import Post from "../../ui/components/Post";
-import ProfileCard from "../../ui/components/ProfileCard";
-import StoriesLine from "../../ui/components/StoriesLine";
+import Navbar from "../../ui/components/Navbar/Navbar";
+import Post from "../../ui/components/Post/Post";
+import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
+import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
 import "../../ui/style/buttons.scss";
 import "./index.scss";
 
 const HomePage = () => {
   const arr = [
     {
+      key: 0,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 1,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 2,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 3,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 4,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 5,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 6,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 7,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 8,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 9,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 10,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 11,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 12,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 13,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 14,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 15,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 16,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 17,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
     {
+      key: 18,
       url: "https://i.pravatar.cc/300?u=" + Math.floor(Math.random() * 90),
       bordered: true,
     },
@@ -103,6 +122,7 @@ const HomePage = () => {
 
   const PlaceholderPostProps =[
      {
+       key: 0,
     name: "Bill Murray",
     time: new Date("January 16, 2021"),
     avatar: "https://www.fillmurray.com/645/360?u=4",
@@ -141,6 +161,7 @@ const HomePage = () => {
     ]
   },
      {
+       key: 1,
     name: "Bill Murray",
     time: new Date("July 26, 2021"),
     avatar: "https://www.fillmurray.com/645/360?u=4",
@@ -158,7 +179,7 @@ const HomePage = () => {
       <div className="layout-parent">
         <div className="layout-left">
           <StoriesLine avatarArray={arr} />
-          {PlaceholderPostProps.map(item => <Post props={item} />)}
+          {PlaceholderPostProps.map(item => <Post key={item.key} props={item} />)}
         </div>
         <div className="layout-right">
           <ProfileCard props={PlaceholderProfileProps} variant="Homepage"/>

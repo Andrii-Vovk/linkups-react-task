@@ -1,11 +1,26 @@
-import { getRelativeTime, thousandstoK } from "./common/functions";
-import { PostProps } from "./common/interfaces";
-import ImageRotator from "./ImageRotator";
-import Avatar from "./StoriesAvatar";
+import { getRelativeTime, thousandstoK } from "../common/functions";
+import ImageRotator from "../ImageRotator/ImageRotator";
 import "./Post.scss";
 import { useState } from "react";
-import PostPopUp from "./common/PostPopUp/PostPopUp";
+import PostPopUp from "../common/PostPopUp/PostPopUp";
+import Avatar from "../StoriesAvatar/StoriesAvatar";
+import { CommentProps } from "../common/comment/PostComment";
 //import PostComment from "./common/comment/PostComment";
+
+export type PostPropsType = {
+  name: string;
+  time: Date;
+  avatar: string;
+  imageUrl: string[];
+  about: string;
+  likes: number;
+  isliked?: boolean;
+  comments?: CommentProps[];
+};
+
+export interface PostProps {
+  props: PostPropsType;
+}
 
 const Post = ({ props }: PostProps) => {
   const [liked, setLiked] = useState(props.isliked);

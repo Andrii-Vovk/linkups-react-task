@@ -1,7 +1,6 @@
-import { AvatarProps } from "./common/interfaces";
-import Avatar from "./StoriesAvatar";
 import "./ProfileCard.scss";
-import { thousandstoK } from "./common/functions";
+import { thousandstoK } from "../common/functions";
+import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 
 
 type ProfilePropsType = {

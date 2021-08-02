@@ -1,7 +1,7 @@
 import React from "react";
-import Navbar from "../../ui/components/Navbar";
-import ProfileCard from "../../ui/components/ProfileCard";
-import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid";
+import Navbar from "../../ui/components/Navbar/Navbar";
+import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
+import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid/ProfilePhotoGrid";
 import "./index.scss";
 
 const ProfilePage = () => {

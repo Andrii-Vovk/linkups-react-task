@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Avatar from "../../StoriesAvatar";
+import { PostProps } from "../../Post/Post";
+import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import PostComment from "../comment/PostComment";
 import { thousandstoK } from "../functions";
-import { PostProps } from "../interfaces";
 import "./PostPopUp.scss";
 
 interface PostPoUpProps extends PostProps {

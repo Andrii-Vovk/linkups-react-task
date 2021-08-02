@@ -1,4 +1,4 @@
-import RespPhoto from "./common/ResponsivePhoto/ResponsivePhoto";
+import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
 import "./ImageRotator.scss";
 
 export interface ImageRotatorProps {
