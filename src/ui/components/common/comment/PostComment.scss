@@ -2,10 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+
+  & .right-comment-part {
+    margin-left: auto;
+  }
 
   & .left-comment-part {
     display: grid;
-    width: 80%;
+    width: 100%;
     grid-template-areas:
       "avatar text text text"
       "avatar time likes reply";

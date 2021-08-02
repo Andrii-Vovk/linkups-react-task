@@ -4,7 +4,7 @@ import Avatar from "../StoriesAvatar/StoriesAvatar";
 
 export interface NavbarProps {
   initialLanguage?: "en" | "ua" | "ru";
-  variant: "Homepage" | "Profilepage";
+  variant: "Homepage" | "Profilepage" | "LoginPage";
 }
 
 const Navbar = ({ variant }: NavbarProps) => {
@@ -14,6 +14,7 @@ const Navbar = ({ variant }: NavbarProps) => {
   };
 
   let isHomePage = variant === "Homepage";
+  let showLanguageDrop = variant === "Homepage" || variant === "LoginPage";
   let showHomeButton = variant === "Profilepage";
 
   return (
@@ -36,7 +37,7 @@ const Navbar = ({ variant }: NavbarProps) => {
           </Link>
         )}
 
-        {isHomePage && <button className="white-btn hideable">en</button>}
+        {showLanguageDrop && <button className="white-btn hideable">en</button>}
 
         {isHomePage && (
           <Link to="/profile">

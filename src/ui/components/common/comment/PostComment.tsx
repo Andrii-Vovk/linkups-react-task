@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useState } from "react";
-import Avatar, { AvatarProps } from "../../StoriesAvatar/StoriesAvatar";
+import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import { getRelativeTime, thousandstoK } from "../functions";
 import "./PostComment.scss";
 
 export interface CommentProps {
-  avatar: AvatarProps;
+  avatar: string;
   time: Date;
   text: string;
   likes: number;
@@ -23,7 +23,7 @@ const PostComment = ({ avatar, text, time, likes, isLiked }: CommentProps) => {
     <div className="comment-wrapper">
       <div className="left-comment-part">
         <div className="comment-avatar">
-          <Avatar url={avatar.url} style={{ width: 40, height: 40 }} />
+          <Avatar url={avatar} style={{ width: 40, height: 40 }} />
         </div>
         <p className="comment-text">{text}</p>
         <p id="time" className="subtext">

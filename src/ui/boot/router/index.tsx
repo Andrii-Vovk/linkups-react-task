@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from "../../../pages/home";
+import LoginPage from "../../../pages/login";
 import ProfilePage from "../../../pages/profile";
 
 const RouterNav = () => {
@@ -12,6 +13,9 @@ const RouterNav = () => {
         <Switch>
           <Route path="/profile">
             <ProfilePage />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
           </Route>
           <Route path="/">
             <HomePage />

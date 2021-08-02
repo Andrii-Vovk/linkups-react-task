@@ -1,0 +1,47 @@
+@import "../../ui/style/inputs.scss";
+
+.login-wrapper {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    padding: 0px 10%;
+
+  & .mockup {
+    position: relative;
+    width: fit-content;
+    display: inline-block;
+
+    & .one {
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+
+    & .two {
+      position: absolute;
+      top: 35%;
+      right: 0;
+      z-index: -1;
+    }
+
+    & .three {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  & form {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      & label {
+        font-family: Poppins;
+        font-style: normal;
+        font-weight: 500;
+        font-size: toRem(12);
+        color: #808080;
+      }
+  }
+}

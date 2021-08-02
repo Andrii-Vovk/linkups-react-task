@@ -1,13 +1,16 @@
 import { getRelativeTime, thousandstoK } from "../common/functions";
 import ImageRotator from "../ImageRotator/ImageRotator";
 import "./Post.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostPopUp from "../common/PostPopUp/PostPopUp";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
 import PostComment, { CommentProps } from "../common/comment/PostComment";
 import classNames from "classnames";
+import { CommentAnswer } from "../../../typings/CommentAnswer";
+import { getCommentById } from "../../../core/services/requests";
 
 export type PostPropsType = {
+  id: number;
   name: string;
   time: Date;
   avatar: string;
@@ -27,6 +30,34 @@ const Post = ({ props }: PostProps) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
 
+  const [commentAnswer, setcommentAnswer] = useState<CommentAnswer[]>();
+
+  useEffect(() => {
+    async function getAllCommentsUseEffect() {
+      let api_comments = await getCommentById(props.id);
+      setcommentAnswer(api_comments);
+    }
+
+    getAllCommentsUseEffect();
+  }, []);
+
+  let convertedComments: CommentProps[] = [];
+  if (commentAnswer) {
+    for (let item of commentAnswer) {
+      convertedComments.push({
+        avatar: item.commenter.profile_photo_url,
+        isLiked: false,
+        likes: 0,
+        text: item.message,
+        time: new Date(item.created_at.slice(0, -4) + "+00:00")
+      })
+    }
+  }
+
+  let convertedPostProps = props
+
+  convertedPostProps.comments = convertedComments;
+
   function handleLikeClick() {
     setLiked(!liked);
   }
@@ -37,7 +68,7 @@ const Post = ({ props }: PostProps) => {
 
   return (
     <>
-      {isPopUpVisible && <PostPopUp props={props} closeFunc={togglePopUp} />}
+      {isPopUpVisible && <PostPopUp props={convertedPostProps} closeFunc={togglePopUp} />}
       <div className="post-wrapper">
         <div className="title-bar">
           <div className="title-bar-left">
@@ -60,7 +91,12 @@ const Post = ({ props }: PostProps) => {
 
         <div className="post-footer">
           <div className="left-footer-part">
-            <div className={classNames({'like-wrapper': true, 'hide-likes': showCommments})}>
+            <div
+              className={classNames({
+                "like-wrapper": true,
+                "hide-likes": showCommments,
+              })}
+            >
               <i
                 className={classNames({
                   fas: true,
@@ -109,14 +145,15 @@ const Post = ({ props }: PostProps) => {
             "come-out": showCommments,
           })}
         >
-          {props.comments &&
-            props.comments.map((item) => (
+          {convertedComments &&
+            convertedComments.map((item, index) => (
               <PostComment
                 avatar={item.avatar}
                 text={item.text}
                 isLiked={item.isLiked}
                 likes={item.likes}
                 time={item.time}
+                key={index}
               />
             ))}
         </div>

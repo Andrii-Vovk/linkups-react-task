@@ -91,12 +91,12 @@
     padding-left: 1rem;
     padding-right: 1.5rem;
 
-    display: grid;
+    display: flex;
+    flex-direction: column;
     overflow: auto;
-    justify-content: start;
+    justify-content: flex-start;
     height: 100%;
     width: 100%;
-    grid-auto-rows: minmax(min-content, max-content);
 
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
