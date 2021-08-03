@@ -7,7 +7,7 @@ export interface ProfilePhotoGridProps {
 }
  
 const ProfilePhotoGrid= ({postsProp}: ProfilePhotoGridProps) => {
-    let posts = postsProp.map(item => item.props);
+    let posts = postsProp.map(item => item.post);
     return ( 
         <>
         <div className="photo-grid">

@@ -22,11 +22,11 @@ export type PostPropsType = {
 };
 
 export interface PostProps {
-  props: PostPropsType;
+  post: PostPropsType;
 }
 
-const Post = ({ props }: PostProps) => {
-  const [liked, setLiked] = useState(props.isliked);
+const Post: React.FC<PostProps> = ({ post }) => {
+  const [liked, setLiked] = useState(post.isliked);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
 
@@ -34,12 +34,12 @@ const Post = ({ props }: PostProps) => {
 
   useEffect(() => {
     async function getAllCommentsUseEffect() {
-      let api_comments = await getCommentById(props.id);
+      let api_comments = await getCommentById(post.id);
       setcommentAnswer(api_comments);
     }
 
     getAllCommentsUseEffect();
-  }, []);
+  }, [post.id]);
 
   let convertedComments: CommentProps[] = [];
   if (commentAnswer) {
@@ -54,7 +54,7 @@ const Post = ({ props }: PostProps) => {
     }
   }
 
-  let convertedPostProps = props
+  let convertedPostProps = post;
 
   convertedPostProps.comments = convertedComments;
 
@@ -68,14 +68,14 @@ const Post = ({ props }: PostProps) => {
 
   return (
     <>
-      {isPopUpVisible && <PostPopUp props={convertedPostProps} closeFunc={togglePopUp} />}
+      {isPopUpVisible && <PostPopUp post={convertedPostProps} closeFunc={togglePopUp} />}
       <div className="post-wrapper">
         <div className="title-bar">
           <div className="title-bar-left">
-            <Avatar url={props.avatar} style={{ width: 40, height: 40 }} />
+            <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
             <div className="title-text">
-              <h3>{props.name}</h3>
-              <span className="subtext">{getRelativeTime(props.time)}</span>
+              <h3>{post.name}</h3>
+              <span className="subtext">{getRelativeTime(post.time)}</span>
             </div>
           </div>
           <div className="title-bar-right">
@@ -84,10 +84,10 @@ const Post = ({ props }: PostProps) => {
         </div>
 
         <div onClick={() => togglePopUp()} className="post-img-wrapper">
-          <ImageRotator url={props.imageUrl[0]} />
+          <ImageRotator url={post.imageUrl[0]} />
         </div>
 
-        <p className="post-about">{props.about}</p>
+        <p className="post-about">{post.about}</p>
 
         <div className="post-footer">
           <div className="left-footer-part">
@@ -106,7 +106,7 @@ const Post = ({ props }: PostProps) => {
                 onClick={() => handleLikeClick()}
               ></i>
               <h3 className="like-countes" onClick={() => handleLikeClick()}>
-                {thousandstoK(props.likes)}
+                {thousandstoK(post.likes)}
               </h3>
             </div>
             <div
@@ -128,7 +128,7 @@ const Post = ({ props }: PostProps) => {
               </svg>
               <h3 className="comment-counter">
                 {thousandstoK(
-                  props.comments !== undefined ? props.comments.length : 0
+                  post.comments !== undefined ? post.comments.length : 0
                 )}
               </h3>
             </div>

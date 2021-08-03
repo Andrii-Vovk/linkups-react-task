@@ -11,12 +11,12 @@
     transition: all 100ms ease;
     padding: .75em 1.5em;
     border-radius: .80em;
+    cursor: pointer;
 }
 
 .white-btn {
     @include reset-button;
     @include button-base;
-
     background-color: white;
 
     &:hover,

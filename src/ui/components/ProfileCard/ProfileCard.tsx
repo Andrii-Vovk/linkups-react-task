@@ -1,6 +1,8 @@
 import "./ProfileCard.scss";
 import { thousandstoK } from "../common/functions";
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
+import EditPopUp from "../EditPopUp/EditPopUp";
+import { useState } from "react";
 
 
 type ProfilePropsType = {
@@ -8,8 +10,8 @@ type ProfilePropsType = {
   following: number;
   name: string;
   interest?: string;
-  about: string;
-  avatar: AvatarProps;
+  about?: string;
+  avatar?: AvatarProps;
 };
 
 export interface ProfileCardProps {
@@ -31,8 +33,15 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
     showLinks = false;
   }
 
+  const [isPopUpShown, setIsPopUpShown] = useState(false);
+
+  function closeFunc() {
+    setIsPopUpShown(!isPopUpShown);
+  }
+
   return (
     <>
+      {isPopUpShown && <EditPopUp closeFunc={closeFunc} />}
       <div className="profile-card-wrapper">
         <div className="first-line">
           <div className="followers-part">
@@ -40,10 +49,10 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
             <h4>Followers</h4>
           </div>
           <Avatar
-            url={props.avatar.url}
+            url={props.avatar ? props.avatar.url : 'https://via.placeholder.com/150' }
             bordered={true}
             withPlus={true}
-            style={props.avatar.style}
+            style={props.avatar ? props.avatar.style : {width: 88, height: 88}}
           />
           <div className="followers-part">
             <h3>{thousandstoK(props.following)}</h3>
@@ -61,7 +70,7 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
         </div>
 
         <div className="forth-line">
-          <button className="white-btn">Edit Profile</button>
+          <button onClick={() => closeFunc()} className="white-btn">Edit Profile</button>
           <button className="blue-btn">New Post</button>
         </div>
 

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getAllPosts } from "../../core/services/requests";
+import { getAllPosts, getMyProfile } from "../../core/services/requests";
 import { PostAnswer } from "../../typings/PostAnswer";
+import { ProfileAnswer } from "../../typings/ProfileAnswer";
+import EditPopUp from "../../ui/components/EditPopUp/EditPopUp";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post, { PostPropsType } from "../../ui/components/Post/Post";
-import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
+import ProfileCard, {
+  ProfileCardProps,
+} from "../../ui/components/ProfileCard/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
 import "../../ui/style/buttons.scss";
 import "./index.scss";
@@ -108,13 +112,13 @@ const HomePage = () => {
   ]; /* placeholder avatars */
 
   const PlaceholderProfileProps = {
-    followers: 5456,
-    following: 403,
-    name: "Nancy Dena",
-    interest: "React",
-    about: "testing this thing!",
+    followers: 0,
+    following: 0,
+    name: "Loading...",
+    interest: "",
+    about: "",
     avatar: {
-      url: "https://i.pravatar.cc/300?u=297",
+      url: "https://via.placeholder.com/80",
       style: {
         width: 88,
         height: 88,
@@ -122,7 +126,7 @@ const HomePage = () => {
     },
   };
 
-/*   const PlaceholderPostProps = [
+  /*   const PlaceholderPostProps = [
     {
       key: 0,
       name: "Bill Murray",
@@ -178,11 +182,15 @@ const HomePage = () => {
   ]; */
 
   const [allPosts, setAllPosts] = useState<PostAnswer[]>();
+  const [myProfile, setMyProfile] = useState<ProfileAnswer>();
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
       let api_all_posts = await getAllPosts();
       setAllPosts(api_all_posts);
+
+      let api_my_profile = await getMyProfile();
+      setMyProfile(api_my_profile);
     }
 
     getAllPostsUseEffect();
@@ -200,9 +208,35 @@ const HomePage = () => {
         about: item.description,
         likes: item.likes_count,
         isliked: item.is_liked,
-        time: new Date(item.created_at.slice(0, -4) + "+00:00")
+        time: new Date(item.created_at.slice(0, -4) + "+00:00"),
       });
     }
+  }
+
+  let ConvertedProfile: ProfileCardProps | null = null;
+
+  let convertedName = "";
+  if (myProfile?.first_name) convertedName += myProfile?.first_name;
+  if (myProfile?.last_name) convertedName += myProfile?.last_name;
+  if (!myProfile?.first_name && !myProfile?.last_name)
+    convertedName = "Unnamed Profile";
+
+  let convertedAvatar = myProfile?.profile_photo_url
+    ? { url: myProfile?.profile_photo_url, bordered: true, withPlus: true, style: {height: 88, width: 88} }
+    : { url: "https://via.placeholder.com/88", bordered: true, withPlus: true, style: {height: 88, width: 88} };
+
+  if (myProfile) {
+    ConvertedProfile = {
+      props: {
+        followers: myProfile.followers,
+        following: myProfile.following,
+        name: convertedName,
+        interest: myProfile.job_title,
+        about: myProfile.description,
+        avatar: convertedAvatar,
+      },
+      variant: "Homepage",
+    };
   }
 
   return (
@@ -211,12 +245,13 @@ const HomePage = () => {
       <div className="layout-parent">
         <div className="layout-left">
           <StoriesLine avatarArray={arr} />
-          {ConvertedPosts && ConvertedPosts.map((item, index) => (
-            <Post key={index} props={item} />
-          ))}
+          {ConvertedPosts &&
+            ConvertedPosts.map((item, index) => (
+              <Post key={index} post={item} />
+            ))}
         </div>
         <div className="layout-right">
-          <ProfileCard props={PlaceholderProfileProps} variant="Homepage" />
+          <ProfileCard props={ConvertedProfile ? ConvertedProfile.props : PlaceholderProfileProps} variant={'Homepage'} />
         </div>
       </div>
     </>

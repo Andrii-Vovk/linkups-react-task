@@ -9,8 +9,8 @@ interface PostPoUpProps extends PostProps {
   closeFunc(): void;
 }
 
-const PostPopUp = ({ props, closeFunc }: PostPoUpProps) => {
-  const [liked, setLiked] = useState(props.isliked);
+const PostPopUp = ({ post, closeFunc }: PostPoUpProps) => {
+  const [liked, setLiked] = useState(post.isliked);
   function handleLikeClick() {
     setLiked(!liked);
   }
@@ -21,17 +21,17 @@ const PostPopUp = ({ props, closeFunc }: PostPoUpProps) => {
       <div className="popup-wrapper">
         <div onClick={() => closeFunc()} className="gray-overlay"></div>
         <div className="post-pop-up-wrapper">
-          <img src={props.imageUrl[0]} alt="post" className="post-photo" />
+          <img src={post.imageUrl[0]} alt="post" className="post-photo" />
           <div className="title-grid-cell">
             <div className="title-wrapper">
-              <Avatar url={props.avatar} style={{ width: 40, height: 40 }} />
-              <h3>{props.name}</h3>
+              <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
+              <h3>{post.name}</h3>
             </div>
             <span onClick={() => closeFunc()} className="cross-button"></span>
           </div>
           <div className="comments-grid-cell">
-            {props.comments &&
-              props.comments.map((item) => (
+            {post.comments &&
+              post.comments.map((item) => (
                 <PostComment
                   text={item.text}
                   avatar={item.avatar}
@@ -48,7 +48,7 @@ const PostPopUp = ({ props, closeFunc }: PostPoUpProps) => {
                 onClick={() => handleLikeClick()}
               ></i>
               <h3 className="like-counter" onClick={() => handleLikeClick()}>
-                {thousandstoK(props.likes)}
+                {thousandstoK(post.likes)}
               </h3>
             </div>
           </div>

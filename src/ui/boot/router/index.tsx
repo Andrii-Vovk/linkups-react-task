@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { hasToken } from "../../../core/services/authHandling";
 
 import HomePage from "../../../pages/home";
 import LoginPage from "../../../pages/login";
@@ -8,17 +9,15 @@ import ProfilePage from "../../../pages/profile";
 const RouterNav = () => {
   return (
     <Router>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/profile">
-            <ProfilePage />
+          {!hasToken() ? <ProfilePage /> : <Redirect to={'/login'} />}
           </Route>
           <Route path="/login">
-            <LoginPage />
+            {!hasToken() ? <LoginPage /> : <Redirect to={'/'} />}
           </Route>
           <Route path="/">
-            <HomePage />
+            {hasToken() ? <HomePage /> : <Redirect to='/login' />}
           </Route>
         </Switch>
     </Router>

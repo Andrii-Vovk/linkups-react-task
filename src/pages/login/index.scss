@@ -1,15 +1,21 @@
 @import "../../ui/style/inputs.scss";
-
+@import "../../ui/style/typography.scss";
 .login-wrapper {
-    display: grid;
-    grid-auto-flow: column;
-    align-items: center;
-    padding: 0px 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0px 10%;
+
+  & h1 {
+    margin-bottom: 3rem;
+  }
 
   & .mockup {
     position: relative;
     width: fit-content;
     display: inline-block;
+
+    // height: 100vh;
 
     & .one {
       position: absolute;
@@ -31,17 +37,55 @@
     }
   }
 
-  & form {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
+  & .sign-up-links {
+    display: flex;
+    justify-content: center;
 
-      & label {
-        font-family: Poppins;
-        font-style: normal;
-        font-weight: 500;
-        font-size: toRem(12);
-        color: #808080;
-      }
+    & > * {
+      margin: 10px 10px;
+    }
+  }
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    width: 25em;
+  }
+}
+
+
+@media (max-width: 950px) {
+  .mockup {
+    display: none !important;
+  }
+
+  .login-wrapper {
+    & .login-form {
+      width: 95%;
+      margin: 0 0;
+      padding: 0 0;
+    }
+
+    & form {
+      width: 100%;
+    }
+
+    & button {
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90vw;
+    }
+
+    & .sign-up-links {
+      position: absolute;
+      bottom: 9%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90vw;
+    }
   }
 }

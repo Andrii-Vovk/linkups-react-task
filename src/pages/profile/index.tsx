@@ -22,7 +22,7 @@ const ProfilePage = () => {
 
   const PlaceholderPostProps = [
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
@@ -34,7 +34,7 @@ const ProfilePage = () => {
       },
     },
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
@@ -46,7 +46,7 @@ const ProfilePage = () => {
       },
     },
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
@@ -58,7 +58,7 @@ const ProfilePage = () => {
       },
     },
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
@@ -70,7 +70,7 @@ const ProfilePage = () => {
       },
     },
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
@@ -82,7 +82,7 @@ const ProfilePage = () => {
       },
     },
     {
-      props: {
+      post: {
         id: 1,
         name: "Bill Murray",
         time: new Date("January 16, 2021"),
