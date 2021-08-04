@@ -1,10 +1,12 @@
-import "./ProfileCard.scss";
 import { useEffect, useState } from "react";
 
 import { updateProfile } from "../../../core/services/requests";
+import buttons from "../../style/buttons.module.scss";
 import EditPopUp from "../EditPopUp/EditPopUp";
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 import { thousandstoK } from "../common/functions";
+
+import styles from "./ProfileCard.module.scss";
 
 export type ProfileType = {
   followers: number;
@@ -28,7 +30,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
     setProfileState(profile);
   }, [profile]);
 
-  const showLinks = variant !== "Homepage";
+  const showLinks = variant === "Homepage";
 
   const [isPopUpShown, setIsPopUpShown] = useState(false);
 
@@ -51,9 +53,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
           updateFunc={updateProfileRequest}
         />
       )}
-      <div className="profile-card-wrapper">
-        <div className="first-line">
-          <div className="followers-part">
+      <div className={styles.profileCardWrapper}>
+        <div className={styles.firstLine}>
+          <div className={styles.followersPart}>
             <h3>{thousandstoK(profileState.followers)}</h3>
             <h4>Followers</h4>
           </div>
@@ -71,13 +73,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
                 : { width: 88, height: 88 }
             }
           />
-          <div className="followers-part">
+          <div className={styles.followersPart}>
             <h3>{thousandstoK(profileState.following)}</h3>
             <h4>Following</h4>
           </div>
         </div>
 
-        <div className="second-line">
+        <div className={styles.secondLine}>
           {profile.jobTitle && (
             <h3>{`${profileState.firstName} ${profileState.lastName} - ${profileState.jobTitle}`}</h3>
           )}
@@ -86,26 +88,26 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
           )}
         </div>
 
-        <div className="third-line">
+        <div className={styles.thirdLine}>
           <p>{profileState.description}</p>
         </div>
 
-        <div className="forth-line">
+        <div className={styles.forthLine}>
           <button
             type="button"
             onClick={() => closeFunc()}
-            className="white-btn"
+            className={buttons.whiteBtn}
           >
             Edit Profile
           </button>
-          <button type="button" className="blue-btn">
+          <button type="button" className={buttons.blueBtn}>
             New Post
           </button>
         </div>
 
         {showLinks && (
           <>
-            <div className="refs">
+            <div className={styles.refs}>
               <a href="https://google.com">About</a>
               <a href="https://google.com">Help</a>
               <a href="https://google.com">Privacy</a>
@@ -113,7 +115,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
               <a href="https://google.com">Locations</a>
               <a href="https://google.com">Language</a>
             </div>
-            <div className="refs">
+            <div className={styles.refs}>
               <a href="https://google.com">&copy; 2020 Linkstagram</a>
             </div>
           </>

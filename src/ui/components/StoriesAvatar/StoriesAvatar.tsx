@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { CSSProperties } from "react";
-import "./StoriesAvatar.scss";
+
+import styles from "./StoriesAvatar.module.scss";
 
 export interface AvatarProps {
   url: string;
@@ -10,16 +11,18 @@ export interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ url, bordered, withPlus, style }) => {
-  const classes = classNames({
-    "avatar-container": true,
-    "avatar-container-bordered": bordered,
-    "avatar-with-plus": withPlus,
-  });
+  const classes = classNames([
+    styles.avatarContainer,
+    {
+      [styles.avatarContainerBordered]: bordered,
+      [styles.avatarWithPlus]: withPlus,
+    },
+  ]);
 
   return (
     <>
       <div className={classes} style={style}>
-        <img src={url} alt="Avatar" className="stories-avatar" />
+        <img src={url} alt="Avatar" className={styles.storiesAvatar} />
       </div>
     </>
   );

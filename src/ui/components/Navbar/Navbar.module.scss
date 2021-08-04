@@ -1,6 +1,6 @@
 @import "../../style/funcs";
 
-header {
+.header {
   width: 100%;
   height: toRem(90);
   background-color: white;
@@ -28,7 +28,7 @@ header {
     padding: 0;
   }
 
-  & .white-btn {
+  & .whiteBtn {
     border: 1px solid gray;
   }
 }

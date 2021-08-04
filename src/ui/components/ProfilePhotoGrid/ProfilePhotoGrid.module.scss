@@ -1,6 +1,6 @@
 @import "../../style/funcs";
 
-.photo-grid {
+.photoGrid {
     display: grid;
     grid-template-columns: repeat(3, toRem(112));
     gap: 2px;

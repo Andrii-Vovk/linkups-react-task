@@ -1,8 +1,8 @@
-.followers-part {
+.followersPart {
     text-align: center;
 }
 
-.first-line {
+.firstLine {
     display: grid;
     grid-auto-flow: column;
     justify-content: left;
@@ -10,7 +10,7 @@
     grid-gap: 25px;
 }
 
-.profile-card-wrapper {
+.profileCardWrapper {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -20,7 +20,7 @@
     }
 }
 
-.forth-line {
+.forthLine {
     & button {
         margin: 0px 10px;
     }

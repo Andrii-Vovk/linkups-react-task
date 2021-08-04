@@ -11,7 +11,7 @@ const RouterNav: React.FC = () => {
     <Router>
         <Switch>
           <Route path="/profile">
-          {!hasToken() ? <ProfilePage /> : <Redirect to="/login" />}
+          {hasToken() ? <ProfilePage /> : <Redirect to="/login" />}
           </Route>
           <Route path="/login">
             {!hasToken() ? <LoginPage /> : <Redirect to="/" />}

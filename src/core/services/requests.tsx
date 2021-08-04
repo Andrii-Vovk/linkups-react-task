@@ -109,7 +109,6 @@ export async function updateProfile(
   };
 
   try {
-    console.log("config", config)
     const res = await axios.patch<ProfileType>("https://linkstagram-api.ga/account", config, {
       headers,
     });

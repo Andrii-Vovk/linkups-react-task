@@ -1,4 +1,3 @@
-import "./Post.scss";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 
@@ -9,6 +8,8 @@ import Avatar from "../StoriesAvatar/StoriesAvatar";
 import PostPopUp from "../common/PostPopUp/PostPopUp";
 import PostComment, { CommentProps } from "../common/comment/PostComment";
 import { getRelativeTime, thousandstoK } from "../common/functions";
+
+import styles from "./Post.module.scss";
 
 export type PostPropsType = {
   id: number;
@@ -64,41 +65,40 @@ const Post: React.FC<PostProps> = ({ post }) => {
       {isPopUpVisible && (
         <PostPopUp post={convertedPostProps} closeFunc={togglePopUp} />
       )}
-      <div className="post-wrapper">
-        <div className="title-bar">
-          <div className="title-bar-left">
+      <div className={styles.postWrapper}>
+        <div className={styles.titleBar}>
+          <div className={styles.titleBarLeft}>
             <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
-            <div className="title-text">
+            <div className={styles.titleText}>
               <h3>{post.name}</h3>
               <span className="subtext">
                 {getRelativeTime(post.time) as string}
               </span>
             </div>
           </div>
-          <div className="title-bar-right">
-            <i className="fas fa-ellipsis-v" />
+          <div className={styles.titleBarRight}>
+            <i className={classNames([styles.fas, 'fa-ellipsis-v'])} />
           </div>
         </div>
 
         <div
           role="button"
           onClick={() => togglePopUp()}
-          className="post-img-wrapper"
+          className={styles.postImgWrapper}
           onKeyDown={() => togglePopUp()}
           tabIndex={0}
         >
           <ImageRotator url={post.imageUrl[0] ? post.imageUrl[0] : "https://via.placeholder.com/300" } />
         </div>
 
-        <p className="post-about">{post.about}</p>
+        <p className={styles.postAbout}>{post.about}</p>
 
-        <div className="post-footer">
-          <div className="left-footer-part">
+        <div className={styles.postFooter}>
+          <div className={styles.leftFooterPart}>
             <div
-              className={classNames({
-                "like-wrapper": true,
-                "hide-likes": showCommments,
-              })}
+              className={classNames(
+                [styles.likeWrapper, {[styles.hideLikes]: showCommments}]
+              )}
             >
               <i
                 className={classNames([
@@ -114,7 +114,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               <div
                 role="button"
                 onKeyDown={() => handleLikeClick()}
-                className="like-countes"
+                className={styles.likeCounter}
                 onClick={() => handleLikeClick()}
                 tabIndex={0}
               >
@@ -122,14 +122,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
               </div>
             </div>
             <div
-              className="comment-count-wrapper"
+              className={styles.commentCountWrapper}
               onClick={() => setShowComments(!showCommments)}
               role="button"
               tabIndex={0}
               onKeyDown={() => setShowComments(!showCommments)}
             >
               <svg
-                className="comment-svg"
+                className={styles.commentSvg}
                 width="16"
                 height="19"
                 viewBox="0 0 16 19"
@@ -144,24 +144,22 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   fill="currentColor"
                 />
               </svg>
-              <h3 className="comment-counter">
+              <h3 className={styles.commentCounter}>
                 {thousandstoK(
                   post.comments !== undefined ? post.comments.length : 0
                 )}
               </h3>
             </div>
           </div>
-          <div className="right-footer-part">
+          <div className={styles.rightFooterPart}>
             <a href="https://google.com" className="share-link">
               Share
             </a>
           </div>
         </div>
         <div
-          className={classNames({
-            "post-hidden-comments": true,
-            "come-out": showCommments,
-          })}
+          className={classNames([styles.postHiddenComments, {[styles.comeOut]: showCommments}]
+          )}
         >
           {commentAnswer &&
             commentAnswer.map((item) => (

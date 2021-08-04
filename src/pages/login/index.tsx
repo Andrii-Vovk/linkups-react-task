@@ -9,6 +9,7 @@ import two from "../../public/images/2.png";
 import three from "../../public/images/3.png";
 import mockup from "../../public/images/phone-mockup.png";
 import Navbar from "../../ui/components/Navbar/Navbar";
+import buttons from "../../ui/style/buttons.module.scss";
 
 const LoginPage: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -88,7 +89,7 @@ const LoginPage: React.FC = () => {
                   /></label>
                 </div>
                 <div className="input-group">
-                  <button className="blue-btn" type="submit">
+                  <button className={buttons.blueBtn} type="submit">
                     Log In
                   </button>
                 </div>
@@ -149,7 +150,7 @@ const LoginPage: React.FC = () => {
                   /></label>
                 </div>
                 <div className="input-group">
-                  <button className="blue-btn" type="submit">
+                  <button className={buttons.blueBtn} type="submit">
                     Sign Up
                   </button>
                 </div>

@@ -1,8 +1,9 @@
+import { ReactElement } from "react";
 import "./App.scss";
 
 import RouterNav from "./ui/boot/router";
 
-function App() {
+function App(): ReactElement {
   return (
     <div className="App">
       <RouterNav />

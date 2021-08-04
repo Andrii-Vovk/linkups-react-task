@@ -3,7 +3,8 @@ import { useState } from "react";
 
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import { getRelativeTime, thousandstoK } from "../functions";
-import "./PostComment.scss";
+
+import styles from "./PostComment.module.scss";
 
 export interface CommentProps {
   id: number;
@@ -22,31 +23,31 @@ const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isL
   }
 
   return (
-    <div className="comment-wrapper">
-      <span hidden className="comment-id">{id}</span>
-      <div className="left-comment-part">
-        <div className="comment-avatar">
+    <div className={styles.commentWrapper}>
+      <span hidden className={styles.commentId}>{id}</span>
+      <div className={styles.leftCommentPart}>
+        <div className={styles.commentAvatar}>
           <Avatar url={avatar} style={{ width: 40, height: 40 }} />
         </div>
-        <p className="comment-text">{text}</p>
-        <p id="time" className="subtext">
+        <p className={styles.commentText}>{text}</p>
+        <p className={classNames([styles.time, 'subtext'])} >
           {getRelativeTime(time) as string}
         </p>
-        <p id="likes" className="subtext">
+        <p  className={classNames([styles.likes, 'subtext'])}>
           {`${thousandstoK(likes)  } likes`}
         </p>
-        <a id="reply" href="https://google.com">
+        <a className={styles.reply} href="https://google.com">
           Reply
         </a>
       </div>
       
-      <div className="right-comment-part">
+      <div className={styles.rightCommentPart}>
         <i
-          className={classNames({
-            fas: true,
-            "fa-heart": true,
-            "red-heart": liked,
-          })}
+          className={classNames(
+           [ 'fas',
+            'fa-heart',
+            {"red-heart": liked,}]
+          )}
           onClick={() => handleLikeClick()}
           onKeyDown={() => handleLikeClick()}
           tabIndex={0}

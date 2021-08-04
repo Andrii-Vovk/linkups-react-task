@@ -1,15 +1,15 @@
-import "./ResponsivePhoto.scss";
+import styles from "./ResponsivePhoto.module.scss";
 
 export interface RespPhotoProps {
     url: string;
 }
  
-const RespPhoto = ({url}: RespPhotoProps) => {
+const RespPhoto: React.FC<RespPhotoProps> = ({url}) => {
     return ( 
         <>
         <div className="resp-photo-wrapper">
-            <div className="resp-square">
-                <img className="content" src={url} alt="posts grid item" />
+            <div className={styles.respSquare}>
+                <img className={styles.content} src={url} alt="posts grid item" />
             </div>
         </div>
         </>

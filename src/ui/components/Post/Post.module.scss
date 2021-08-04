@@ -2,55 +2,55 @@
 @import "../../style/colors";
 @import "../../style/typography.scss";
 
-.post-wrapper {
+.postWrapper {
   width: 100%;
 
   & > * {
     margin: 0.5rem 0;
   }
 
-  & .post-img-wrapper {
+  & .postImgWrapper {
     cursor: pointer;
   }
 
-  & .post-hidden-comments {
+  & .postHiddenComments {
     margin: 0px 0px;
     transition: transform 300ms 300ms ease-in, opacity 300ms ease-in;
     transform: translateY(25%);
     opacity: 0%;
     height: 0px;
 
-    & .comment-wrapper {
+    & .commentWrapper {
       margin-top: 0px;
     }
   }
 
-  & .come-out {
+  & .comeOut {
     height: auto;
     transform: translateY(0px);
     opacity: 100%;
 
-    & .comment-wrapper {
+    & .commentWrapper {
       margin-top: 25px;
     }
   }
 }
 
-.title-bar {
+.titleBar {
   display: flex;
   justify-content: space-between;
   width: 100%;
   align-items: center;
 }
 
-.title-bar-left {
+.titleBarLeft {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 1rem;
   align-items: center;
 }
 
-.share-link {
+.shareLink {
   @extend h3;
   color: black;
 
@@ -61,22 +61,22 @@
   }
 }
 
-.post-about {
+.postAbout {
   margin-right: auto;
   text-align: left;
 }
 
-.post-footer {
+.postFooter {
   display: flex;
   justify-content: space-between;
   width: 100%;
 
-  & .left-footer-part {
+  & .leftFooterPart {
     display: flex;
     align-items: center;
   }
 
-  & .hide-likes {
+  & .hideLikes {
     width: 0% !important;
     padding: 0 0;
     margin: 0 0;
@@ -85,7 +85,7 @@
     pointer-events: none !important;
   }
 
-  & .like-wrapper {
+  & .likeWrapper {
     transition: width 300ms ease-in, opacity 300ms ease-in;
     display: flex;
     align-items: baseline;
@@ -94,13 +94,13 @@
 
     pointer-events: auto;
 
-    & .fa-heart {
+    & .faHeart {
       margin-right: 12px;
       color: #c9cad1;
     }
   }
 
-  & .comment-count-wrapper {
+  & .commentCountWrapper {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -111,21 +111,21 @@
   }
 }
 
-.fa-heart {
+:global .fa-heart {
   cursor: pointer;
 }
 
-.red-heart {
+.redHeart {
   color: $red-accent !important;
 }
 
-.like-counter {
+.likeCounter {
   margin-right: 45px;
   cursor: pointer;
   user-select: none;
 }
 
-.comment-svg {
+.commentSvg {
   position: relative;
   margin-right: 12px;
 

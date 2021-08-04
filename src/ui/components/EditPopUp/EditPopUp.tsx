@@ -1,9 +1,12 @@
+import classNames from "classnames";
 import { FormEvent, useState } from "react";
 
 import { destroyToken } from "../../../core/services/authHandling";
+import buttons from "../../style/buttons.module.scss";
 import { ProfileType } from "../ProfileCard/ProfileCard";
 import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
-import "./EditPopUp.scss";
+
+import styles from "./EditPopUp.module.scss";
 
 export interface EditPopUpProps {
   profile: ProfileType;
@@ -51,7 +54,7 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
   return (
     <>
       <div
-        className="absolute-wrapper"
+        className={styles.absoluteWrapper}
         onClick={() => closeFunc()}
         onKeyDown={() => closeFunc()}
         role="button"
@@ -59,8 +62,8 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
       >
         {" "}
       </div>
-      <div className="edit-wrapper">
-        <div className="top-bar">
+      <div className={styles.editWrapper}>
+        <div className={styles.topBar}>
           <h1>Profile Information</h1>
           <span
             onClick={() => {
@@ -75,8 +78,8 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
           </span>
         </div>
         <form action="/" onSubmit={(e) => handleSubmit(e)}>
-          <div className="photo-flex">
-            <div className="resp-photo">
+          <div className={styles.photoFlex}>
+            <div className={styles.respPhoto}>
               <RespPhoto
                 url={
                   profile.avatar?.url
@@ -85,11 +88,11 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
                 }
               />
             </div>
-            <div className="input-group">
+            <div className={styles.inputGroup}>
               <label htmlFor="firstName">
                 First Name
                 <input
-                  className="standart-input mb"
+                  className={classNames(['standart-input', styles.mb])}
                   type="text"
                   name="firstName"
                   id="firstName"
@@ -110,11 +113,11 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
               </label>
             </div>
           </div>
-          <div className="input-group">
+          <div className={styles.inputGroup}>
             <label htmlFor="jobTitle">
               Job title
               <input
-                className="standart-input mb"
+                className={classNames(['standart-input', styles.mb])}
                 type="text"
                 name="jobTitle"
                 id="jobTitle"
@@ -125,7 +128,7 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
             <label htmlFor="description">
               Description
               <input
-                className="standart-input mb"
+                className={classNames(['standart-input', styles.mb])}
                 type="text"
                 name="description"
                 id="description"
@@ -134,15 +137,15 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
               />
             </label>
           </div>
-          <div className="h-input-group">
+          <div className={styles.hInputGroup}>
             <button
               onClick={closeFunc}
               type="button"
-              className="white-btn"
+              className={buttons.whiteBtn}
             >
               Cancel
             </button>
-            <button className="blue-btn" type="submit">
+            <button className={buttons.blueBtn} type="submit">
               Submit
             </button>
           </div>

@@ -5,7 +5,7 @@ export interface ImageRotatorProps {
   url: string;
 }
 
-const ImageRotator = ({ url }: ImageRotatorProps) => {
+const ImageRotator: React.FC<ImageRotatorProps> = ({ url }) => {
   return <div className="wrapper">
       <RespPhoto url={url} />
   </div>;

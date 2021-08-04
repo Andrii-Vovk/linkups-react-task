@@ -1,4 +1,4 @@
-.post-pop-up-wrapper {
+.postPopUpWrapper {
   position: fixed;
   width: 65%;
   height: 80%;
@@ -27,7 +27,7 @@
     border-top: none;
   }
 
-  & .post-photo {
+  & .postPhoto {
     text-align: left;
     width: 100%;
     height: 100%;
@@ -38,7 +38,7 @@
     grid-area: photo;
   }
 
-  & .title-grid-cell {
+  & .titleGridCell {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -46,12 +46,12 @@
     padding-right: 1.5rem;
 }
 
-  & .title-wrapper {
+  & .titleWrapper {
     display: flex;
     align-items: center;
   }
 
-  & .cross-button {
+  & .crossButton {
     position: relative;
     cursor: pointer;
     width: 25px;
@@ -79,10 +79,10 @@
       width: 33px;
       height: 2px;
       border-radius: 2px;
-    }
+    } 
   }
 
-  & .comments-grid-cell {
+  & .commentsGridCell {
 
     & > * {
         margin-top: 10px;
@@ -106,30 +106,30 @@
     }
   }
 
-  & .likes-grid-cell {
+  & .likesGridCell {
     padding-left: 1rem;
     padding-right: 1.5rem;
 
     display: flex;
     align-items: center;
 
-    & .fas {
-      margin-right: 10px;
-    }
-    & .centered {
-      display: flex;
-      align-items: baseline;
-    }
+  }
+   .fas {
+    margin-right: 10px;
+  }
+  .centered {
+    display: flex;
+    align-items: baseline;
   }
 
-  .inputs-grid-cell {
+  .inputsGridCell {
     padding-left: 1rem;
     padding-right: 1.5rem;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    & .comment-input {
+    & .commentInput {
       font-family: Poppins;
       font-style: normal;
       font-weight: normal;
@@ -140,7 +140,7 @@
       padding: 0;
     }
 
-    & .comment-input::placeholder {
+    & .commentInput::placeholder {
       font-family: Poppins;
       font-style: normal;
       font-weight: normal;
@@ -158,7 +158,7 @@
   }
 }
 
-.gray-overlay {
+.grayOverlay {
   position: fixed;
   top: 0;
   left: 0;

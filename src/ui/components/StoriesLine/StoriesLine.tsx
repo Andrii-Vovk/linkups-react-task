@@ -1,5 +1,6 @@
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
-import "./StoriesLine.scss";
+
+import styles from "./StoriesLine.module.scss";
 
 interface StoriesLinePropsType extends AvatarProps{
   key: number;
@@ -17,8 +18,8 @@ const StoriesLine: React.FC<StoriesLineProps> = ({ avatarArray }) => {
 
   return (
     <>
-      <div className="stories-grid-wrapper">
-        <ul className="stories-grid">{arr}</ul>
+      <div className={styles.storiesGridWrapper}>
+        <ul className={styles.storiesGrid}>{arr}</ul>
       </div>
     </>
   );

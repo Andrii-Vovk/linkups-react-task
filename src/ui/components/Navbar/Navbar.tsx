@@ -1,7 +1,11 @@
-import "./Navbar.scss";
+import classNames from "classnames";
 import { Link } from "react-router-dom";
 
+import buttons from "../../style/buttons.module.scss";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
+
+import styles from "./Navbar.module.scss";
+
 
 export interface NavbarProps {
   initialLanguage?: "en" | "ua" | "ru";
@@ -19,26 +23,26 @@ const Navbar: React.FC<NavbarProps> = ({ variant }) => {
   const showHomeButton = variant === "Profilepage";
 
   return (
-    <header>
-      <div className="logo">Linkstagram</div>
+    <header className={styles.header}>
+      <div className={styles.logo}>Linkstagram</div>
 
-      <div className="buttons">
+      <div className={styles.buttons}>
         {showHomeButton && (
           <Link to="/">
-            <button className="black-btn hideable" type="submit">
+            <button className={classNames(buttons.blackBtn, buttons.hideable)} type="submit">
               Home
             </button>
           </Link>
         )}
         {isHomePage && (
           <Link to="/">
-            <button className="black-btn" type="submit">
+            <button className={buttons.blackBtn} type="button">
               Home
             </button>
           </Link>
         )}
 
-        {showLanguageDrop && <button type="button" className="white-btn hideable">en</button>}
+        {showLanguageDrop && <button type="button" className={classNames(buttons.whiteBtn, 'hideable')}>en</button>}
 
         {isHomePage && (
           <Link to="/profile">

@@ -1,6 +1,6 @@
 @import "../../style/colors";
 
-.stories-grid {
+.storiesGrid {
   list-style: none;
   position: relative;
 
@@ -19,7 +19,7 @@
 }
 
 // adds fading effect
-.stories-grid-wrapper {
+.storiesGridWrapper {
   position: relative;
   &::after {
     content: "";

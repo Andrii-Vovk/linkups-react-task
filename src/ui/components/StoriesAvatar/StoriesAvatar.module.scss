@@ -1,6 +1,6 @@
 @use '../../style/funcs';
 
-.stories-avatar {
+.storiesAvatar {
   width: 100%;
   height: 100%;
 
@@ -11,7 +11,7 @@
   //border: 2px solid white
 }
 
-.avatar-container {
+.avatarContainer {
   width: 56px;
   height: 56px;
 
@@ -20,7 +20,7 @@
   }
 }
 
-.avatar-with-plus {
+.avatarWithPlus {
   position: relative;
   &::after {
     //font-family: "Poppins", sans-serif;
@@ -41,8 +41,8 @@
   }
 }
 
-.avatar-container-bordered {
-  & .stories-avatar {
+.avatarContainerBordered {
+  & .storiesAvatar {
     box-shadow: 0 0 0 2px white;
   }
   position: relative;

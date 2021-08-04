@@ -4,7 +4,8 @@ import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import PostComment from "../comment/PostComment";
 import { thousandstoK } from "../functions";
-import "./PostPopUp.scss";
+
+import styles from "./PostPopUp.module.scss";
 
 interface PostPoUpProps extends PostProps {
   closeFunc(): void;
@@ -19,30 +20,30 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
   return (
     <>
       {" "}
-      <div className="popup-wrapper">
+      <div className={styles.popupWrapper}>
         <div
           onClick={() => closeFunc()}
-          className="gray-overlay"
+          className={styles.greyOverlay}
           onKeyDown={() => closeFunc()}
           tabIndex={0}
           role="button"
         />
-        <div className="post-pop-up-wrapper">
-          <img src={post.imageUrl[0]} alt="post" className="post-photo" />
-          <div className="title-grid-cell">
-            <div className="title-wrapper">
+        <div className={styles.postPopUpWrapper}>
+          <img src={post.imageUrl[0]} alt="post" className={styles.postPhoto} />
+          <div className={styles.titleGridCell}>
+            <div className={styles.titleWrapper}>
               <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
               <h3>{post.name}</h3>
             </div>
             <span
               onClick={() => closeFunc()}
-              className="cross-button"
+              className={styles.crossButton}
               onKeyDown={() => closeFunc()}
               tabIndex={0}
               role="button"
             />
           </div>
-          <div className="comments-grid-cell">
+          <div className={styles.commentsGridCell}>
             {post.comments &&
               post.comments.map((item) => (
                 <PostComment
@@ -56,8 +57,8 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
                 />
               ))}
           </div>
-          <div className="likes-grid-cell">
-            <div className="centered">
+          <div className={styles.likesGridCell}>
+            <div className={styles.centered}>
               <i
                 className={liked ? "fas fa-heart red-heart" : "fas fa-heart"}
                 onClick={() => handleLikeClick()}
@@ -71,13 +72,13 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
                 tabIndex={0}
                 role="button"
               >
-                <h3 className="like-counter">{thousandstoK(post.likes)}</h3>
+                <h3 className={styles.likeCounter}>{thousandstoK(post.likes)}</h3>
               </div>
             </div>
           </div>
-          <div className="inputs-grid-cell">
+          <div className={styles.inputsGridCell}>
             <input
-              className="comment-input"
+              className={styles.commentInput}
               type="text"
               placeholder="Add a comment..."
             />

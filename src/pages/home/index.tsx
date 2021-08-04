@@ -10,7 +10,6 @@ import ProfileCard, {
   ProfileCardProps,
 } from "../../ui/components/ProfileCard/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
-import "../../ui/style/buttons.scss";
 import "./index.scss";
 
 const HomePage: React.FC = () => {
