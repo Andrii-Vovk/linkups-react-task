@@ -77,18 +77,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.titleBarRight}>
-            <i className={classNames([styles.fas, 'fa-ellipsis-v'])} />
+            <i className='fas fa-ellipsis-v' />
           </div>
         </div>
 
-        <div
-          role="button"
-          onClick={() => togglePopUp()}
-          className={styles.postImgWrapper}
-          onKeyDown={() => togglePopUp()}
-          tabIndex={0}
-        >
-          <ImageRotator url={post.imageUrl[0] ? post.imageUrl[0] : "https://via.placeholder.com/300" } />
+        <div>
+          <ImageRotator post={post} imageClickFunc={togglePopUp} />
         </div>
 
         <p className={styles.postAbout}>{post.about}</p>
@@ -104,7 +98,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 className={classNames([
                   "fas",
                   "fa-heart",
-                  { "red-heart": liked },
+                  styles.heartMargin,
+                  { [styles.redHeart]: liked },
                 ])}
                 onClick={() => handleLikeClick()}
                 onKeyDown={() => handleLikeClick()}
@@ -152,7 +147,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.rightFooterPart}>
-            <a href="https://google.com" className="share-link">
+            <a href="https://google.com" className={styles.shareLink}>
               Share
             </a>
           </div>
