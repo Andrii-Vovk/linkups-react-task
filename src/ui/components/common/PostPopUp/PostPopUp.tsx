@@ -23,7 +23,7 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
       <div className={styles.popupWrapper}>
         <div
           onClick={() => closeFunc()}
-          className={styles.greyOverlay}
+          className={styles.grayOverlay}
           onKeyDown={() => closeFunc()}
           tabIndex={0}
           role="button"
