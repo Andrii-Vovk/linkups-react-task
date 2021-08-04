@@ -1,15 +1,18 @@
-export function thousandstoK(num: number) {
+export function thousandstoK(num: number): string | number {
   return Math.abs(num) > 999
-    ? Math.sign(num) * parseFloat((Math.abs(num) / 1000).toFixed(1)) + "k"
+    ? `${Math.sign(num) * parseFloat((Math.abs(num) / 1000).toFixed(1))}k`
     : Math.sign(num) * Math.abs(num);
 }
 
-export function getRelativeTime(d1: Date) {
-  type tUnits = {
+export function getRelativeTime(d1: Date): string | void {
+  console.log(d1)
+  return "time";
+
+  /* type tUnits = {
     [key: string]: number;
   };
 
-  let d2 = new Date();
+  const d2 = new Date();
 
   const units: tUnits = {
     year: 24 * 60 * 60 * 1000 * 365,
@@ -19,13 +22,19 @@ export function getRelativeTime(d1: Date) {
     minute: 60 * 1000,
     second: 1000,
   };
-  let rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-  let elapsed = d1.getTime() - d2.getTime();
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  const elapsed = d1.getTime() - d2.getTime();
   // "Math.abs" accounts for both "past" & "future" scenarios
-  for (let u in units)
-    if (Math.abs(elapsed) > units[u] || u === "second")
+
+  Object.entries(units).forEach(([key, value]) => {
+    if (Math.abs(elapsed) > value || key === "second") {
+      console.log(Math.abs(elapsed), "----", value, key)
       return rtf.format(
-        Math.round(elapsed / units[u]),
-        u as Intl.RelativeTimeFormatUnit
+        Math.round(elapsed / value),
+        key as Intl.RelativeTimeFormatUnit
       );
+    }
+
+    return "time unknown";
+  }); */
 }

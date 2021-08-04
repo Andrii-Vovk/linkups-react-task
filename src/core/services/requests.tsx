@@ -1,47 +1,50 @@
 import axios from "axios";
+import { toCamel } from "snake-camel";
+
+import { CommentAnswer } from "../../typings/CommentAnswer";
+import { PostAnswer } from "../../typings/PostAnswer";
+import { ProfileAnswer } from "../../typings/ProfileAnswer";
+import { SignUpAnswer } from "../../typings/SignUpAnswer";
+
 import { getToken, hasToken } from "./authHandling";
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<PostAnswer[]> {
   try {
-    let res = await axios.get("https://linkstagram-api.ga/posts/");
-    let data = res.data;
-    return data;
+    const res = await axios.get("https://linkstagram-api.ga/posts/");
+    const { data } = res;
+    return data.map((item: { [key: string]: unknown }) => toCamel(item));
   } catch (error) {
-    console.log("jhvjhv", error.message);
+    return error.message;
   }
 }
 
-export async function getMyProfile() {
+export async function getMyProfile(): Promise<ProfileAnswer> {
   try {
     if (!hasToken()) throw new Error("Not authorized!");
 
-    let config = {
+    const config = {
       headers: {
         authorization: getToken(),
       },
     };
 
-    console.log("Got token:", getToken());
-
-    let res = await axios.get("https://linkstagram-api.ga/account", config);
-    console.table(res);
-    return res.data;
-
+    const res = await axios.get("https://linkstagram-api.ga/account", config);
+    return toCamel(res.data) as ProfileAnswer;
   } catch (error) {
-    console.log(error.message);
+    return error.message;
   }
 }
 
-export async function getCommentById(id: number) {
+export async function getCommentById(id: number): Promise<CommentAnswer[] | null> {
   try {
-    let res = await axios.get(
+    const res = await axios.get(
       `https://linkstagram-api.ga/posts/${id}/comments`
     );
 
-    let data = res.data;
-    return data;
+    const { data } = res;
+    return toCamel(data) as CommentAnswer[];
   } catch (error) {
-    console.log("sdfgsd", error.message);
+    return error;
   }
 }
 
@@ -49,32 +52,41 @@ export async function signUpRequest(
   _email: string,
   _username: string,
   _password: string
-) {
-  let payload = {
+): Promise<SignUpAnswer> {
+  const payload = {
     login: _email,
     username: _username,
     password: _password,
   };
 
   try {
-    return await axios.post(
+    const res = await axios.post(
       "https://linkstagram-api.ga/create-account",
       payload
     );
+
+    return res.data;
   } catch (error) {
-    return null;
+    return error.message;
   }
 }
 
-export async function logInRequest(_email: string, _password: string) {
-  let payload = {
+export async function logInRequest(
+  _email: string,
+  _password: string
+): Promise<SignUpAnswer> {
+  const payload = {
     login: _email,
     password: _password,
   };
 
   try {
-    return await axios.post("https://linkstagram-api.ga/login", payload);
+    const res = await axios.post("https://linkstagram-api.ga/login", payload);
+    return {
+      success: res.data.success,
+      headers: { authorization: res.headers.authorization },
+    };
   } catch (error) {
-    console.log(error.message);
+    return error.message;
   }
 }

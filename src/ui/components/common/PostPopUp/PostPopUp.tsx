@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import PostComment from "../comment/PostComment";
@@ -9,7 +10,7 @@ interface PostPoUpProps extends PostProps {
   closeFunc(): void;
 }
 
-const PostPopUp = ({ post, closeFunc }: PostPoUpProps) => {
+const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
   const [liked, setLiked] = useState(post.isliked);
   function handleLikeClick() {
     setLiked(!liked);
@@ -19,7 +20,13 @@ const PostPopUp = ({ post, closeFunc }: PostPoUpProps) => {
     <>
       {" "}
       <div className="popup-wrapper">
-        <div onClick={() => closeFunc()} className="gray-overlay"></div>
+        <div
+          onClick={() => closeFunc()}
+          className="gray-overlay"
+          onKeyDown={() => closeFunc()}
+          tabIndex={0}
+          role="button"
+        />
         <div className="post-pop-up-wrapper">
           <img src={post.imageUrl[0]} alt="post" className="post-photo" />
           <div className="title-grid-cell">
@@ -27,12 +34,20 @@ const PostPopUp = ({ post, closeFunc }: PostPoUpProps) => {
               <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
               <h3>{post.name}</h3>
             </div>
-            <span onClick={() => closeFunc()} className="cross-button"></span>
+            <span
+              onClick={() => closeFunc()}
+              className="cross-button"
+              onKeyDown={() => closeFunc()}
+              tabIndex={0}
+              role="button"
+            />
           </div>
           <div className="comments-grid-cell">
             {post.comments &&
               post.comments.map((item) => (
                 <PostComment
+                  id={item.id}
+                  key={item.id}
                   text={item.text}
                   avatar={item.avatar}
                   likes={item.likes}
@@ -46,10 +61,18 @@ const PostPopUp = ({ post, closeFunc }: PostPoUpProps) => {
               <i
                 className={liked ? "fas fa-heart red-heart" : "fas fa-heart"}
                 onClick={() => handleLikeClick()}
-              ></i>
-              <h3 className="like-counter" onClick={() => handleLikeClick()}>
-                {thousandstoK(post.likes)}
-              </h3>
+                onKeyDown={() => handleLikeClick()}
+                tabIndex={0}
+                role="button"
+              />
+              <div
+                onClick={() => handleLikeClick()}
+                onKeyDown={() => handleLikeClick()}
+                tabIndex={0}
+                role="button"
+              >
+                <h3 className="like-counter">{thousandstoK(post.likes)}</h3>
+              </div>
             </div>
           </div>
           <div className="inputs-grid-cell">

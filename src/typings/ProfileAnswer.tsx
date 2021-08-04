@@ -2,10 +2,10 @@ export interface ProfileAnswer {
   username: string;
   description?: string;
   email: string;
-  first_name?: string;
+  firstName?: string;
   followers: number;
   following: number;
-  job_title?: string;
-  last_name?: string;
-  profile_photo_url?: string;
+  jobTitle?: string;
+  lastName?: string;
+  profilePhotoUrl?: string;
 }

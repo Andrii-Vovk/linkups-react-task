@@ -1,17 +1,17 @@
-import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
 import { PostProps } from "../Post/Post";
+import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
 import "./ProfilePhotoGrid.scss";
 
 export interface ProfilePhotoGridProps {
     postsProp: PostProps[];
 }
  
-const ProfilePhotoGrid= ({postsProp}: ProfilePhotoGridProps) => {
-    let posts = postsProp.map(item => item.post);
+const ProfilePhotoGrid: React.FC<ProfilePhotoGridProps> = ({postsProp}) => {
+    const posts = postsProp.map(item => item.post);
     return ( 
         <>
         <div className="photo-grid">
-            {posts.map(item => <RespPhoto url={item.imageUrl[0]} />)}
+            {posts.map(item => <RespPhoto key={item.id} url={item.imageUrl[0]} />)}
         </div>
         </>
      );

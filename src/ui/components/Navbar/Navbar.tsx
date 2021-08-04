@@ -1,5 +1,6 @@
 import "./Navbar.scss";
 import { Link } from "react-router-dom";
+
 import Avatar from "../StoriesAvatar/StoriesAvatar";
 
 export interface NavbarProps {
@@ -7,15 +8,15 @@ export interface NavbarProps {
   variant: "Homepage" | "Profilepage" | "LoginPage";
 }
 
-const Navbar = ({ variant }: NavbarProps) => {
-  let style = {
+const Navbar: React.FC<NavbarProps> = ({ variant }) => {
+  const style = {
     width: 40,
     height: 40,
   };
 
-  let isHomePage = variant === "Homepage";
-  let showLanguageDrop = variant === "Homepage" || variant === "LoginPage";
-  let showHomeButton = variant === "Profilepage";
+  const isHomePage = variant === "Homepage";
+  const showLanguageDrop = variant === "Homepage" || variant === "LoginPage";
+  const showHomeButton = variant === "Profilepage";
 
   return (
     <header>
@@ -37,7 +38,7 @@ const Navbar = ({ variant }: NavbarProps) => {
           </Link>
         )}
 
-        {showLanguageDrop && <button className="white-btn hideable">en</button>}
+        {showLanguageDrop && <button type="button" className="white-btn hideable">en</button>}
 
         {isHomePage && (
           <Link to="/profile">

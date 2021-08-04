@@ -1,20 +1,17 @@
-export function setToken(auth: string) {
+export function setToken(auth: string): void {
     localStorage.setItem('authorization', auth);
 }
 
-export function getToken() {
-    if(localStorage.getItem('authorization')) {
-        return localStorage.getItem('authorization')
-    }
-    else {
-        console.log("Not authorized");
-    }
+export function getToken(): string | null {
+    const res = localStorage.getItem('authorization');
+    if(res) return res;
+    return null;
 }
 
-export function hasToken() {
+export function hasToken(): boolean {
     return localStorage.getItem('authorization') !== null;
 }
 
-export function destroyToken() {
-    return localStorage.removeItem('authorization');
+export function destroyToken(): void {
+    localStorage.removeItem('authorization');
 }

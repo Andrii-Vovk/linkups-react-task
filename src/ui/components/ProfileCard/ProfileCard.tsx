@@ -1,8 +1,10 @@
 import "./ProfileCard.scss";
-import { thousandstoK } from "../common/functions";
-import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
-import EditPopUp from "../EditPopUp/EditPopUp";
 import { useState } from "react";
+
+import EditPopUp from "../EditPopUp/EditPopUp";
+import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
+import { thousandstoK } from "../common/functions";
+
 
 
 type ProfilePropsType = {
@@ -19,7 +21,7 @@ export interface ProfileCardProps {
   variant: "Homepage" | "Profilepage";
 }
 
-const ProfileCard = ({ props, variant }: ProfileCardProps) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ props, variant } ) => {
 
   let isInterest = false;
   if (props.interest) {
@@ -50,8 +52,8 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
           </div>
           <Avatar
             url={props.avatar ? props.avatar.url : 'https://via.placeholder.com/150' }
-            bordered={true}
-            withPlus={true}
+            bordered
+            withPlus
             style={props.avatar ? props.avatar.style : {width: 88, height: 88}}
           />
           <div className="followers-part">
@@ -61,7 +63,7 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
         </div>
 
         <div className="second-line">
-          {isInterest && <h3>{props.name + " - " + props.interest}</h3>}
+          {isInterest && <h3>{`${props.name  } - ${  props.interest}`}</h3>}
           {!isInterest && <h3>{props.name}</h3>}
         </div>
 
@@ -70,8 +72,8 @@ const ProfileCard = ({ props, variant }: ProfileCardProps) => {
         </div>
 
         <div className="forth-line">
-          <button onClick={() => closeFunc()} className="white-btn">Edit Profile</button>
-          <button className="blue-btn">New Post</button>
+          <button type="button" onClick={() => closeFunc()} className="white-btn">Edit Profile</button>
+          <button type="button" className="blue-btn">New Post</button>
         </div>
 
         {

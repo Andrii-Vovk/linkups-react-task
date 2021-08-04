@@ -1,14 +1,14 @@
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 import "./StoriesLine.scss";
 
-interface tStoriesLineProps extends AvatarProps{
+interface StoriesLinePropsType extends AvatarProps{
   key: number;
 }
 export interface StoriesLineProps {
-  avatarArray: tStoriesLineProps[];
+  avatarArray: StoriesLinePropsType[];
 }
 
-const StoriesLine = ({ avatarArray }: StoriesLineProps) => {
+const StoriesLine: React.FC<StoriesLineProps> = ({ avatarArray }) => {
   const arr = avatarArray.map((item) => (
       <li key={item.key}>
         <Avatar url={item.url} bordered={item.bordered} />

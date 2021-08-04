@@ -1,10 +1,12 @@
 import classNames from "classnames";
 import { useState } from "react";
+
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import { getRelativeTime, thousandstoK } from "../functions";
 import "./PostComment.scss";
 
 export interface CommentProps {
+  id: number;
   avatar: string;
   time: Date;
   text: string;
@@ -12,7 +14,7 @@ export interface CommentProps {
   isLiked: boolean;
 }
 
-const PostComment = ({ avatar, text, time, likes, isLiked }: CommentProps) => {
+const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isLiked }) => {
   const [liked, setIsLiked] = useState(isLiked);
 
   function handleLikeClick() {
@@ -21,16 +23,17 @@ const PostComment = ({ avatar, text, time, likes, isLiked }: CommentProps) => {
 
   return (
     <div className="comment-wrapper">
+      <span hidden className="comment-id">{id}</span>
       <div className="left-comment-part">
         <div className="comment-avatar">
           <Avatar url={avatar} style={{ width: 40, height: 40 }} />
         </div>
         <p className="comment-text">{text}</p>
         <p id="time" className="subtext">
-          {getRelativeTime(time)}
+          {getRelativeTime(time) as string}
         </p>
         <p id="likes" className="subtext">
-          {thousandstoK(likes) + " likes"}
+          {`${thousandstoK(likes)  } likes`}
         </p>
         <a id="reply" href="https://google.com">
           Reply
@@ -45,7 +48,10 @@ const PostComment = ({ avatar, text, time, likes, isLiked }: CommentProps) => {
             "red-heart": liked,
           })}
           onClick={() => handleLikeClick()}
-        ></i>
+          onKeyDown={() => handleLikeClick()}
+          tabIndex={0}
+          role="button"
+          />
       </div>
     </div>
   );

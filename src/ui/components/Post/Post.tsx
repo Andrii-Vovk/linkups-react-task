@@ -1,13 +1,14 @@
-import { getRelativeTime, thousandstoK } from "../common/functions";
-import ImageRotator from "../ImageRotator/ImageRotator";
 import "./Post.scss";
-import { useEffect, useState } from "react";
-import PostPopUp from "../common/PostPopUp/PostPopUp";
-import Avatar from "../StoriesAvatar/StoriesAvatar";
-import PostComment, { CommentProps } from "../common/comment/PostComment";
 import classNames from "classnames";
-import { CommentAnswer } from "../../../typings/CommentAnswer";
+import { useEffect, useState } from "react";
+
 import { getCommentById } from "../../../core/services/requests";
+import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
+import ImageRotator from "../ImageRotator/ImageRotator";
+import Avatar from "../StoriesAvatar/StoriesAvatar";
+import PostPopUp from "../common/PostPopUp/PostPopUp";
+import PostComment, { CommentProps } from "../common/comment/PostComment";
+import { getRelativeTime, thousandstoK } from "../common/functions";
 
 export type PostPropsType = {
   id: number;
@@ -30,33 +31,23 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
 
-  const [commentAnswer, setcommentAnswer] = useState<CommentAnswer[]>();
+  const [commentAnswer, setcommentAnswer] = useState<CommentProps[]>();
 
   useEffect(() => {
     async function getAllCommentsUseEffect() {
-      let api_comments = await getCommentById(post.id);
-      setcommentAnswer(api_comments);
+      const apiComments = await getCommentById(post.id);
+      if (apiComments)
+        setcommentAnswer(
+          apiComments.map((item) => ApiCommentsToPropsComments(item))
+        );
     }
 
     getAllCommentsUseEffect();
   }, [post.id]);
 
-  let convertedComments: CommentProps[] = [];
-  if (commentAnswer) {
-    for (let item of commentAnswer) {
-      convertedComments.push({
-        avatar: item.commenter.profile_photo_url,
-        isLiked: false,
-        likes: 0,
-        text: item.message,
-        time: new Date(item.created_at.slice(0, -4) + "+00:00")
-      })
-    }
-  }
+  const convertedPostProps = post;
 
-  let convertedPostProps = post;
-
-  convertedPostProps.comments = convertedComments;
+  convertedPostProps.comments = commentAnswer;
 
   function handleLikeClick() {
     setLiked(!liked);
@@ -68,22 +59,32 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   return (
     <>
-      {isPopUpVisible && <PostPopUp post={convertedPostProps} closeFunc={togglePopUp} />}
+      {isPopUpVisible && (
+        <PostPopUp post={convertedPostProps} closeFunc={togglePopUp} />
+      )}
       <div className="post-wrapper">
         <div className="title-bar">
           <div className="title-bar-left">
             <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
             <div className="title-text">
               <h3>{post.name}</h3>
-              <span className="subtext">{getRelativeTime(post.time)}</span>
+              <span className="subtext">
+                {getRelativeTime(post.time) as string}
+              </span>
             </div>
           </div>
           <div className="title-bar-right">
-            <i className="fas fa-ellipsis-v"></i>
+            <i className="fas fa-ellipsis-v" />
           </div>
         </div>
 
-        <div onClick={() => togglePopUp()} className="post-img-wrapper">
+        <div
+          role="button"
+          onClick={() => togglePopUp()}
+          className="post-img-wrapper"
+          onKeyDown={() => togglePopUp()}
+          tabIndex={0}
+        >
           <ImageRotator url={post.imageUrl[0]} />
         </div>
 
@@ -98,20 +99,32 @@ const Post: React.FC<PostProps> = ({ post }) => {
               })}
             >
               <i
-                className={classNames({
-                  fas: true,
-                  "fa-heart": true,
-                  "red-heart": liked,
-                })}
+                className={classNames([
+                  "fas",
+                  "fa-heart",
+                  { "red-heart": liked },
+                ])}
                 onClick={() => handleLikeClick()}
-              ></i>
-              <h3 className="like-countes" onClick={() => handleLikeClick()}>
-                {thousandstoK(post.likes)}
-              </h3>
+                onKeyDown={() => handleLikeClick()}
+                tabIndex={0}
+                role="button"
+              />
+              <div
+                role="button"
+                onKeyDown={() => handleLikeClick()}
+                className="like-countes"
+                onClick={() => handleLikeClick()}
+                tabIndex={0}
+              >
+                <h3>{thousandstoK(post.likes)}</h3>
+              </div>
             </div>
             <div
               className="comment-count-wrapper"
               onClick={() => setShowComments(!showCommments)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={() => setShowComments(!showCommments)}
             >
               <svg
                 className="comment-svg"
@@ -122,7 +135,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M7.75 15.75C11.8921 15.75 15.25 12.3921 15.25 8.25C15.25 4.10786 11.8921 0.75 7.75 0.75C3.60786 0.75 0.25 4.10786 0.25 8.25V16.25C0.25 17.8981 2.13153 18.8389 3.45 17.85L5.71667 16.15C6.06286 15.8904 6.48393 15.75 6.91667 15.75H7.75Z"
+                  d="M7.75 15.75C11.8921 15.75 15.25 12.3921 15.25 8.25C15.25 4.10786 11.8921 0.75 7.75 0.75C3.60786
+                   0.75 0.25 4.10786 0.25 8.25V16.25C0.25 17.8981 2.13153 18.8389 3.45 17.85L5.71667 
+                   16.15C6.06286 15.8904
+                    6.48393 15.75 6.91667 15.75H7.75Z"
                   fill="currentColor"
                 />
               </svg>
@@ -145,15 +161,16 @@ const Post: React.FC<PostProps> = ({ post }) => {
             "come-out": showCommments,
           })}
         >
-          {convertedComments &&
-            convertedComments.map((item, index) => (
+          {commentAnswer &&
+            commentAnswer.map((item) => (
               <PostComment
+                id={item.id}
                 avatar={item.avatar}
                 text={item.text}
                 isLiked={item.isLiked}
                 likes={item.likes}
                 time={item.time}
-                key={index}
+                key={item.id}
               />
             ))}
         </div>

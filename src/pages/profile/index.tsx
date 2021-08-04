@@ -1,10 +1,11 @@
 import React from "react";
+
 import Navbar from "../../ui/components/Navbar/Navbar";
 import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
 import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid/ProfilePhotoGrid";
 import "./index.scss";
 
-const ProfilePage = () => {
+const ProfilePage: React.FC = () => {
   const PlaceholderProfileProps = {
     followers: 5456,
     following: 403,
@@ -29,7 +30,7 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
     },
@@ -41,7 +42,7 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
     },
@@ -53,7 +54,7 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
     },
@@ -65,7 +66,7 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
     },
@@ -77,7 +78,7 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
     },
@@ -89,10 +90,10 @@ const ProfilePage = () => {
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
         about:
-          "The more relaxed you are, the better you are at everything: the better you are with your loved ones, the better you are with your enemies, the better you are at your job, the better you are with yourself.",
+          "",
         likes: 1230,
       },
-    }
+    },
   ];
 
   return (

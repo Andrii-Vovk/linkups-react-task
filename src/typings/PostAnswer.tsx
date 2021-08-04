@@ -1,12 +1,12 @@
 export interface Person {
   username: string;
   description: string;
-  first_name: string;
+  firstName: string;
   followers: number;
   following: number;
-  job_title: string;
-  last_name: string;
-  profile_photo_url: string;
+  jobTitle: string;
+  lastName: string;
+  profilePhotoUrl: string;
 }
 
 export interface Photo {
@@ -17,10 +17,10 @@ export interface Photo {
 export interface PostAnswer {
   id: number;
   author: Person;
-  comments_count: number;
-  created_at: string;
+  commentsCount: number;
+  createdAt: string;
   description: string;
-  is_liked: boolean;
-  likes_count: number;
+  isLiked: boolean;
+  likesCount: number;
   photos: Photo[];
 }

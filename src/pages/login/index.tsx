@@ -1,16 +1,16 @@
-import Navbar from "../../ui/components/Navbar/Navbar";
+
 import "./index.scss";
-import mockup from "../../public/images/phone-mockup.png";
+import { FormEvent, useState } from "react";
+
+import { setToken } from "../../core/services/authHandling";
+import { logInRequest, signUpRequest } from "../../core/services/requests";
 import one from "../../public/images/1.png";
 import two from "../../public/images/2.png";
 import three from "../../public/images/3.png";
-import { FormEvent, useState } from "react";
-import { logInRequest, signUpRequest } from "../../core/services/requests";
-import { setToken } from "../../core/services/authHandling";
+import mockup from "../../public/images/phone-mockup.png";
+import Navbar from "../../ui/components/Navbar/Navbar";
 
-export interface LoginPageProps {}
-
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const [username, setUsername] = useState("");
@@ -21,7 +21,7 @@ const LoginPage = () => {
     e?.preventDefault();
 
     if (signUpRequest(email, username, password)) {
-      let res = await logInRequest(email, password);
+      const res = await logInRequest(email, password);
       if (res && res.headers.authorization) {
         setToken(res.headers.authorization);
         window.location.href = "/";
@@ -40,7 +40,7 @@ const LoginPage = () => {
   async function handleLogIn(e: FormEvent<HTMLFormElement>) {
     e?.preventDefault();
 
-    let response = await logInRequest(email, password);
+    const response = await logInRequest(email, password);
 
     if (response && response.headers.authorization) {
       setToken(response?.headers.authorization);
@@ -65,7 +65,7 @@ const LoginPage = () => {
               <form action="/" onSubmit={(e) => handleLogIn(e)}>
                 <h1>Log In</h1>
                 <div className="input-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">Email
                   <input
                     placeholder="example@mail.com"
                     className="standart-input"
@@ -74,10 +74,10 @@ const LoginPage = () => {
                     id="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
-                  />
+                  /></label>
                 </div>
                 <div className="input-group">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Password
                   <input
                     placeholder="Type in..."
                     className="standart-input"
@@ -86,7 +86,7 @@ const LoginPage = () => {
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
-                  />
+                  /></label>
                 </div>
                 <div className="input-group">
                   <button className="blue-btn" type="submit">
@@ -98,6 +98,9 @@ const LoginPage = () => {
                   <span
                     onClick={() => switchAndClearStates()}
                     className="pseudolink"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => switchAndClearStates()}
                   >
                     Sign Up
                   </span>
@@ -111,7 +114,7 @@ const LoginPage = () => {
               <form action="/" onSubmit={(e) => handleSignUp(e)}>
                 <h1>Sign Up</h1>
                 <div className="input-group">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">Email
                   <input
                     placeholder="example@mail.com"
                     className="standart-input"
@@ -120,10 +123,10 @@ const LoginPage = () => {
                     id="email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
-                  />
+                  /></label>
                 </div>
                 <div className="input-group">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">Username
                   <input
                     placeholder="Alex..."
                     className="standart-input"
@@ -132,10 +135,10 @@ const LoginPage = () => {
                     id="username"
                     onChange={(e) => setUsername(e.target.value)}
                     value={username}
-                  />
+                  /></label>
                 </div>
                 <div className="input-group">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Password
                   <input
                     placeholder="Type in..."
                     className="standart-input"
@@ -144,7 +147,7 @@ const LoginPage = () => {
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
-                  />
+                  /></label>
                 </div>
                 <div className="input-group">
                   <button className="blue-btn" type="submit">
@@ -156,6 +159,9 @@ const LoginPage = () => {
                   <span
                     onClick={() => switchAndClearStates()}
                     className="pseudolink"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={() => switchAndClearStates()}
                   >
                     Log In
                   </span>

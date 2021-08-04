@@ -9,8 +9,8 @@ export interface AvatarProps {
   style?: CSSProperties;
 }
 
-const Avatar = ({ url, bordered, withPlus, style }: AvatarProps) => {
-  let classes = classNames({
+const Avatar: React.FC<AvatarProps> = ({ url, bordered, withPlus, style }) => {
+  const classes = classNames({
     "avatar-container": true,
     "avatar-container-bordered": bordered,
     "avatar-with-plus": withPlus,
