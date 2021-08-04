@@ -7,13 +7,14 @@ import "./index.scss";
 
 const ProfilePage: React.FC = () => {
   const PlaceholderProfileProps = {
-    followers: 5456,
-    following: 403,
-    name: "Nancy Dena",
-    interest: "React",
-    about: "testing this thing!",
+    followers: 0,
+    following: 0,
+    firstName: "Loading...",
+    lastName: "",
+    interest: "",
+    about: "",
     avatar: {
-      url: "https://i.pravatar.cc/300?u=297",
+      url: "https://via.placeholder.com/80",
       style: {
         width: 88,
         height: 88,
@@ -99,7 +100,7 @@ const ProfilePage: React.FC = () => {
   return (
     <>
       <Navbar variant="Profilepage" />
-      <ProfileCard props={PlaceholderProfileProps} variant="Profilepage" />
+      <ProfileCard profile={PlaceholderProfileProps} variant="Profilepage" />
       <div className="grid-wrapper">
         <ProfilePhotoGrid postsProp={PlaceholderPostProps} />
       </div>

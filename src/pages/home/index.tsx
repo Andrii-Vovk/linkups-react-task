@@ -6,7 +6,9 @@ import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
 import { PostAnswer } from "../../typings/PostAnswer";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post, { PostPropsType } from "../../ui/components/Post/Post";
-import ProfileCard, { ProfileCardProps } from "../../ui/components/ProfileCard/ProfileCard";
+import ProfileCard, {
+  ProfileCardProps,
+} from "../../ui/components/ProfileCard/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
 import "../../ui/style/buttons.scss";
 import "./index.scss";
@@ -15,97 +17,97 @@ const HomePage: React.FC = () => {
   const arr = [
     {
       key: 0,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 1,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 2,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 3,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 4,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 5,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 6,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 7,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 8,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 9,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 10,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 11,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 12,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 13,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 14,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 15,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 16,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 17,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
     {
       key: 18,
-      url: `https://i.pravatar.cc/300?u=${  Math.floor(Math.random() * 90)}`,
+      url: `https://i.pravatar.cc/300?u=${Math.floor(Math.random() * 90)}`,
       bordered: true,
     },
   ]; /* placeholder avatars */
@@ -113,9 +115,10 @@ const HomePage: React.FC = () => {
   const PlaceholderProfileProps = {
     followers: 0,
     following: 0,
-    name: "Loading...",
-    interest: "",
-    about: "",
+    firstName: "Loading...",
+    lastName: "",
+    jobTitle: "",
+    description: "",
     avatar: {
       url: "https://via.placeholder.com/80",
       style: {
@@ -188,7 +191,11 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     async function getAllPostsUseEffect() {
       const apiAllPosts = await getAllPosts();
-      setAllPosts(apiAllPosts.map((item: PostAnswer) => ApiPostToPropsPost(item)));
+      if (apiAllPosts) {
+        setAllPosts(
+          apiAllPosts.map((item: PostAnswer) => ApiPostToPropsPost(item))
+        );
+      }
 
       const apiMyProfile = await getMyProfile();
       setMyProfile(ApiProfieToPropsProfile(apiMyProfile, "Homepage"));
@@ -204,12 +211,13 @@ const HomePage: React.FC = () => {
         <div className="layout-left">
           <StoriesLine avatarArray={arr} />
           {allPosts &&
-            allPosts.map((item) => (
-              <Post key={item.id} post={item} />
-            ))}
+            allPosts.map((item) => <Post key={item.id} post={item} />)}
         </div>
         <div className="layout-right">
-          <ProfileCard props={myProfile ? myProfile.props : PlaceholderProfileProps} variant="Homepage" />
+          <ProfileCard
+            profile={myProfile ? myProfile.profile : PlaceholderProfileProps}
+            variant="Homepage"
+          />
         </div>
       </div>
     </>
@@ -217,4 +225,3 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
-

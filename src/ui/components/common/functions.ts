@@ -5,8 +5,7 @@ export function thousandstoK(num: number): string | number {
 }
 
 export function getRelativeTime(d1: Date): string | void {
-  console.log(d1)
-  return "time";
+  return d1.toString().substring(0, 3);
 
   /* type tUnits = {
     [key: string]: number;

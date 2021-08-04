@@ -21,6 +21,7 @@
   position: sticky;
   top: toRem(100);
   align-self: flex-start;
+  z-index: 3;
 }
 
 @media (max-width: 800px) {

@@ -7,12 +7,6 @@ function ApiProfieToPropsProfile(
   ): ProfileCardProps {
     let ConvertedProfile: ProfileCardProps | null = null;
   
-    let convertedName = "";
-    if (profile?.firstName) convertedName += profile?.firstName;
-    if (profile?.lastName) convertedName += profile?.lastName;
-    if (!profile?.firstName && !profile?.lastName)
-      convertedName = "Unnamed Profile";
-  
     const convertedAvatar = profile?.profilePhotoUrl
       ? {
           url: profile?.profilePhotoUrl,
@@ -29,12 +23,13 @@ function ApiProfieToPropsProfile(
   
     if (profile) {
       ConvertedProfile = {
-        props: {
+        profile: {
           followers: profile.followers,
           following: profile.following,
-          name: convertedName,
-          interest: profile.jobTitle,
-          about: profile.description,
+          firstName: profile.firstName ? profile.firstName : "",
+          lastName: profile.lastName ? profile.lastName : "",
+          jobTitle: profile.jobTitle,
+          description: profile.description,
           avatar: convertedAvatar,
         },
         variant,

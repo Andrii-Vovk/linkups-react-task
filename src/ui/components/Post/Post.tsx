@@ -36,10 +36,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
   useEffect(() => {
     async function getAllCommentsUseEffect() {
       const apiComments = await getCommentById(post.id);
-      if (apiComments)
+      if (apiComments && apiComments[0]){
         setcommentAnswer(
           apiComments.map((item) => ApiCommentsToPropsComments(item))
         );
+      }
+        
     }
 
     getAllCommentsUseEffect();
@@ -85,7 +87,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
           onKeyDown={() => togglePopUp()}
           tabIndex={0}
         >
-          <ImageRotator url={post.imageUrl[0]} />
+          <ImageRotator url={post.imageUrl[0] ? post.imageUrl[0] : "https://via.placeholder.com/300" } />
         </div>
 
         <p className="post-about">{post.about}</p>

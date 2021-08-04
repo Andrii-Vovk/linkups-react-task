@@ -1,39 +1,34 @@
 import "./ProfileCard.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { updateProfile } from "../../../core/services/requests";
 import EditPopUp from "../EditPopUp/EditPopUp";
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 import { thousandstoK } from "../common/functions";
 
-
-
-type ProfilePropsType = {
+export type ProfileType = {
   followers: number;
   following: number;
-  name: string;
-  interest?: string;
-  about?: string;
+  firstName: string;
+  lastName: string;
+  jobTitle?: string;
+  description?: string;
   avatar?: AvatarProps;
 };
 
 export interface ProfileCardProps {
-  props: ProfilePropsType;
-  variant: "Homepage" | "Profilepage";
+  profile: ProfileType;
+  variant?: "Homepage" | "Profilepage";
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ props, variant } ) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
+  const [profileState, setProfileState] = useState(profile);
 
-  let isInterest = false;
-  if (props.interest) {
-    isInterest = true;
-  } else {
-    isInterest = false;
-  }
+  useEffect(() => {
+    setProfileState(profile);
+  }, [profile]);
 
-  let showLinks = true;
-  if(variant !== 'Homepage') {
-    showLinks = false;
-  }
+  const showLinks = variant !== "Homepage";
 
   const [isPopUpShown, setIsPopUpShown] = useState(false);
 
@@ -41,57 +36,88 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ props, variant } ) => {
     setIsPopUpShown(!isPopUpShown);
   }
 
+  async function updateProfileRequest(requestProfile: ProfileType): Promise<void> {
+    const res = await updateProfile(requestProfile);
+
+    if (res) setProfileState(res);
+  }
+
   return (
     <>
-      {isPopUpShown && <EditPopUp closeFunc={closeFunc} />}
+      {isPopUpShown && (
+        <EditPopUp
+          profile={profileState}
+          closeFunc={closeFunc}
+          updateFunc={updateProfileRequest}
+        />
+      )}
       <div className="profile-card-wrapper">
         <div className="first-line">
           <div className="followers-part">
-            <h3>{thousandstoK(props.followers)}</h3>
+            <h3>{thousandstoK(profileState.followers)}</h3>
             <h4>Followers</h4>
           </div>
           <Avatar
-            url={props.avatar ? props.avatar.url : 'https://via.placeholder.com/150' }
+            url={
+              profileState.avatar
+                ? profileState.avatar.url
+                : "https://via.placeholder.com/150"
+            }
             bordered
             withPlus
-            style={props.avatar ? props.avatar.style : {width: 88, height: 88}}
+            style={
+              profileState.avatar
+                ? profileState.avatar.style
+                : { width: 88, height: 88 }
+            }
           />
           <div className="followers-part">
-            <h3>{thousandstoK(props.following)}</h3>
+            <h3>{thousandstoK(profileState.following)}</h3>
             <h4>Following</h4>
           </div>
         </div>
 
         <div className="second-line">
-          {isInterest && <h3>{`${props.name  } - ${  props.interest}`}</h3>}
-          {!isInterest && <h3>{props.name}</h3>}
+          {profile.jobTitle && (
+            <h3>{`${profileState.firstName} ${profileState.lastName} - ${profileState.jobTitle}`}</h3>
+          )}
+          {!profile.jobTitle && (
+            <h3>{`${profileState.firstName} ${profileState.lastName}`}</h3>
+          )}
         </div>
 
         <div className="third-line">
-          <p>{props.about}</p>
+          <p>{profileState.description}</p>
         </div>
 
         <div className="forth-line">
-          <button type="button" onClick={() => closeFunc()} className="white-btn">Edit Profile</button>
-          <button type="button" className="blue-btn">New Post</button>
+          <button
+            type="button"
+            onClick={() => closeFunc()}
+            className="white-btn"
+          >
+            Edit Profile
+          </button>
+          <button type="button" className="blue-btn">
+            New Post
+          </button>
         </div>
 
-        {
-          showLinks &&
+        {showLinks && (
           <>
-          <div className="refs">
-            <a href="https://google.com">About</a>
-            <a href="https://google.com">Help</a>
-            <a href="https://google.com">Privacy</a>
-            <a href="https://google.com">Terms</a>
-            <a href="https://google.com">Locations</a>
-            <a href="https://google.com">Language</a>
-        </div>
-        <div className="refs">
-            <a href="https://google.com">&copy; 2020 Linkstagram</a>
-        </div>
-        </>
-      }
+            <div className="refs">
+              <a href="https://google.com">About</a>
+              <a href="https://google.com">Help</a>
+              <a href="https://google.com">Privacy</a>
+              <a href="https://google.com">Terms</a>
+              <a href="https://google.com">Locations</a>
+              <a href="https://google.com">Language</a>
+            </div>
+            <div className="refs">
+              <a href="https://google.com">&copy; 2020 Linkstagram</a>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

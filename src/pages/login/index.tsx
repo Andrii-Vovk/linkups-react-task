@@ -46,7 +46,6 @@ const LoginPage: React.FC = () => {
       setToken(response?.headers.authorization);
       window.location.href = "/";
     }
-    else alert('Wrong login or password');
   }
 
   return (

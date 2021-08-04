@@ -49,6 +49,11 @@
   & form {
     width: 100%;
 
+    & label {
+      display: flex;
+      flex-direction: column;
+    }
+
     & .mb {
       margin-bottom: 2rem;
     }

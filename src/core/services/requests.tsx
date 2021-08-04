@@ -5,16 +5,17 @@ import { CommentAnswer } from "../../typings/CommentAnswer";
 import { PostAnswer } from "../../typings/PostAnswer";
 import { ProfileAnswer } from "../../typings/ProfileAnswer";
 import { SignUpAnswer } from "../../typings/SignUpAnswer";
+import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
 
 import { getToken, hasToken } from "./authHandling";
 
-export async function getAllPosts(): Promise<PostAnswer[]> {
+export async function getAllPosts(): Promise<PostAnswer[] | null> {
   try {
     const res = await axios.get("https://linkstagram-api.ga/posts/");
     const { data } = res;
     return data.map((item: { [key: string]: unknown }) => toCamel(item));
   } catch (error) {
-    return error.message;
+    return null;
   }
 }
 
@@ -35,16 +36,18 @@ export async function getMyProfile(): Promise<ProfileAnswer> {
   }
 }
 
-export async function getCommentById(id: number): Promise<CommentAnswer[] | null> {
+export async function getCommentById(
+  id: number
+): Promise<CommentAnswer[] | null> {
   try {
     const res = await axios.get(
       `https://linkstagram-api.ga/posts/${id}/comments`
     );
 
     const { data } = res;
-    return toCamel(data) as CommentAnswer[];
+    return data.map((item: { [key: string]: unknown }) => toCamel(item));
   } catch (error) {
-    return error;
+    return null;
   }
 }
 
@@ -88,5 +91,31 @@ export async function logInRequest(
     };
   } catch (error) {
     return error.message;
+  }
+}
+
+export async function updateProfile(
+  profile: ProfileType
+): Promise<ProfileType | null> {
+  const config = {
+      first_name: profile.firstName,
+      last_name: profile.lastName,
+      description: profile.description,
+      job_title: profile.jobTitle,
+  };
+
+  const headers = {
+    authorization: getToken(),
+  };
+
+  try {
+    console.log("config", config)
+    const res = await axios.patch<ProfileType>("https://linkstagram-api.ga/account", config, {
+      headers,
+    });
+
+    return toCamel(res.data) as ProfileType;
+  } catch (error) {
+    return null;
   }
 }

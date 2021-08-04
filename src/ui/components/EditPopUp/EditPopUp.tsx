@@ -1,17 +1,52 @@
+import { FormEvent, useState } from "react";
+
 import { destroyToken } from "../../../core/services/authHandling";
+import { ProfileType } from "../ProfileCard/ProfileCard";
 import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
 import "./EditPopUp.scss";
 
 export interface EditPopUpProps {
+  profile: ProfileType;
   closeFunc(): void;
+  updateFunc(requestProfile: ProfileType): Promise<void>;
 }
 
-const EditPopUp: React.FC<EditPopUpProps> = ({ closeFunc }) => {
+const EditPopUp: React.FC<EditPopUpProps> = ({
+  closeFunc,
+  updateFunc,
+  profile,
+}) => {
   function logOut() {
     destroyToken();
     window.location.reload();
   }
 
+  const [profileState, setProfileState] = useState(profile);
+
+  const hadleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProfileState({
+      ...profileState,
+      [e.target.name]: e.target.value
+    })
+  }
+
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
+
+    /* const account = {
+      avatar: profile.avatar,
+      followers: profile.followers,
+      following: profile.followers,
+      firstName: profileState.firstName,
+      lastName:,
+      jobTitle,
+      description,
+    }; */
+
+    await updateFunc(profileState);
+    closeFunc();
+  }
 
   return (
     <>
@@ -39,47 +74,69 @@ const EditPopUp: React.FC<EditPopUpProps> = ({ closeFunc }) => {
             Log Out
           </span>
         </div>
-        <form action="/">
+        <form action="/" onSubmit={(e) => handleSubmit(e)}>
           <div className="photo-flex">
             <div className="resp-photo">
-              <RespPhoto url="https://i.pravatar.cc/300" />
+              <RespPhoto
+                url={
+                  profile.avatar?.url
+                    ? profile.avatar?.url
+                    : "https://via.placeholder.com/88"
+                }
+              />
             </div>
             <div className="input-group">
-              <label htmlFor="first_name">First Name
-              <input
-                className="standart-input mb"
-                type="text"
-                name="first_name"
-                id="first_name"
-              /></label>
-              <label htmlFor="last_name">Last Name
-              <input
-                className="standart-input"
-                type="text"
-                name="last_name"
-                id="last_name"
-              /></label>
+              <label htmlFor="firstName">
+                First Name
+                <input
+                  className="standart-input mb"
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  onChange={(e) => hadleChange(e)}
+                  value={profileState.firstName}
+                />
+              </label>
+              <label htmlFor="lastName">
+                Last Name
+                <input
+                  className="standart-input"
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  onChange={(e) => hadleChange(e)}
+                  value={profileState.lastName}
+                />
+              </label>
             </div>
           </div>
           <div className="input-group">
-            <label htmlFor="job_title">Job title
-            <input
-              className="standart-input mb"
-              type="text"
-              name="job_title"
-              id="job_title"
-            /></label>
-            <label htmlFor='description'>Description
-            <input
-              className="standart-input mb"
-              type="text"
-              name='description'
-              id='description'
-            /></label>
+            <label htmlFor="jobTitle">
+              Job title
+              <input
+                className="standart-input mb"
+                type="text"
+                name="jobTitle"
+                id="jobTitle"
+                onChange={(e) => hadleChange(e)}
+                value={profileState.jobTitle}
+              />
+            </label>
+            <label htmlFor="description">
+              Description
+              <input
+                className="standart-input mb"
+                type="text"
+                name="description"
+                id="description"
+                onChange={(e) => hadleChange(e)}
+                value={profileState.description}
+              />
+            </label>
           </div>
           <div className="h-input-group">
             <button
-              onClick={() => closeFunc()}
+              onClick={closeFunc}
               type="button"
               className="white-btn"
             >
