@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from "react";
+
 import { PostPropsType } from "../Post/Post";
 import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
+
 import styles from "./ImageRotator.module.scss";
-import { useState } from "react";
 
 export interface ImageRotatorProps {
   post: PostPropsType;
