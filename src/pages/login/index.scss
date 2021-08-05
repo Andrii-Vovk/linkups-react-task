@@ -47,6 +47,13 @@
   }
 
   & form {
+    & .validation {
+      height: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
     & label {
       display: flex;
       flex-direction: column;

@@ -1,41 +1,28 @@
-import {
-    Formik,
-    FormikHelpers,
-    FormikProps,
-    Form,
-    Field,
-    FieldProps,
-  } from 'formik';
+import { FieldHookConfig, useField } from "formik";
+import React from "react";
 
-export interface InputProps {
-    name: string;
-    placeholder?: string;
-    label?: string;
-    validations?: {
-        minLen?: number;
-        maxLen?: number;
-        reqired?: boolean;
-        email?: boolean;
-        password?: boolean
-    }
-    setStateFunction(state: unknown): void;
+interface FormInputProps {
+  name: string;
+  labelText?: string;
+  type?: string;
 }
 
-interface formValues {
-    inputValue: string;
-  }
- 
-const Input: React.FC<InputProps> = ({name, placeholder, label, validations}) => {
+const FormInput: React.FC<FormInputProps & FieldHookConfig<string>> = ({
+    placeholder,
+  type = "text",
+  labelText,
+  ...props
+}) => {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={field.name}>
+        {labelText}
+        <input type={type} {...field} placeholder={placeholder} className="standart-input" />
+      </label>
+      <div className="validation">{meta.touched && meta.error && <div className="subtext">{meta.error}</div>}</div>
+      </>
+  );
+};
 
-
-
-    return ( 
-        <>
-            {
-                
-            }
-        </>
-     );
-}
- 
-export default Input;
+export default FormInput;

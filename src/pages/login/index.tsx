@@ -1,6 +1,7 @@
-
 import "./index.scss";
-import { FormEvent, useState } from "react";
+import { Formik, Form } from "formik";
+import { useState } from "react";
+import * as Yup from "yup";
 
 import { setToken } from "../../core/services/authHandling";
 import { logInRequest, signUpRequest } from "../../core/services/requests";
@@ -9,45 +10,60 @@ import two from "../../public/images/2.png";
 import three from "../../public/images/3.png";
 import mockup from "../../public/images/phone-mockup.png";
 import Navbar from "../../ui/components/Navbar/Navbar";
+import FormInput from "../../ui/components/common/input/FormInput";
 import buttons from "../../ui/style/buttons.module.scss";
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .required("Please, enter your email"),
+  password: Yup.string()
+    .min(8, "Too Short!")
+    .max(32, "Too Long!")
+    .required("Please, enter your password"),
+});
+
+const SignUpSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .required("Please, enter your email"),
+  password: Yup.string()
+    .min(8, "Too Short!")
+    .max(32, "Too Long!")
+    .required("Please, enter your password"),
+  username: Yup.string()
+    .min(3, "Too Short!")
+    .max(16, "Too Long!")
+    .required("Please, enter your username")
+    .matches(/^[a-z0-9_-]{3,16}$/, "Username contains invalid symbols!"),
+});
+
+interface LoginInitialValue {
+  email: string;
+  password: string;
+}
+
+interface SignUpInitialValue extends LoginInitialValue {
+  username: string;
+}
 
 const LoginPage: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  async function handleSignUp(e: FormEvent<HTMLFormElement>) {
-    e?.preventDefault();
-
-    if (signUpRequest(email, username, password)) {
-      const res = await logInRequest(email, password);
-      if (res && res.headers.authorization) {
-        setToken(res.headers.authorization);
-        window.location.href = "/";
-      }
-    }
-  }
-
   function switchAndClearStates() {
     setIsSignUp(!isSignUp);
-
-    setUsername("");
-    setEmail("");
-    setPassword("");
   }
 
-  async function handleLogIn(e: FormEvent<HTMLFormElement>) {
-    e?.preventDefault();
+  const initialValues: LoginInitialValue = {
+    email: "",
+    password: "",
+  };
 
-    const response = await logInRequest(email, password);
-
-    if (response && response.headers.authorization) {
-      setToken(response?.headers.authorization);
-      window.location.href = "/";
-    }
-  }
+  const signUpinitialValues: SignUpInitialValue = {
+    email: "",
+    password: "",
+    username: "",
+  };
 
   return (
     <>
@@ -62,111 +78,126 @@ const LoginPage: React.FC = () => {
         <div className="login-form">
           {!isSignUp && (
             <>
-              <form action="/" onSubmit={(e) => handleLogIn(e)}>
-                <h1>Log In</h1>
-                <div className="input-group">
-                  <label htmlFor="email">Email
-                  <input
-                    placeholder="example@mail.com"
-                    className="standart-input"
-                    type="email"
-                    name="email"
-                    id="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  /></label>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="password">Password
-                  <input
-                    placeholder="Type in..."
-                    className="standart-input"
-                    type="password"
-                    name="password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  /></label>
-                </div>
-                <div className="input-group">
-                  <button className={buttons.blueBtn} type="submit">
-                    Log In
-                  </button>
-                </div>
-                <div className="sign-up-links">
-                  <span className="subtext">Dont have an account?</span>
-                  <span
-                    onClick={() => switchAndClearStates()}
-                    className="pseudolink"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={() => switchAndClearStates()}
-                  >
-                    Sign Up
-                  </span>
-                </div>
-              </form>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={LoginSchema}
+                validateOnChange
+                validateOnBlur
+                onSubmit={async (values) => {
+                  const response = await logInRequest(
+                    values.email,
+                    values.password
+                  );
+
+                  if (response && response.headers.authorization) {
+                    setToken(response?.headers.authorization);
+                    window.location.href = "/";
+                  }
+                }}
+              >
+                {() => (
+                  <Form>
+                    <h1>Log In</h1>
+
+                    <FormInput
+                      type="email"
+                      labelText="Email"
+                      placeholder="email@mail.com"
+                      name="email"
+                    />
+                    <FormInput
+                      type="text"
+                      labelText="Password"
+                      placeholder="Your password"
+                      name="password"
+                    />
+
+                    <button className={buttons.blueBtn} type="submit">
+                      Submit
+                    </button>
+                  </Form>
+                )}
+              </Formik>
+
+              <div className="sign-up-links">
+                <span className="subtext">Dont have an account?</span>
+                <span
+                  onClick={() => switchAndClearStates()}
+                  className="pseudolink"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={() => switchAndClearStates()}
+                >
+                  Sign Up
+                </span>
+              </div>
             </>
           )}
 
           {isSignUp && (
             <>
-              <form action="/" onSubmit={(e) => handleSignUp(e)}>
-                <h1>Sign Up</h1>
-                <div className="input-group">
-                  <label htmlFor="email">Email
-                  <input
-                    placeholder="example@mail.com"
-                    className="standart-input"
-                    type="email"
-                    name="email"
-                    id="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  /></label>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="username">Username
-                  <input
-                    placeholder="Alex..."
-                    className="standart-input"
-                    type="username"
-                    name="username"
-                    id="username"
-                    onChange={(e) => setUsername(e.target.value)}
-                    value={username}
-                  /></label>
-                </div>
-                <div className="input-group">
-                  <label htmlFor="password">Password
-                  <input
-                    placeholder="Type in..."
-                    className="standart-input"
-                    type="password"
-                    name="password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  /></label>
-                </div>
-                <div className="input-group">
-                  <button className={buttons.blueBtn} type="submit">
-                    Sign Up
-                  </button>
-                </div>
-                <div className="sign-up-links">
-                  <span className="subtext">Have an account?</span>
-                  <span
-                    onClick={() => switchAndClearStates()}
-                    className="pseudolink"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={() => switchAndClearStates()}
-                  >
-                    Log In
-                  </span>
-                </div>
-              </form>
+              <Formik
+                initialValues={signUpinitialValues}
+                validationSchema={SignUpSchema}
+                validateOnChange
+                validateOnBlur
+                onSubmit={async (values) => {
+                  let res = await signUpRequest(
+                    values.email,
+                    values.username,
+                    values.password
+                  );
+                  if (res) {
+                    res = await logInRequest(values.email, values.password);
+                    if (res && res.headers.authorization) {
+                      setToken(res.headers.authorization);
+                      window.location.href = "/";
+                    }
+                  }
+                }}
+              >
+                {() => (
+                  <Form>
+                    <h1>Sign Up</h1>
+
+                    <FormInput
+                      type="email"
+                      labelText="Email"
+                      placeholder="email@mail.com"
+                      name="email"
+                    />
+                    <FormInput
+                      type="text"
+                      labelText="Username"
+                      placeholder="Your password"
+                      name="username"
+                    />
+                    <FormInput
+                      type="text"
+                      labelText="Password"
+                      placeholder="Alex..."
+                      name="password"
+                    />
+
+                    <button className={buttons.blueBtn} type="submit">
+                      Submit
+                    </button>
+                  </Form>
+                )}
+              </Formik>
+
+              <div className="sign-up-links">
+                <span className="subtext">Already have an account?</span>
+                <span
+                  onClick={() => switchAndClearStates()}
+                  className="pseudolink"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={() => switchAndClearStates()}
+                >
+                  Log In
+                </span>
+              </div>
             </>
           )}
         </div>
