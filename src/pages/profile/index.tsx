@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { getMyProfile } from "../../core/services/requests";
+import ApiProfieToPropsProfile from "../../core/utils/ApiPorfileToPropsProfile";
 import Navbar from "../../ui/components/Navbar/Navbar";
-import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
+import ProfileCard, {
+  ProfileCardProps,
+} from "../../ui/components/ProfileCard/ProfileCard";
 import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid/ProfilePhotoGrid";
 import "./index.scss";
 
@@ -30,8 +34,7 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
@@ -42,8 +45,7 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
@@ -54,8 +56,7 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
@@ -66,8 +67,7 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
@@ -78,8 +78,7 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
@@ -90,17 +89,30 @@ const ProfilePage: React.FC = () => {
         time: new Date("January 16, 2021"),
         avatar: "https://www.fillmurray.com/645/360?u=4",
         imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-        about:
-          "",
+        about: "",
         likes: 1230,
       },
     },
   ];
 
+  const [myProfile, setMyProfile] = useState<ProfileCardProps>();
+
+  useEffect(() => {
+    async function getAllPostsUseEffect() {
+      const apiMyProfile = await getMyProfile();
+      setMyProfile(ApiProfieToPropsProfile(apiMyProfile, "Homepage"));
+    }
+
+    getAllPostsUseEffect();
+  }, []);
+
   return (
     <>
       <Navbar variant="Profilepage" />
-      <ProfileCard profile={PlaceholderProfileProps} variant="Profilepage" />
+      <ProfileCard
+        profile={myProfile ? myProfile.profile : PlaceholderProfileProps}
+        variant="Profilepage"
+      />
       <div className="grid-wrapper">
         <ProfilePhotoGrid postsProp={PlaceholderPostProps} />
       </div>

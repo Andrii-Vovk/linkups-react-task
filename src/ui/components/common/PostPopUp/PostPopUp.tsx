@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import PostComment from "../comment/PostComment";
-import { thousandstoK } from "../functions";
+import thousandstoK from "../functions";
 
 import styles from "./PostPopUp.module.scss";
 

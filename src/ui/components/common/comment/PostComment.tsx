@@ -1,8 +1,11 @@
 import classNames from "classnames";
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
 import { useState } from "react";
+import ReactTimeAgo from 'react-time-ago'
 
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
-import { getRelativeTime, thousandstoK } from "../functions";
+import thousandstoK from "../functions";
 
 import styles from "./PostComment.module.scss";
 
@@ -18,9 +21,12 @@ export interface CommentProps {
 const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isLiked }) => {
   const [liked, setIsLiked] = useState(isLiked);
 
+
   function handleLikeClick() {
     setIsLiked(!liked);
   }
+
+  TimeAgo.addDefaultLocale(en)
 
   return (
     <div className={styles.commentWrapper}>
@@ -31,7 +37,7 @@ const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isL
         </div>
         <p className={styles.commentText}>{text}</p>
         <p className={classNames([styles.time, 'subtext'])} >
-          {getRelativeTime(time) as string}
+        <ReactTimeAgo date={time} locale="en-US"/>
         </p>
         <p  className={classNames([styles.likes, 'subtext'])}>
           {`${thousandstoK(likes)  } likes`}

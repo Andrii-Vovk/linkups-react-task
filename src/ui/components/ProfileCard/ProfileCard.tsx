@@ -4,7 +4,7 @@ import { updateProfile } from "../../../core/services/requests";
 import buttons from "../../style/buttons.module.scss";
 import EditPopUp from "../EditPopUp/EditPopUp";
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
-import { thousandstoK } from "../common/functions";
+import thousandstoK from "../common/functions";
 
 import styles from "./ProfileCard.module.scss";
 

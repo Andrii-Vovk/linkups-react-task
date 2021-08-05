@@ -85,6 +85,9 @@ a:hover {
   color: #0087FF;
   cursor: pointer;
 
+  border: none;
+  background-color: transparent;
+
   &:hover {
     text-decoration: underline;
   }

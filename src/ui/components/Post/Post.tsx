@@ -1,5 +1,8 @@
 import classNames from "classnames";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 import { useEffect, useState } from "react";
+import ReactTimeAgo from "react-time-ago";
 
 import { getCommentById } from "../../../core/services/requests";
 import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
@@ -7,7 +10,7 @@ import ImageRotator from "../ImageRotator/ImageRotator";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
 import PostPopUp from "../common/PostPopUp/PostPopUp";
 import PostComment, { CommentProps } from "../common/comment/PostComment";
-import { getRelativeTime, thousandstoK } from "../common/functions";
+import thousandstoK from "../common/functions";
 
 import styles from "./Post.module.scss";
 
@@ -28,6 +31,7 @@ export interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
+  TimeAgo.addDefaultLocale(en);
   const [liked, setLiked] = useState(post.isliked);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
@@ -37,12 +41,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
   useEffect(() => {
     async function getAllCommentsUseEffect() {
       const apiComments = await getCommentById(post.id);
-      if (apiComments && apiComments[0]){
+      if (apiComments && apiComments[0]) {
         setcommentAnswer(
           apiComments.map((item) => ApiCommentsToPropsComments(item))
         );
       }
-        
     }
 
     getAllCommentsUseEffect();
@@ -72,12 +75,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
             <div className={styles.titleText}>
               <h3>{post.name}</h3>
               <span className="subtext">
-                {getRelativeTime(post.time) as string}
+                <ReactTimeAgo date={post.time} locale="en-US" />
               </span>
             </div>
           </div>
           <div className={styles.titleBarRight}>
-            <i className='fas fa-ellipsis-v' />
+            <i className="fas fa-ellipsis-v" />
           </div>
         </div>
 
@@ -90,9 +93,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
         <div className={styles.postFooter}>
           <div className={styles.leftFooterPart}>
             <div
-              className={classNames(
-                [styles.likeWrapper, {[styles.hideLikes]: showCommments}]
-              )}
+              className={classNames([
+                styles.likeWrapper,
+                { [styles.hideLikes]: showCommments },
+              ])}
             >
               <i
                 className={classNames([
@@ -153,8 +157,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
         <div
-          className={classNames([styles.postHiddenComments, {[styles.comeOut]: showCommments}]
-          )}
+          className={classNames([
+            styles.postHiddenComments,
+            { [styles.comeOut]: showCommments },
+          ])}
         >
           {commentAnswer &&
             commentAnswer.map((item) => (
