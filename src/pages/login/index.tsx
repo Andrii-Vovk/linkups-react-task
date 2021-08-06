@@ -1,6 +1,7 @@
 import "./index.scss";
 import { Formik, Form } from "formik";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import * as Yup from "yup";
 
 import { setToken } from "../../core/services/authHandling";
@@ -50,6 +51,8 @@ interface SignUpInitialValue extends LoginInitialValue {
 const LoginPage: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
+  const history = useHistory();
+
   function switchAndClearStates() {
     setIsSignUp(!isSignUp);
   }
@@ -91,7 +94,7 @@ const LoginPage: React.FC = () => {
 
                   if (response && response.headers.authorization) {
                     setToken(response?.headers.authorization);
-                    window.location.href = "/";
+                    history.push('/');
                   }
                 }}
               >
@@ -151,7 +154,7 @@ const LoginPage: React.FC = () => {
                     res = await logInRequest(values.email, values.password);
                     if (res && res.headers.authorization) {
                       setToken(res.headers.authorization);
-                      window.location.href = "/";
+                      history.push('/');
                     }
                   }
                 }}

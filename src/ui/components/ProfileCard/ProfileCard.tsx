@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { updateProfile } from "../../../core/services/requests";
 import buttons from "../../style/buttons.module.scss";
 import EditPopUp from "../EditPopUp/EditPopUp";
+import NewPostPopUp from "../NewPostPopUp/NewPostPopUp";
 import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
 import thousandstoK from "../common/functions";
 
@@ -32,13 +33,19 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
 
   const showLinks = variant === "Homepage";
 
-  const [isPopUpShown, setIsPopUpShown] = useState(false);
+  const [isEditPopUpShown, setIsEditPopUpShown] = useState(false);
+  const [isNewPopUpShown, setIsNewPopUpShown] = useState(false);
 
   function closeFunc() {
-    setIsPopUpShown(!isPopUpShown);
+    setIsEditPopUpShown(!isEditPopUpShown);
+  }
+  function closeNewPostFunc() {
+    setIsNewPopUpShown(!isNewPopUpShown);
   }
 
-  async function updateProfileRequest(requestProfile: ProfileType): Promise<void> {
+  async function updateProfileRequest(
+    requestProfile: ProfileType
+  ): Promise<void> {
     const res = await updateProfile(requestProfile);
 
     if (res) setProfileState(res);
@@ -46,7 +53,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
 
   return (
     <>
-      {isPopUpShown && (
+      {isNewPopUpShown && <NewPostPopUp closeFunc={closeNewPostFunc} />}
+
+      {isEditPopUpShown && (
         <EditPopUp
           profile={profileState}
           closeFunc={closeFunc}
@@ -100,7 +109,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
           >
             Edit Profile
           </button>
-          <button type="button" className={buttons.blueBtn}>
+          <button
+            type="button"
+            className={buttons.blueBtn}
+            onClick={closeNewPostFunc}
+          >
             New Post
           </button>
         </div>

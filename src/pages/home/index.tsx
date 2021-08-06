@@ -205,7 +205,6 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-     {/*  <NewPostPopUp /> */}
       <Navbar variant="Homepage" />
       <div className="layout-parent">
         <div className="layout-left">

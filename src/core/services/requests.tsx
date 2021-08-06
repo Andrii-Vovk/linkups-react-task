@@ -118,3 +118,19 @@ export async function updateProfile(
     return null;
   }
 }
+
+/* export async function createPostRequest():Promise<PostAnswer> {
+  const photos_attributes: [
+    {
+      "image": {
+        "id": "23cf096f93e15a6aa7eebb9d8267895e.jpg",
+        "storage": "cache",
+        "metadata": {
+          "filename": "test.jpg",
+          "size": 68393,
+          "mime_type": "image/jpeg"
+        }
+      }
+    }
+}
+ */

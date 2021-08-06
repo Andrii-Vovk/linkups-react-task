@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { FormEvent, useState } from "react";
+import { useHistory } from "react-router";
 
 import { destroyToken } from "../../../core/services/authHandling";
 import buttons from "../../style/buttons.module.scss";
@@ -19,9 +20,12 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
   updateFunc,
   profile,
 }) => {
+
+  const history = useHistory();
+
   function logOut() {
     destroyToken();
-    window.location.reload();
+    history.go(0);
   }
 
   const [profileState, setProfileState] = useState(profile);
