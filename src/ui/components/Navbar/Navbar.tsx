@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../core/store/hooks";
 
 import buttons from "../../style/buttons.module.scss";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
@@ -21,6 +22,8 @@ const Navbar: React.FC<NavbarProps> = ({ variant }) => {
   const isHomePage = variant === "Homepage";
   const showLanguageDrop = variant === "Homepage" || variant === "LoginPage";
   const showHomeButton = variant === "Profilepage";
+
+  const avatarUrl = useAppSelector((state) => state.profile.profile?.avatar?.url)
 
   return (
     <header className={styles.header}>
@@ -46,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ variant }) => {
 
         {isHomePage && (
           <Link to="/profile">
-            <Avatar url="https://i.pravatar.cc/300?u=297" style={style} />
+            <Avatar url={avatarUrl || "https://via.placeholder.com/40"} style={style} />
           </Link>
         )}
       </div>

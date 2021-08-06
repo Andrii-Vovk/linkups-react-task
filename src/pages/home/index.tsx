@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { getAllPosts, getMyProfile } from "../../core/services/requests";
-import ApiProfieToPropsProfile from "../../core/utils/ApiPorfileToPropsProfile";
+import { getAllPosts } from "../../core/services/requests";
+import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
+import { fetchProfile } from "../../core/store/profileSlice";
 import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
 import { PostAnswer } from "../../typings/PostAnswer";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post, { PostPropsType } from "../../ui/components/Post/Post";
-import ProfileCard, {
-  ProfileCardProps,
-} from "../../ui/components/ProfileCard/ProfileCard";
+import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
 import "./index.scss";
 
@@ -185,7 +184,10 @@ const HomePage: React.FC = () => {
   ]; */
 
   const [allPosts, setAllPosts] = useState<PostPropsType[]>([]);
-  const [myProfile, setMyProfile] = useState<ProfileCardProps>();
+
+  const dispatch = useAppDispatch();
+  const apiMyProfile = useAppSelector((state) => state.profile.profile)
+  const status = useAppSelector((state) => state.profile.status)
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
@@ -196,8 +198,7 @@ const HomePage: React.FC = () => {
         );
       }
 
-      const apiMyProfile = await getMyProfile();
-      setMyProfile(ApiProfieToPropsProfile(apiMyProfile, "Homepage"));
+      dispatch(fetchProfile());
     }
 
     getAllPostsUseEffect();
@@ -213,10 +214,10 @@ const HomePage: React.FC = () => {
             allPosts.map((item) => <Post key={item.id} post={item} />)}
         </div>
         <div className="layout-right">
-          <ProfileCard
-            profile={myProfile ? myProfile.profile : PlaceholderProfileProps}
+          {status === "loaded" ? <ProfileCard
+            profile={apiMyProfile || PlaceholderProfileProps}
             variant="Homepage"
-          />
+          /> : "loading"}
         </div>
       </div>
     </>
