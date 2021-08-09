@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { useAppDispatch } from "../../../../core/store/hooks";
+import { changeStatus } from "../../../../core/store/postPopUpSlice";
+import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 import PostComment from "../comment/PostComment";
@@ -7,19 +10,27 @@ import thousandstoK from "../functions";
 
 import styles from "./PostPopUp.module.scss";
 
-interface PostPoUpProps extends PostProps {
-  closeFunc(): void;
-}
-
-const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
+const PostPopUp: React.FC<PostProps> = ({ post }) => {
+  const [postState, setPostState] = useState(post);
   const [liked, setLiked] = useState(post.isliked);
+
+  useEffect(() => {
+    setPostState(post);
+    setLiked(post.isliked);
+  }, [post]);
+
   function handleLikeClick() {
     setLiked(!liked);
   }
 
+  const dispatch = useAppDispatch();
+
+  function closeFunc() {
+    dispatch(changeStatus());
+  }
+
   return (
     <>
-      {" "}
       <div className={styles.popupWrapper}>
         <div
           onClick={() => closeFunc()}
@@ -29,11 +40,21 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
           role="button"
         />
         <div className={styles.postPopUpWrapper}>
-          <img src={post.imageUrl[0]} alt="post" className={styles.postPhoto} />
+          {/* <img
+            src={postState.imageUrl[0]}
+            alt="post"
+            className={styles.postPhoto}
+          /> */}
+          <span className={styles.postPhoto}>
+            <ImageRotator post={postState} />
+          </span>
           <div className={styles.titleGridCell}>
             <div className={styles.titleWrapper}>
-              <Avatar url={post.avatar} style={{ width: 40, height: 40 }} />
-              <h3>{post.name}</h3>
+              <Avatar
+                url={postState.avatar}
+                style={{ width: 40, height: 40 }}
+              />
+              <h3>{postState.name}</h3>
             </div>
             <span
               onClick={() => closeFunc()}
@@ -44,8 +65,8 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
             />
           </div>
           <div className={styles.commentsGridCell}>
-            {post.comments &&
-              post.comments.map((item) => (
+            {postState.comments &&
+              postState.comments.map((item) => (
                 <PostComment
                   id={item.id}
                   key={item.id}
@@ -72,7 +93,9 @@ const PostPopUp: React.FC<PostPoUpProps> = ({ post, closeFunc }) => {
                 tabIndex={0}
                 role="button"
               >
-                <h3 className={styles.likeCounter}>{thousandstoK(post.likes)}</h3>
+                <h3 className={styles.likeCounter}>
+                  {thousandstoK(postState.likes)}
+                </h3>
               </div>
             </div>
           </div>

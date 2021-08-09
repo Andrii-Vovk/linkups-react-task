@@ -10,7 +10,7 @@ import styles from "./ImageRotator.module.scss";
 
 export interface ImageRotatorProps {
   post: PostPropsType;
-  imageClickFunc(): void;
+  imageClickFunc?: () => void;
 }
 
 const ImageRotator: React.FC<ImageRotatorProps> = ({

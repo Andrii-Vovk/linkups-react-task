@@ -1,6 +1,4 @@
 import classNames from "classnames";
-import TimeAgo from "javascript-time-ago";
-import en from 'javascript-time-ago/locale/en'
 import { useState } from "react";
 import ReactTimeAgo from 'react-time-ago'
 
@@ -25,8 +23,6 @@ const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isL
   function handleLikeClick() {
     setIsLiked(!liked);
   }
-
-  TimeAgo.addDefaultLocale(en)
 
   return (
     <div className={styles.commentWrapper}>

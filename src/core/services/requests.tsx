@@ -10,17 +10,12 @@ import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
 import { getToken, hasToken } from "./authHandling";
 
 export async function getAllPosts(): Promise<PostAnswer[] | null> {
-  try {
     const res = await axios.get("https://linkstagram-api.ga/posts/");
     const { data } = res;
     return data.map((item: { [key: string]: unknown }) => toCamel(item));
-  } catch (error) {
-    return null;
-  }
 }
 
 export async function getMyProfile(): Promise<ProfileAnswer> {
-  try {
     if (!hasToken()) throw new Error("Not authorized!");
 
     const config = {
@@ -31,9 +26,6 @@ export async function getMyProfile(): Promise<ProfileAnswer> {
 
     const res = await axios.get("https://linkstagram-api.ga/account", config);
     return toCamel(res.data) as ProfileAnswer;
-  } catch (error) {
-    return error.message;
-  }
 }
 
 export async function getCommentById(

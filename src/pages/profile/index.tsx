@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { getMyProfile } from "../../core/services/requests";
-import ApiProfieToPropsProfile from "../../core/utils/ApiPorfileToPropsProfile";
+import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
+import { fetchProfile } from "../../core/store/profileSlice";
+import { PlaceholderProfileProps } from "../../core/utils/placeholders/placeholders";
 import Navbar from "../../ui/components/Navbar/Navbar";
-import ProfileCard, {
-  ProfileCardProps,
-} from "../../ui/components/ProfileCard/ProfileCard";
+import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
 import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid/ProfilePhotoGrid";
 import "./index.scss";
 
 const ProfilePage: React.FC = () => {
-  const PlaceholderProfileProps = {
-    followers: 0,
-    following: 0,
-    firstName: "Loading...",
-    lastName: "",
-    interest: "",
-    about: "",
-    avatar: {
-      url: "https://via.placeholder.com/80",
-      style: {
-        width: 88,
-        height: 88,
-      },
-    },
-  };
-
-  const PlaceholderPostProps = [
+    const PlaceholderPostProps = [
     {
       post: {
         id: 1,
@@ -95,22 +78,26 @@ const ProfilePage: React.FC = () => {
     },
   ];
 
-  const [myProfile, setMyProfile] = useState<ProfileCardProps>();
+  const myProfile = useAppSelector((state) => state.profile.profile);
+  const myProfileStatus = useAppSelector((state) => state.profile.status);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
-      const apiMyProfile = await getMyProfile();
-      setMyProfile(ApiProfieToPropsProfile(apiMyProfile, "Homepage"));
+      if(myProfileStatus !== 'loaded') {
+        dispatch(fetchProfile());
+      } 
     }
 
     getAllPostsUseEffect();
-  }, []);
+  }, [dispatch, myProfileStatus]);
 
   return (
     <>
       <Navbar variant="Profilepage" />
       <ProfileCard
-        profile={myProfile ? myProfile.profile : PlaceholderProfileProps}
+        profile={myProfile || PlaceholderProfileProps}
         variant="Profilepage"
       />
       <div className="grid-wrapper">

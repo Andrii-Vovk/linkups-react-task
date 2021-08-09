@@ -8,7 +8,7 @@ export interface RespPhotoProps {
 const RespPhoto: React.FC<RespPhotoProps> = ({ url, onClick }) => {
   return (
     <>
-      <div className="resp-photo-wrapper">
+      <div className={styles.respPhotoWrapper}>
         <div
           className={styles.respSquare}
           onClick={onClick}

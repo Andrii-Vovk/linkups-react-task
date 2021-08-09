@@ -1,18 +1,20 @@
 import classNames from "classnames";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import { useEffect, useState } from "react";
 import ReactTimeAgo from "react-time-ago";
 
 import { getCommentById } from "../../../core/services/requests";
+import { useAppDispatch } from "../../../core/store/hooks";
+import { changePopUp, changeStatus } from "../../../core/store/postPopUpSlice";
 import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
 import ImageRotator from "../ImageRotator/ImageRotator";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
-import PostPopUp from "../common/PostPopUp/PostPopUp";
 import PostComment, { CommentProps } from "../common/comment/PostComment";
 import thousandstoK from "../common/functions";
 
 import styles from "./Post.module.scss";
+
+
+
 
 export type PostPropsType = {
   id: number;
@@ -31,7 +33,6 @@ export interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
-  TimeAgo.addDefaultLocale(en);
   const [liked, setLiked] = useState(post.isliked);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
@@ -51,23 +52,26 @@ const Post: React.FC<PostProps> = ({ post }) => {
     getAllCommentsUseEffect();
   }, [post.id]);
 
-  const convertedPostProps = post;
-
-  convertedPostProps.comments = commentAnswer;
+  const convertedPostProps = {
+    ...post,
+    comments: commentAnswer,
+  };
 
   function handleLikeClick() {
     setLiked(!liked);
   }
 
+  const dispatch = useAppDispatch();
+
   function togglePopUp() {
     setIsPopUpVisible(!isPopUpVisible);
+
+    dispatch(changePopUp(convertedPostProps));
+    dispatch(changeStatus())
   }
 
   return (
     <>
-      {isPopUpVisible && (
-        <PostPopUp post={convertedPostProps} closeFunc={togglePopUp} />
-      )}
       <div className={styles.postWrapper}>
         <div className={styles.titleBar}>
           <div className={styles.titleBarLeft}>
@@ -84,7 +88,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <div>
+        <div className={styles.rotator}>
           <ImageRotator post={post} imageClickFunc={togglePopUp} />
         </div>
 
@@ -145,7 +149,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               </svg>
               <h3 className={styles.commentCounter}>
                 {thousandstoK(
-                  post.comments !== undefined ? post.comments.length : 0
+                  commentAnswer !== undefined ? commentAnswer.length : 0
                 )}
               </h3>
             </div>

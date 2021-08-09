@@ -5,12 +5,12 @@ import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
 import { getMyProfile } from "../services/requests";
 import ApiProfieToPropsProfile from "../utils/ApiPorfileToPropsProfile";
 
-interface ProfileInitialState {
+interface ProfileStoreState {
     status: 'loaded' | 'pending' | 'error';
     profile?: ProfileType;
 }
 
-const initialState: ProfileInitialState = {
+const initialState: ProfileStoreState = {
     status: 'pending',
 }
 
