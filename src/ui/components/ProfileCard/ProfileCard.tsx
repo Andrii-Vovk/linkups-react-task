@@ -18,6 +18,7 @@ export type ProfileType = {
   jobTitle?: string;
   description?: string;
   avatar?: AvatarProps;
+  username?: string;
 };
 
 export interface ProfileCardProps {

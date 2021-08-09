@@ -31,6 +31,7 @@ function ApiProfieToPropsProfile(
           jobTitle: profile.jobTitle,
           description: profile.description,
           avatar: convertedAvatar,
+          username: profile.username
         },
         variant,
       };

@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
 import { fetchPosts } from "../../core/store/postsSlice";
+import { fetchProfiles } from "../../core/store/usersSlice";
 import {
-  PlaceholderProfileProps, StoriesPLaceholder,
+  PlaceholderProfileProps,
   } from "../../core/utils/placeholders/placeholders";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post from "../../ui/components/Post/Post";
@@ -14,9 +15,12 @@ import "./index.scss";
 import useFetchProfile from "../../ui/hooks/useFetchProfile";
 
 const HomePage: React.FC = () => {
+
   const dispatch = useAppDispatch();
 
+  const token = useAppSelector((state) => state.auth.authToken);
 
+  const allProfiles = useAppSelector((state) => state.users)
   const apiMyProfile = useAppSelector((state) => state.profile.profile);
   const myProfileStatus = useAppSelector((state) => state.profile.status);
 
@@ -31,9 +35,13 @@ const HomePage: React.FC = () => {
       if (allPosts.status !== "loaded") {
         dispatch(fetchPosts());
       }
+
+      if(allProfiles.status !== 'loaded' && token) {
+        dispatch(fetchProfiles(token))
+      }
     }
     getAllPostsUseEffect();
-  }, [dispatch, allPosts.status]);
+  }, [dispatch, allPosts.status, allProfiles.status, token]);
 
    return (
     <>
@@ -44,7 +52,7 @@ const HomePage: React.FC = () => {
       <Navbar variant="Homepage" />
       <div className="layout-parent">
         <div className="layout-left">
-          <StoriesLine avatarArray={StoriesPLaceholder} />
+          <StoriesLine profiles={allProfiles.profiles} />
           {allPosts &&
             allPosts.posts.map((item) => <Post key={item.id} post={item} />)}
         </div>

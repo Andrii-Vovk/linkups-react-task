@@ -1,7 +1,7 @@
 import styles from "./ResponsivePhoto.module.scss";
 
 export interface RespPhotoProps {
-  url?: string;
+  url?: string | null;
   onClick?(): void;
 }
 

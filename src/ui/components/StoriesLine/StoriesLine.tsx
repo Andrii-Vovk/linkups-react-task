@@ -1,21 +1,35 @@
-import Avatar, { AvatarProps } from "../StoriesAvatar/StoriesAvatar";
+/* eslint-disable react/no-array-index-key */
+import { useHistory } from "react-router";
+import { ProfileCardProps } from "../ProfileCard/ProfileCard";
+import Avatar from "../StoriesAvatar/StoriesAvatar";
 
 import styles from "./StoriesLine.module.scss";
 
-interface StoriesLinePropsType extends AvatarProps{
-  key: number;
-}
 export interface StoriesLineProps {
-  avatarArray: StoriesLinePropsType[];
+  profiles?: ProfileCardProps[];
 }
 
-const StoriesLine: React.FC<StoriesLineProps> = ({ avatarArray }) => {
-  const arr = avatarArray.map((item) => (
-      <li key={item.key}>
-        <Avatar url={item.url} bordered={item.bordered} />
-      </li>
-  ));
+const StoriesLine: React.FC<StoriesLineProps> = ({ profiles }) => {
+  let arr: React.HTMLProps<HTMLElement>[] = [];
 
+  const history = useHistory();
+
+  function redirectTo(where: string) {
+    history.push(where);
+  }
+
+  if (profiles) {
+    arr = profiles.map((item, index) => (
+      <li key={index}>
+        <Avatar
+          url={item.profile.avatar?.url || null}
+          bordered
+          onClick={redirectTo}
+          username={item.profile.username}
+        />
+      </li>
+    ));
+  }
   return (
     <>
       <div className={styles.storiesGridWrapper}>

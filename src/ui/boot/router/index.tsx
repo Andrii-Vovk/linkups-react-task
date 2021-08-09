@@ -18,7 +18,7 @@ const RouterNav: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/:username">
+        <Route path="/profiles/:username">
           <UserProfilePage />
         </Route>
         <Route path="/profile">

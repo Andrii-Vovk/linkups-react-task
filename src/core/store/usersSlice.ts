@@ -14,7 +14,7 @@ const initialState: UsersStoreState = {
     status: 'pending',
 }
 
-export const fetchProfiles = createAsyncThunk('profile/fetchProfile', async (token: string) => {
+export const fetchProfiles = createAsyncThunk('users/fetchProfiles', async (token: string) => {
     const response = await getAllProfiles(token);
     return response?.map(item => ApiProfieToPropsProfile(item, 'Homepage'));
   })
