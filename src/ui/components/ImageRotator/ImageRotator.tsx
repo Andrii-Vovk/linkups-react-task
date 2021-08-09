@@ -32,14 +32,7 @@ const ImageRotator: React.FC<ImageRotatorProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <RespPhoto
-        url={
-          post.imageUrl.length > 0
-            ? post.imageUrl[currentPhotoId]
-            : "https://via.placeholder.com/300"
-        }
-        onClick={imageClickFunc}
-      />
+      <RespPhoto url={post.imageUrl[currentPhotoId]} onClick={imageClickFunc} />
       {post.imageUrl.length > 1 && (
         <>
           <button

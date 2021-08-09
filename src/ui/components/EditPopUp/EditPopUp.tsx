@@ -21,26 +21,23 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
   updateFunc,
   profile,
 }) => {
+  const [profileState, setProfileState] = useState(profile);
 
   const history = useHistory();
 
   const dispatch = useAppDispatch();
-
 
   function logOut() {
     dispatch(destroyToken());
     history.go(0);
   }
 
-  const [profileState, setProfileState] = useState(profile);
-
-  const hadleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfileState({
       ...profileState,
-      [e.target.name]: e.target.value
-    })
-  }
-
+      [e.target.name]: e.target.value,
+    });
+  };
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e?.preventDefault();
@@ -88,23 +85,17 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
         <form action="/" onSubmit={(e) => handleSubmit(e)}>
           <div className={styles.photoFlex}>
             <div className={styles.respPhoto}>
-              <RespPhoto
-                url={
-                  profile.avatar?.url
-                    ? profile.avatar?.url
-                    : "https://via.placeholder.com/88"
-                }
-              />
+              <RespPhoto url={profile.avatar?.url} />
             </div>
             <div className={styles.inputGroup}>
               <label htmlFor="firstName">
                 First Name
                 <input
-                  className={classNames(['standart-input', styles.mb])}
+                  className={classNames(["standart-input", styles.mb])}
                   type="text"
                   name="firstName"
                   id="firstName"
-                  onChange={(e) => hadleChange(e)}
+                  onChange={(e) => handleChange(e)}
                   value={profileState.firstName}
                 />
               </label>
@@ -115,7 +106,7 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
                   type="text"
                   name="lastName"
                   id="lastName"
-                  onChange={(e) => hadleChange(e)}
+                  onChange={handleChange}
                   value={profileState.lastName}
                 />
               </label>
@@ -125,22 +116,22 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
             <label htmlFor="jobTitle">
               Job title
               <input
-                className={classNames(['standart-input', styles.mb])}
+                className={classNames(["standart-input", styles.mb])}
                 type="text"
                 name="jobTitle"
                 id="jobTitle"
-                onChange={(e) => hadleChange(e)}
+                onChange={(e) => handleChange(e)}
                 value={profileState.jobTitle}
               />
             </label>
             <label htmlFor="description">
               Description
               <input
-                className={classNames(['standart-input', styles.mb])}
+                className={classNames(["standart-input", styles.mb])}
                 type="text"
                 name="description"
                 id="description"
-                onChange={(e) => hadleChange(e)}
+                onChange={(e) => handleChange(e)}
                 value={profileState.description}
               />
             </label>

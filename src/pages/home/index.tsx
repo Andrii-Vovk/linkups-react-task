@@ -2,46 +2,43 @@ import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
 import { fetchPosts } from "../../core/store/postsSlice";
-import { fetchProfile } from "../../core/store/profileSlice";
 import {
-  PlaceholderProfileProps,
-  StoriesPLaceholder,
-} from "../../core/utils/placeholders/placeholders";
+  PlaceholderProfileProps, StoriesPLaceholder,
+  } from "../../core/utils/placeholders/placeholders";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post from "../../ui/components/Post/Post";
 import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
 import StoriesLine from "../../ui/components/StoriesLine/StoriesLine";
 import PostPopUp from "../../ui/components/common/PostPopUp/PostPopUp";
 import "./index.scss";
+import useFetchProfile from "../../ui/hooks/useFetchProfile";
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
+
 
   const apiMyProfile = useAppSelector((state) => state.profile.profile);
   const myProfileStatus = useAppSelector((state) => state.profile.status);
 
   const allPosts = useAppSelector((state) => state.posts);
 
-  const currentPopUp = useAppSelector((state) => state.popUp);
-  const authToken = useAppSelector((state) => state.auth.authToken)
+  const {post, status} = useAppSelector((state) => state.popUp);
+
+  useFetchProfile();
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
       if (allPosts.status !== "loaded") {
         dispatch(fetchPosts());
       }
-      if (myProfileStatus !== "loaded" && authToken) {
-        dispatch(fetchProfile(authToken));
-      }
     }
-
     getAllPostsUseEffect();
-  }, [dispatch, myProfileStatus, allPosts.status, authToken]);
+  }, [dispatch, allPosts.status]);
 
-  return (
+   return (
     <>
-      {currentPopUp.status === "opened" && currentPopUp.post && (
-        <PostPopUp post={currentPopUp.post} />
+      {status === "opened" && post && (
+        <PostPopUp post={post} />
       )}
 
       <Navbar variant="Homepage" />

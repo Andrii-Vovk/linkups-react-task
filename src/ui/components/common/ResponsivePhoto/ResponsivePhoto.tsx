@@ -1,7 +1,7 @@
 import styles from "./ResponsivePhoto.module.scss";
 
 export interface RespPhotoProps {
-  url: string;
+  url?: string;
   onClick?(): void;
 }
 
@@ -16,7 +16,7 @@ const RespPhoto: React.FC<RespPhotoProps> = ({ url, onClick }) => {
           role="button"
           tabIndex={0}
         >
-          <img className={styles.content} src={url} alt="posts grid item" />
+          <img className={styles.content} src={url || "https://via.placeholder.com/300"} alt="posts grid item" />
         </div>
       </div>
     </>

@@ -5,7 +5,8 @@ import { CommentAnswer } from "../../typings/CommentAnswer";
 import { PostAnswer } from "../../typings/PostAnswer";
 import { ProfileAnswer } from "../../typings/ProfileAnswer";
 import { SignUpAnswer } from "../../typings/SignUpAnswer";
-import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
+import { ProfileCardProps, ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
+import ApiProfieToPropsProfile from "../utils/ApiPorfileToPropsProfile";
 
 export async function getAllPosts(): Promise<PostAnswer[] | null> {
     const res = await axios.get("https://linkstagram-api.ga/posts/");
@@ -105,6 +106,56 @@ export async function updateProfile(
 
     return toCamel(res.data) as ProfileType;
   } catch (error) {
+    return null;
+  }
+}
+
+export async function getUserByUsername(username: string, token: string): Promise<ProfileCardProps | null> {
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  try {
+    const res = await axios.get<ProfileType>(`https://linkstagram-api.ga/profiles/${username}`, config);
+    return ApiProfieToPropsProfile(toCamel(res.data) as ProfileAnswer, 'Profilepage');
+  }
+  catch(error) {
+    return null;
+  }
+}
+
+export async function getPostsByUsername(username: string, token: string): Promise<PostAnswer[] | null> {
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  try {
+    const res = await axios.get(`https://linkstagram-api.ga/profiles/${username}/posts`, config);
+    const { data } = res;
+    return data.map((item: { [key: string]: unknown }) => toCamel(item));
+  }
+  catch(error) {
+    return null;
+  }
+}
+
+export async function getAllProfiles(token: string): Promise<ProfileAnswer[] | null> {
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  try {
+    const res = await axios.get(`https://linkstagram-api.ga/profiles/`, config);
+    const { data } = res;
+    return data.map((item: { [key: string]: unknown }) => toCamel(item));
+  }
+  catch(error) {
     return null;
   }
 }

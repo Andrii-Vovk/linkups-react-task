@@ -5,3 +5,10 @@
     grid-template-columns: repeat(3, toRem(112));
     gap: 2px;
 }
+
+.noPosts {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    width: 100%
+}
