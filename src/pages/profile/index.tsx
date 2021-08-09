@@ -81,17 +81,19 @@ const ProfilePage: React.FC = () => {
   const myProfile = useAppSelector((state) => state.profile.profile);
   const myProfileStatus = useAppSelector((state) => state.profile.status);
 
+  const token = useAppSelector((state) => state.auth.authToken);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
-      if(myProfileStatus !== 'loaded') {
-        dispatch(fetchProfile());
+      if(myProfileStatus !== 'loaded' && token) {
+        dispatch(fetchProfile(token));
       } 
     }
 
     getAllPostsUseEffect();
-  }, [dispatch, myProfileStatus]);
+  }, [dispatch, myProfileStatus, token]);
 
   return (
     <>

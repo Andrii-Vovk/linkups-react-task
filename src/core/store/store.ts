@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import authReducer from "./authSlice";
 import postPopUpReducer from "./postPopUpSlice";
 import postsReducer from "./postsSlice"
 import profileReducer from "./profileSlice";
@@ -8,7 +9,8 @@ const store = configureStore({
   reducer: {
     profile: profileReducer,
     posts: postsReducer,
-    popUp: postPopUpReducer
+    popUp: postPopUpReducer,
+    auth: authReducer
   },
 });
 

@@ -2,7 +2,8 @@ import classNames from "classnames";
 import { FormEvent, useState } from "react";
 import { useHistory } from "react-router";
 
-import { destroyToken } from "../../../core/services/authHandling";
+import { destroyToken } from "../../../core/store/authSlice";
+import { useAppDispatch } from "../../../core/store/hooks";
 import buttons from "../../style/buttons.module.scss";
 import { ProfileType } from "../ProfileCard/ProfileCard";
 import RespPhoto from "../common/ResponsivePhoto/ResponsivePhoto";
@@ -23,8 +24,11 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
 
   const history = useHistory();
 
+  const dispatch = useAppDispatch();
+
+
   function logOut() {
-    destroyToken();
+    dispatch(destroyToken());
     history.go(0);
   }
 

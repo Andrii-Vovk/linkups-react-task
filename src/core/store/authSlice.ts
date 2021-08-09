@@ -16,11 +16,14 @@ const authSlice = createSlice({
     reducers: {
         setToken(state, {payload}: PayloadAction<string>) {
             state.authToken = payload;
+        },
+        destroyToken(state) {
+            state.authToken = null;
         }
     }
 })
 
-export const {setToken} = authSlice.actions;
+export const {setToken, destroyToken} = authSlice.actions;
 
 export default authSlice.reducer;
 

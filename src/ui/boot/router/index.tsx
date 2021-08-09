@@ -1,23 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
-import { hasToken } from "../../../core/services/authHandling";
+import {  useAppSelector } from "../../../core/store/hooks";
 import HomePage from "../../../pages/home";
 import LoginPage from "../../../pages/login";
 import ProfilePage from "../../../pages/profile";
 
 const RouterNav: React.FC = () => {
+  const token = useAppSelector((state) => state.auth.authToken)
+
   return (
     <Router>
         <Switch>
           <Route path="/profile">
-          {hasToken() ? <ProfilePage /> : <Redirect to="/login" />}
+          {token ? <ProfilePage /> : <Redirect to="/login" />}
           </Route>
           <Route path="/login">
-            {!hasToken() ? <LoginPage /> : <Redirect to="/" />}
+            {!token ? <LoginPage /> : <Redirect to="/" />}
           </Route>
           <Route path="/">
-            {hasToken() ? <HomePage /> : <Redirect to='/login' />}
+            {token ? <HomePage /> : <Redirect to='/login' />}
           </Route>
         </Switch>
     </Router>

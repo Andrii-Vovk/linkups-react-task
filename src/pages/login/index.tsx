@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 import * as Yup from "yup";
 
-import { setToken } from "../../core/services/authHandling";
 import { logInRequest, signUpRequest } from "../../core/services/requests";
+import { setToken } from "../../core/store/authSlice";
+import { useAppDispatch } from "../../core/store/hooks";
 import one from "../../public/images/1.png";
 import two from "../../public/images/2.png";
 import three from "../../public/images/3.png";
@@ -53,6 +54,8 @@ const LoginPage: React.FC = () => {
 
   const history = useHistory();
 
+  const dispatch = useAppDispatch();
+
   function switchAndClearStates() {
     setIsSignUp(!isSignUp);
   }
@@ -93,7 +96,7 @@ const LoginPage: React.FC = () => {
                   );
 
                   if (response && response.headers.authorization) {
-                    setToken(response?.headers.authorization);
+                    dispatch(setToken(response?.headers.authorization));
                     history.push('/');
                   }
                 }}
@@ -153,7 +156,7 @@ const LoginPage: React.FC = () => {
                   if (res) {
                     res = await logInRequest(values.email, values.password);
                     if (res && res.headers.authorization) {
-                      setToken(res.headers.authorization);
+                      dispatch(setToken(res.headers.authorization));
                       history.push('/');
                     }
                   }

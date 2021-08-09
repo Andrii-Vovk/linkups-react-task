@@ -7,20 +7,17 @@ import { ProfileAnswer } from "../../typings/ProfileAnswer";
 import { SignUpAnswer } from "../../typings/SignUpAnswer";
 import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
 
-import { getToken, hasToken } from "./authHandling";
-
 export async function getAllPosts(): Promise<PostAnswer[] | null> {
     const res = await axios.get("https://linkstagram-api.ga/posts/");
     const { data } = res;
     return data.map((item: { [key: string]: unknown }) => toCamel(item));
 }
 
-export async function getMyProfile(): Promise<ProfileAnswer> {
-    if (!hasToken()) throw new Error("Not authorized!");
+export async function getMyProfile(token: string): Promise<ProfileAnswer> {
 
     const config = {
       headers: {
-        authorization: getToken(),
+        authorization: token,
       },
     };
 
@@ -87,7 +84,8 @@ export async function logInRequest(
 }
 
 export async function updateProfile(
-  profile: ProfileType
+  profile: ProfileType,
+  token: string
 ): Promise<ProfileType | null> {
   const config = {
       first_name: profile.firstName,
@@ -97,7 +95,7 @@ export async function updateProfile(
   };
 
   const headers = {
-    authorization: getToken(),
+    authorization: token,
   };
 
   try {

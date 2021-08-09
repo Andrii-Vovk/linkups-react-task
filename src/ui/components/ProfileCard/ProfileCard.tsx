@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { updateProfile } from "../../../core/services/requests";
+import { useAppSelector } from "../../../core/store/hooks";
 import buttons from "../../style/buttons.module.scss";
 import EditPopUp from "../EditPopUp/EditPopUp";
 import NewPostPopUp from "../NewPostPopUp/NewPostPopUp";
@@ -33,6 +34,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
 
   const showLinks = variant === "Homepage";
 
+  const token = useAppSelector((state) => state.auth.authToken);
+
   const [isEditPopUpShown, setIsEditPopUpShown] = useState(false);
   const [isNewPopUpShown, setIsNewPopUpShown] = useState(false);
 
@@ -46,7 +49,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
   async function updateProfileRequest(
     requestProfile: ProfileType
   ): Promise<void> {
-    const res = await updateProfile(requestProfile);
+
+    let res: ProfileType | null = null; 
+
+    if (token) {
+      res = await updateProfile(requestProfile, token);
+    }
 
     if (res) setProfileState(res);
   }

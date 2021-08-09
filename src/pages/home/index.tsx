@@ -23,19 +23,20 @@ const HomePage: React.FC = () => {
   const allPosts = useAppSelector((state) => state.posts);
 
   const currentPopUp = useAppSelector((state) => state.popUp);
+  const authToken = useAppSelector((state) => state.auth.authToken)
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
       if (allPosts.status !== "loaded") {
         dispatch(fetchPosts());
       }
-      if (myProfileStatus !== "loaded") {
-        dispatch(fetchProfile());
+      if (myProfileStatus !== "loaded" && authToken) {
+        dispatch(fetchProfile(authToken));
       }
     }
 
     getAllPostsUseEffect();
-  }, [dispatch, myProfileStatus, allPosts.status]);
+  }, [dispatch, myProfileStatus, allPosts.status, authToken]);
 
   return (
     <>

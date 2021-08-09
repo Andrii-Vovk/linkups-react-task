@@ -14,8 +14,8 @@ const initialState: ProfileStoreState = {
     status: 'pending',
 }
 
-export const fetchProfile = createAsyncThunk('profile/fetchProfile', async () => {
-    const response = await getMyProfile();
+export const fetchProfile = createAsyncThunk('profile/fetchProfile', async (token: string) => {
+    const response = await getMyProfile(token);
     return ApiProfieToPropsProfile(response, 'Homepage');
   })
 
