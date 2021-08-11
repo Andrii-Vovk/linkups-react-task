@@ -14,11 +14,11 @@ import { removePost } from "../../../core/store/postsSlice";
 import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
 import ImageRotator from "../ImageRotator/ImageRotator";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
+import DropDown from "../common/DropDown/DropDown";
 import PostComment, { CommentProps } from "../common/comment/PostComment";
 import thousandstoK from "../common/functions";
 
 import styles from "./Post.module.scss";
-import DropDown from "../common/DropDown/DropDown";
 
 export type PostPropsType = {
   username?: string;
@@ -49,6 +49,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [commentAnswer, setcommentAnswer] = useState<CommentProps[]>();
 
   const date = new Date(post.time);
+
+  const dropDownData = author === post.username ? [{index: 0, text: "Delete", onClick: handleDelete}] : [];
 
   useEffect(() => {
     async function getAllCommentsUseEffect() {
@@ -116,7 +118,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.titleBarRight}>
-            <DropDown dropdown={[{index: 0, text: "Delete", onClick: handleDelete}]} />
+            <DropDown dropdown={dropDownData} />
           </div>
         </div>
 
@@ -187,15 +189,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.rightFooterPart}>
-            {author === post.username && (
-              <button
-                onClick={handleDelete}
-                type="button"
-                className={styles.pseudolink}
-              >
-                Delete
-              </button>
-            )}
             <a href="https://google.com" className={styles.shareLink}>
               Share
             </a>

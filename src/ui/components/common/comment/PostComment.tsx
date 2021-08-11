@@ -1,9 +1,7 @@
 import classNames from "classnames";
-import { useState } from "react";
 import ReactTimeAgo from 'react-time-ago'
 
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
-import thousandstoK from "../functions";
 
 import styles from "./PostComment.module.scss";
 
@@ -16,13 +14,7 @@ export interface CommentProps {
   isLiked: boolean;
 }
 
-const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isLiked }) => {
-  const [liked, setIsLiked] = useState(isLiked);
-
-
-  function handleLikeClick() {
-    setIsLiked(!liked);
-  }
+const PostComment: React.FC<CommentProps> = ({id, avatar, text, time }) => {
 
   return (
     <div className={styles.commentWrapper}>
@@ -35,27 +27,8 @@ const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, likes, isL
         <p className={classNames([styles.time, 'subtext'])} >
         <ReactTimeAgo date={time} locale="en-US"/>
         </p>
-        <p  className={classNames([styles.likes, 'subtext'])}>
-          {`${thousandstoK(likes)  } likes`}
-        </p>
-        <a className={styles.reply} href="https://google.com">
-          Reply
-        </a>
       </div>
-      
-      <div className={styles.rightCommentPart}>
-        <i
-          className={classNames(
-           [ 'fas',
-            'fa-heart',
-            {"red-heart": liked,}]
-          )}
-          onClick={() => handleLikeClick()}
-          onKeyDown={() => handleLikeClick()}
-          tabIndex={0}
-          role="button"
-          />
-      </div>
+
     </div>
   );
 };

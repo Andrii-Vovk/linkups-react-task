@@ -13,12 +13,12 @@ const ProfilePhotoGrid: React.FC<ProfilePhotoGridProps> = ({ posts }) => {
       {(posts?.length === 0 || !posts) && (
         <h3 className={styles.noPosts}>No posts here!</h3>
       )}
-      <div className={styles.photoGrid}>
+      {(posts && posts.length !== 0) && <div className={styles.photoGrid}>
         {posts &&
           posts.map((item) => (
             <RespPhoto key={item.id} url={item.imageUrl[0]} />
           ))}
-      </div>
+      </div>}
     </>
   );
 };

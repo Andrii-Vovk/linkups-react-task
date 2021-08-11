@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
+
 import {
   getCommentById,
-  getPostById,
   postComment,
 } from "../../../../core/services/requests";
-
 import { useAppDispatch, useAppSelector } from "../../../../core/store/hooks";
 import {
-  changePopUp,
+  changeComments,
   changeStatus,
 } from "../../../../core/store/postPopUpSlice";
 import ApiCommentsToPropsComments from "../../../../core/utils/ApiCommentsToPropsComments";
-import ApiPostToPropsPost from "../../../../core/utils/ApiPostToPropsPost";
 import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
@@ -50,14 +48,12 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
 
       if (res) {
         setComment("");
-        const updatedPost = await getPostById(post.id);
-        if (updatedPost) {
-          const convertedPost = ApiPostToPropsPost(updatedPost);
-          const comments = await getCommentById(post.id);
-          if (comments) {
-            convertedPost.comments = comments.map((item) => ApiCommentsToPropsComments(item))
-            dispatch(changePopUp(convertedPost));
-          }
+        const comments = await getCommentById(post.id);
+        if (comments) {
+          const convertedComments = comments.map((item) =>
+            ApiCommentsToPropsComments(item)
+          );
+          dispatch(changeComments(convertedComments));
         }
       }
     }

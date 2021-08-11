@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
 import { fetchPosts, setStateToPending } from "../../core/store/postsSlice";
@@ -12,7 +12,6 @@ import PostPopUp from "../../ui/components/common/PostPopUp/PostPopUp";
 import "./index.scss";
 import Spinner from "../../ui/components/spinner/Spinner";
 import useFetchProfile from "../../ui/hooks/useFetchProfile";
-import buttons from "../../ui/style/buttons.module.scss";
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +23,7 @@ const HomePage: React.FC = () => {
   const myProfileStatus = useAppSelector((state) => state.profile.status);
 
   const allPosts = useAppSelector((state) => state.posts);
+  const isLastPage = useAppSelector((state) => state.posts.lastPage);
 
   const { post, status } = useAppSelector((state) => state.popUp);
 
@@ -31,35 +31,44 @@ const HomePage: React.FC = () => {
 
   useFetchProfile();
 
+  const handleScrollToBottom = useCallback(() => {
+    let bottom = false;
+    const div = document.getElementById("div-to-scroll");
+    if (div) {
+      bottom =
+        Math.ceil(window.innerHeight + window.scrollY) >= div.scrollHeight;
+    }
+    if (bottom) {
+      dispatch(setStateToPending());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLastPage) {
+      window.removeEventListener("scroll", handleScrollToBottom);
+    } else {
+      window.addEventListener("scroll", handleScrollToBottom);
+    }
+  }, [handleScrollToBottom, isLastPage]);
+
   useEffect(() => {
     async function getAllPostsUseEffect() {
-      if (allPosts.status !== "loaded") {
+      if (allPosts.status === "pending") {
         dispatch(fetchPosts(pageState));
+        setPageState(pageState + 1);
       }
+    }
+    getAllPostsUseEffect();
+  }, [dispatch, allPosts.status]);
 
-      if (allPosts.posts.length < 1) {
-        setPageState(1);
-        dispatch(fetchPosts());
-      }
-
+  useEffect(() => {
+    async function getAllProfilesUseEffect() {
       if (allProfiles.status !== "loaded" && token) {
         dispatch(fetchProfiles(token));
       }
     }
-    getAllPostsUseEffect();
-  }, [dispatch, allPosts, allProfiles.status, token, pageState]);
-
-  function handleNextPageClick() {
-    setPageState(pageState + 1);
-    dispatch(setStateToPending());
-  }
-
-  function handlePrevPageClick() {
-    if (pageState - 1 > 0) {
-      setPageState(pageState - 1);
-      dispatch(setStateToPending());
-    }
-  }
+    getAllProfilesUseEffect();
+  }, [dispatch, allProfiles.status, token]);
 
   return (
     <>
@@ -67,34 +76,11 @@ const HomePage: React.FC = () => {
 
       <Navbar variant="Homepage" />
       <div className="layout-parent">
-        <div className="layout-left">
+        <div className="layout-left" id="div-to-scroll">
           <StoriesLine profiles={allProfiles.profiles} />
-          {allPosts.status === "loaded" ? (
-            allPosts.posts.map((item) => <Post key={item.id} post={item} />)
-          ) : (
-            <Spinner />
-          )}
-          {allPosts.status === "loaded" && (
-            <div className="pagination">
-              <button
-                className={buttons.blueBtn}
-                type="button"
-                onClick={handlePrevPageClick}
-                disabled={allPosts.status !== "loaded"}
-              >
-                Prev
-              </button>
-              <span className="pageIndicator">{pageState}</span>
-              <button
-                className={buttons.blueBtn}
-                type="button"
-                onClick={handleNextPageClick}
-                disabled={allPosts.status !== "loaded"}
-              >
-                Next
-              </button>
-            </div>
-          )}
+          {allPosts.posts.length > 0 &&
+            allPosts.posts.map((item) => <Post key={item.id} post={item} />)}
+          {allPosts.status === "pending" && <Spinner />}
         </div>
         <div className="layout-right">
           {myProfileStatus === "loaded" ? (

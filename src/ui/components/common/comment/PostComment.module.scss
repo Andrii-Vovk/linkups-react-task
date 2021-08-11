@@ -1,3 +1,5 @@
+@import "../../../style/colors";
+
 .commentWrapper {
   display: flex;
   justify-content: space-between;
@@ -13,7 +15,7 @@
     width: 100%;
     grid-template-areas:
       "avatar text text text"
-      "avatar time likes reply";
+      "avatar time time .";
     grid-template-columns: 40px 1fr 1fr 1fr;
     grid-template-rows: auto auto;
     column-gap: 15px;
@@ -31,13 +33,9 @@
     & .time {
       grid-area: time;
     }
-
-    & .likes {
-      grid-area: likes;
-    }
-
-    & .reply {
-      grid-area: reply;
-    }
   }
+}
+
+.redHeart {
+  color: $red-accent;
 }

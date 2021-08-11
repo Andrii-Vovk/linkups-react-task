@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
+
 import styles from "./DropDown.module.scss";
 
 export interface DropDownType {
@@ -18,7 +19,11 @@ const DropDown: React.FC<DropDownProps> = ({ dropdown }) => {
   return (
     <>
       <div className={classNames([styles.container, { [styles.show]: show }])}>
-        <button className={styles.dropBtn} type="button" onClick={() => setShow(!show)} onBlur={() => setShow(false)}>
+        <button
+          className={styles.dropBtn}
+          type="button"
+          onClick={() => setShow(!show)}
+        >
           <i className="fas fa-ellipsis-v" />
         </button>
         <div className={styles.content}>

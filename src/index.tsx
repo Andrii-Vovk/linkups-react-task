@@ -7,11 +7,12 @@ import "./index.scss";
 import App from "./App";
 import store, { persistor } from "./core/store/store";
 import reportWebVitals from "./reportWebVitals";
+import Spinner from "./ui/components/spinner/Spinner";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={<Spinner />} persistor={persistor}>
         <App />
       </PersistGate>
     </Provider>
