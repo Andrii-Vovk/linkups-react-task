@@ -1,7 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  getCommentById,
+  getPostById,
+  postComment,
+} from "../../../../core/services/requests";
 
-import { useAppDispatch } from "../../../../core/store/hooks";
-import { changeStatus } from "../../../../core/store/postPopUpSlice";
+import { useAppDispatch, useAppSelector } from "../../../../core/store/hooks";
+import {
+  changePopUp,
+  changeStatus,
+} from "../../../../core/store/postPopUpSlice";
+import ApiCommentsToPropsComments from "../../../../core/utils/ApiCommentsToPropsComments";
+import ApiPostToPropsPost from "../../../../core/utils/ApiPostToPropsPost";
 import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
@@ -13,6 +23,10 @@ import styles from "./PostPopUp.module.scss";
 const PostPopUp: React.FC<PostProps> = ({ post }) => {
   const [postState, setPostState] = useState(post);
   const [liked, setLiked] = useState(post.isliked);
+
+  const [comment, setComment] = useState("");
+
+  const token = useAppSelector((state) => state.auth.authToken);
 
   useEffect(() => {
     setPostState(post);
@@ -29,6 +43,26 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
     dispatch(changeStatus());
   }
 
+  async function handleSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    if (token) {
+      const res = await postComment(comment, post.id, token);
+
+      if (res) {
+        setComment("");
+        const updatedPost = await getPostById(post.id);
+        if (updatedPost) {
+          const convertedPost = ApiPostToPropsPost(updatedPost);
+          const comments = await getCommentById(post.id);
+          if (comments) {
+            convertedPost.comments = comments.map((item) => ApiCommentsToPropsComments(item))
+            dispatch(changePopUp(convertedPost));
+          }
+        }
+      }
+    }
+  }
+
   return (
     <>
       <div className={styles.popupWrapper}>
@@ -40,11 +74,6 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
           role="button"
         />
         <div className={styles.postPopUpWrapper}>
-          {/* <img
-            src={postState.imageUrl[0]}
-            alt="post"
-            className={styles.postPhoto}
-          /> */}
           <span className={styles.postPhoto}>
             <ImageRotator post={postState} />
           </span>
@@ -100,12 +129,18 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.inputsGridCell}>
-            <input
-              className={styles.commentInput}
-              type="text"
-              placeholder="Add a comment..."
-            />
-            <a href="https://google.com">Post</a>
+            <form action="" onSubmit={(e) => handleSubmit(e)}>
+              <input
+                className={styles.commentInput}
+                type="text"
+                placeholder="Add a comment..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button type="submit" className="pseudolink">
+                Post
+              </button>
+            </form>
           </div>
         </div>
       </div>

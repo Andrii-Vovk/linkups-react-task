@@ -1,37 +1,54 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import AwsS3 from "@uppy/aws-s3";
+import AwsS3, {AwsS3Options} from "@uppy/aws-s3";
 import Uppy from "@uppy/core";
 import { DragDrop } from "@uppy/react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
 
+import { API_ADRESS, createPostRequest } from "../../../core/services/requests";
+import { useAppDispatch, useAppSelector } from "../../../core/store/hooks";
 import buttons from "../../style/buttons.module.scss";
 
 import styles from "./styles.module.scss";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
+import { addPost } from "../../../core/store/postsSlice";
+import ApiPostToPropsPost from "../../../core/utils/ApiPostToPropsPost";
 
 interface PopUpProps {
   closeFunc(): void;
 }
 
-export interface PhotoAttributes {
-  type: string;
-  filename: string;
-  size: string;
-  id: string;
+interface PhotoAttributes {
+  image: {
+    id?: string;
+    storage: string;
+    metadata: {
+      filename: string;
+      size: number;
+      mimeType?: string;
+    };
+  };
 }
 
-export interface PostAttributes {
-  photoAttributes: PhotoAttributes[];
-  description: string;
+export interface ApiPostAttributes {
+  post: { description?: string; photosAttributes?: PhotoAttributes[] };
 }
 
 const NewPostPopUp: React.FC<PopUpProps> = ({ closeFunc }) => {
-  const [postAttributes, setPostAttributes] = useState<PostAttributes | null>(
-    null
-  );
+  const [postAttributes, setPostAttributes] = useState<
+    PhotoAttributes[] | null
+  >(null);
+
+  const [description, setDescription] = useState("");
+
+  const token = useAppSelector((state) => state.auth.authToken);
+
+  const dispatch = useAppDispatch();
+
+  const history = useHistory();
 
   const uppy = Uppy<Uppy.StrictTypes>({
     meta: { type: "[photo]" },
@@ -40,19 +57,45 @@ const NewPostPopUp: React.FC<PopUpProps> = ({ closeFunc }) => {
   });
 
   uppy.use(AwsS3, {
-    companionUrl: "https://linkstagram-api.ga/",
+    companionUrl: API_ADRESS,
   });
 
   uppy.on("complete", (result) => {
-    const photoAttributes = result.successful.map((item) => ({
-      id: item.id,
-      size: item.size,
-      filename: item.name,
-      type: item.type,
-    }));
-    console.log(result);
-
+    console.log('successful uppy result', result.successful)
+    const photoAttributes: PhotoAttributes[] = result.successful.map(
+      (item) => ({
+        image: {
+          id: item.id,
+          storage: 'cache',
+          metadata: {
+            filename: item.name,
+            size: item.size,
+            mimeType: item.type,
+          },
+        },
+      })
+    );
+    console.log(photoAttributes);
+    setPostAttributes(photoAttributes);
   });
+
+  async function handleSubmit(e: React.SyntheticEvent) {
+    e?.preventDefault();
+
+    if (postAttributes && postAttributes?.length > 0 && token) {
+      const postArgs: ApiPostAttributes = {
+        post: { description, photosAttributes: postAttributes },
+      };
+      console.log("inside function!", postArgs);
+
+      const res = await createPostRequest(postArgs, token);
+      console.log("dispatching!", res);
+      if(res) {
+        dispatch(addPost(ApiPostToPropsPost(res)));
+      }
+    }
+    closeFunc();
+  }
 
   return (
     <>
@@ -63,27 +106,22 @@ const NewPostPopUp: React.FC<PopUpProps> = ({ closeFunc }) => {
       />
       <div className={styles.wrapper}>
         <div id="photo-area" className={styles.photoWrapper}>
-          <DragDrop
-            uppy={uppy}
-            locale={{
-              strings: {
-                // Text to show on the droppable area.
-                // `%{browse}` is replaced with a link that opens the system file selection dialog.
-                dropHereOr: "Drop here or %{browse}",
-                // Used as the label for the link that opens the system file selection dialog.
-                browse: "browse",
-              },
-            }}
-          />
+          <DragDrop uppy={uppy} />
         </div>
 
-        <form action="/" className={styles.form}>
+        <form
+          action="/"
+          className={styles.form}
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <label htmlFor="description">
             Description
             <textarea
               name="description"
               id="description"
               placeholder="Description..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className={styles.textarea}
             />
           </label>
@@ -95,11 +133,7 @@ const NewPostPopUp: React.FC<PopUpProps> = ({ closeFunc }) => {
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className={buttons.blueBtn}
-              onClick={closeFunc}
-            >
+            <button type="submit" className={buttons.blueBtn}>
               Submit
             </button>
           </div>
