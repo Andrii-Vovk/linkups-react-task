@@ -12,12 +12,14 @@ import Navbar from "../Navbar/Navbar";
 import { PostPropsType } from "../Post/Post";
 import ProfileCard, { ProfileCardProps } from "../ProfileCard/ProfileCard";
 import ProfilePhotoGrid from "../ProfilePhotoGrid/ProfilePhotoGrid";
+import Spinner from "../spinner/Spinner";
 
 const UserProfilePage: React.FC = () => {
   const { username } = useParams<{ username: string }>();
 
   const [profile, setProfile] = useState<ProfileCardProps | null>(null);
   const [posts, setPosts] = useState<PostPropsType[] | null>(null);
+  const [error, setError] = useState<string | null>(null)
 
   const token = useAppSelector((state) => state.auth.authToken);
 
@@ -25,6 +27,7 @@ const UserProfilePage: React.FC = () => {
     async function getData() {
       if (token) {
         const apiProfile = await getUserByUsername(username, token);
+        if(!apiProfile) setError("Error");
         setProfile(apiProfile);
 
         const apiPosts = await getPostsByUsername(username, token);
@@ -38,7 +41,7 @@ const UserProfilePage: React.FC = () => {
     }
 
     getData();
-  }, []);
+  }, [token, username]);
 
   return (
     <>
@@ -54,7 +57,7 @@ const UserProfilePage: React.FC = () => {
           </div>
         </>
       )}
-      {!profile && <h3>User not found</h3>}
+      {error === null ? !profile && <Spinner /> : <h3>User Not Found</h3>}
     </>
   );
 };
