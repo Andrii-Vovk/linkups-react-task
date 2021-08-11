@@ -4,7 +4,7 @@ import { CSSProperties } from "react";
 import styles from "./StoriesAvatar.module.scss";
 
 export interface AvatarProps {
-  url: string | null;
+  url?: string | null;
   bordered?: boolean;
   withPlus?: boolean;
   style?: CSSProperties;

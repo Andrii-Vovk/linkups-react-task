@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import ReactTimeAgo from 'react-time-ago'
+import Spinner from "../../spinner/Spinner";
 
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
 
@@ -7,14 +8,15 @@ import styles from "./PostComment.module.scss";
 
 export interface CommentProps {
   id: number;
-  avatar: string;
+  avatar?: string | null;
   time: Date;
   text: string;
   likes: number;
   isLiked: boolean;
+  isPending?: boolean
 }
 
-const PostComment: React.FC<CommentProps> = ({id, avatar, text, time }) => {
+const PostComment: React.FC<CommentProps> = ({id, avatar, text, time, isPending }) => {
 
   return (
     <div className={styles.commentWrapper}>
@@ -28,7 +30,7 @@ const PostComment: React.FC<CommentProps> = ({id, avatar, text, time }) => {
         <ReactTimeAgo date={time} locale="en-US"/>
         </p>
       </div>
-
+        {isPending && <Spinner small/>}
     </div>
   );
 };

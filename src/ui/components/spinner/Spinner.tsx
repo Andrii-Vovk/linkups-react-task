@@ -1,8 +1,14 @@
+import classNames from "classnames";
+
 import styles from "./Spinner.module.scss";
+
+interface SpinnerProps {
+    small?: boolean;
+}
  
-const Spinner: React.FC = () => {
+const Spinner: React.FC<SpinnerProps> = ({small}) => {
     return ( <div className={styles.wrapper}>
-        <div className={styles.loader} />
+        <div className={classNames([styles.loader, {[styles.small]: small}])} />
     </div> );
 }
  

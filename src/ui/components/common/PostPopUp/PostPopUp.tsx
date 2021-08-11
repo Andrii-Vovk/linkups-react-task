@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 
 import {
@@ -13,7 +15,7 @@ import ApiCommentsToPropsComments from "../../../../core/utils/ApiCommentsToProp
 import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
-import PostComment from "../comment/PostComment";
+import PostComment, { CommentProps } from "../comment/PostComment";
 import thousandstoK from "../functions";
 
 import styles from "./PostPopUp.module.scss";
@@ -21,10 +23,12 @@ import styles from "./PostPopUp.module.scss";
 const PostPopUp: React.FC<PostProps> = ({ post }) => {
   const [postState, setPostState] = useState(post);
   const [liked, setLiked] = useState(post.isliked);
+  const [commentState, setCommentState] = useState(postState.comments?.slice());
 
   const [comment, setComment] = useState("");
 
   const token = useAppSelector((state) => state.auth.authToken);
+  const currentUser = useAppSelector((state) => state.profile.profile);
 
   useEffect(() => {
     setPostState(post);
@@ -43,6 +47,20 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
 
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
+
+    const newComment: CommentProps = {
+      id: 99999,
+      avatar: currentUser?.avatar?.url,
+      time: new Date(),
+      text: comment,
+      likes: 0,
+      isLiked: false,
+      isPending: true,
+    };
+
+    const newCommentState = commentState?.concat(newComment);
+    console.log(newCommentState)
+    dispatch(changeComments(newCommentState));
     if (token) {
       const res = await postComment(comment, post.id, token);
 
@@ -58,6 +76,10 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
       }
     }
   }
+
+  useEffect(() => {
+    setCommentState(postState.comments)
+  }, [postState.comments])
 
   return (
     <>
@@ -90,8 +112,8 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
             />
           </div>
           <div className={styles.commentsGridCell}>
-            {postState.comments &&
-              postState.comments.map((item) => (
+            {commentState &&
+              commentState.map((item) => (
                 <PostComment
                   id={item.id}
                   key={item.id}
@@ -100,6 +122,7 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
                   likes={item.likes}
                   time={item.time}
                   isLiked={item.isLiked}
+                  isPending={item.isPending}
                 />
               ))}
           </div>
