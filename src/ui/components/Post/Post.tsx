@@ -2,9 +2,15 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import ReactTimeAgo from "react-time-ago";
 
-import { getCommentById } from "../../../core/services/requests";
-import { useAppDispatch } from "../../../core/store/hooks";
+import {
+  deletePostRequest,
+  getCommentById,
+  removeLike,
+  setLike,
+} from "../../../core/services/requests";
+import { useAppDispatch, useAppSelector } from "../../../core/store/hooks";
 import { changePopUp, changeStatus } from "../../../core/store/postPopUpSlice";
+import { removePost } from "../../../core/store/postsSlice";
 import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
 import ImageRotator from "../ImageRotator/ImageRotator";
 import Avatar from "../StoriesAvatar/StoriesAvatar";
@@ -12,19 +18,18 @@ import PostComment, { CommentProps } from "../common/comment/PostComment";
 import thousandstoK from "../common/functions";
 
 import styles from "./Post.module.scss";
-
-
-
+import DropDown from "../common/DropDown/DropDown";
 
 export type PostPropsType = {
+  username?: string;
   id: number;
   name: string;
-  time: Date;
+  time: string;
   avatar: string;
   imageUrl: string[];
   about: string;
   likes: number;
-  isliked?: boolean;
+  isliked: boolean;
   comments?: CommentProps[];
 };
 
@@ -33,11 +38,17 @@ export interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
-  const [liked, setLiked] = useState(post.isliked);
+  const [isLiked, setIsLiked] = useState(post.isliked);
+  const [likes, setLikes] = useState(post.likes);
   const [isPopUpVisible, setIsPopUpVisible] = useState(false);
   const [showCommments, setShowComments] = useState(false);
 
+  const author = useAppSelector((state) => state.profile.profile?.username);
+  const token = useAppSelector((state) => state.auth.authToken);
+
   const [commentAnswer, setcommentAnswer] = useState<CommentProps[]>();
+
+  const date = new Date(post.time);
 
   useEffect(() => {
     async function getAllCommentsUseEffect() {
@@ -57,8 +68,29 @@ const Post: React.FC<PostProps> = ({ post }) => {
     comments: commentAnswer,
   };
 
-  function handleLikeClick() {
-    setLiked(!liked);
+  async function handleLikeClick() {
+    if (!isLiked && token) {
+      const response = await setLike(post.id, token);
+      if (response) {
+        setIsLiked(!isLiked);
+        setLikes(likes + 1);
+      }
+    } else if (isLiked && token) {
+      const response = await removeLike(post.id, token);
+      if (response) {
+        setIsLiked(!isLiked);
+        setLikes(likes - 1);
+      }
+    }
+  }
+
+  async function handleDelete() {
+    if (post.id && token) {
+      const res = await deletePostRequest(post.id, token);
+      if (res) {
+        dispatch(removePost(post.id));
+      }
+    }
   }
 
   const dispatch = useAppDispatch();
@@ -67,7 +99,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setIsPopUpVisible(!isPopUpVisible);
 
     dispatch(changePopUp(convertedPostProps));
-    dispatch(changeStatus())
+    dispatch(changeStatus());
   }
 
   return (
@@ -79,12 +111,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
             <div className={styles.titleText}>
               <h3>{post.name}</h3>
               <span className="subtext">
-                <ReactTimeAgo date={post.time} locale="en-US" />
+                <ReactTimeAgo date={date} locale="en-US" />
               </span>
             </div>
           </div>
           <div className={styles.titleBarRight}>
-            <i className="fas fa-ellipsis-v" />
+            <DropDown dropdown={[{index: 0, text: "Delete", onClick: handleDelete}]} />
           </div>
         </div>
 
@@ -107,7 +139,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   "fas",
                   "fa-heart",
                   styles.heartMargin,
-                  { [styles.redHeart]: liked },
+                  { [styles.redHeart]: isLiked },
                 ])}
                 onClick={() => handleLikeClick()}
                 onKeyDown={() => handleLikeClick()}
@@ -121,7 +153,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 onClick={() => handleLikeClick()}
                 tabIndex={0}
               >
-                <h3>{thousandstoK(post.likes)}</h3>
+                <h3>{thousandstoK(likes)}</h3>
               </div>
             </div>
             <div
@@ -155,6 +187,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
             </div>
           </div>
           <div className={styles.rightFooterPart}>
+            {author === post.username && (
+              <button
+                onClick={handleDelete}
+                type="button"
+                className={styles.pseudolink}
+              >
+                Delete
+              </button>
+            )}
             <a href="https://google.com" className={styles.shareLink}>
               Share
             </a>
