@@ -1,56 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getPostsByUsername } from "../../core/services/requests";
 
 import { useAppSelector } from "../../core/store/hooks";
+import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
 import { PlaceholderProfileProps } from "../../core/utils/placeholders/placeholders";
 import Navbar from "../../ui/components/Navbar/Navbar";
+import { PostPropsType } from "../../ui/components/Post/Post";
 import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
 import ProfilePhotoGrid from "../../ui/components/ProfilePhotoGrid/ProfilePhotoGrid";
 import useFetchProfile from "../../ui/hooks/useFetchProfile";
 import "./index.scss";
 
 const ProfilePage: React.FC = () => {
-  const PlaceholderPostProps = [
-    {
-      id: 1,
-      name: "Bill Murray",
-      time: new Date("January 16, 2021"),
-      avatar: "https://www.fillmurray.com/645/360?u=4",
-      imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-      about: "",
-      likes: 1230,
-    },
-    {
-      id: 1,
-      name: "Bill Murray",
-      time: new Date("January 16, 2021"),
-      avatar: "https://www.fillmurray.com/645/360?u=4",
-      imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-      about: "",
-      likes: 1230,
-    },
-    {
-      id: 1,
-      name: "Bill Murray",
-      time: new Date("January 16, 2021"),
-      avatar: "https://www.fillmurray.com/645/360?u=4",
-      imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-      about: "",
-      likes: 1230,
-    },
-    {
-      id: 1,
-      name: "Bill Murray",
-      time: new Date("January 16, 2021"),
-      avatar: "https://www.fillmurray.com/645/360?u=4",
-      imageUrl: ["https://www.fillmurray.com/645/360?u=4"],
-      about: "",
-      likes: 1230,
-    },
-  ];
+  
 
   const myProfile = useAppSelector((state) => state.profile.profile);
+  const token = useAppSelector((state) => state.auth.authToken)
+
+  const [posts, setPosts] = useState<PostPropsType[] | null>(null);
+
 
   useFetchProfile();
+
+  useEffect(() => {
+    async function getPosts() {
+      if(myProfile?.username && token) {
+
+        const apiPosts = await getPostsByUsername(myProfile?.username, token)
+        if (apiPosts) {
+          const convertedPosts = apiPosts?.map((item) =>
+            ApiPostToPropsPost(item)
+          );
+          setPosts(convertedPosts);
+        }
+      }
+    }
+
+    getPosts()
+  }, [])
 
   return (
     <>
@@ -60,7 +47,7 @@ const ProfilePage: React.FC = () => {
         variant="Profilepage"
       />
       <div className="grid-wrapper">
-        <ProfilePhotoGrid posts={PlaceholderPostProps} />
+        <ProfilePhotoGrid posts={posts} />
       </div>
     </>
   );
