@@ -5,6 +5,7 @@
 .rotator {
   & img {
     border-radius: 3rem;
+    cursor: pointer;
   }
 }
 
@@ -24,7 +25,9 @@
     transition: transform 300ms 300ms ease-in, opacity 300ms ease-in;
     transform: translateY(25%);
     opacity: 0%;
-    height: 0px;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
 
     & .commentWrapper {
       margin-top: 0px;
@@ -147,5 +150,27 @@
     width: 10px;
     height: 2px;
     z-index: 3;
+  }
+}
+
+
+.pseudolink {
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: toRem(12);
+
+  color: red;
+  cursor: pointer;
+
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    text-decoration: underline;
   }
 }

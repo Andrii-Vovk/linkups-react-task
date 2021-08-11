@@ -21,6 +21,11 @@
 // adds fading effect
 .storiesGridWrapper {
   position: relative;
+
+  & img {
+    cursor: pointer;
+  }
+
   &::after {
     content: "";
     position: absolute;

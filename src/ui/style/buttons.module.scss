@@ -35,7 +35,12 @@
 
     &:hover,
     &:focus {
-        background-color: lighten($primary-blue, $amount: 10%)
+        background-color: lighten($primary-blue, $amount: 10%);
+    }
+
+    &:disabled {
+        background-color: lighten($primary-blue, $amount: 30%);
+        pointer-events: none;
     }
 }
 

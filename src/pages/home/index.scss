@@ -1,10 +1,25 @@
 @import "../../ui/style/funcs";
+@import "../../ui/style/colors";
 
 .layout-parent {
   display: flex;
   justify-content: space-between;
 
   margin: 0 20%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+
+  .pageIndicator {
+    font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+    padding: .65em 1.5em;
+    border-radius: 1rem;
+    border: 2px solid $primary-blue;
+  }
 }
 
 .layout-left {
