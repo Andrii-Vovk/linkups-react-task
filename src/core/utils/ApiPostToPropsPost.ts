@@ -3,6 +3,7 @@ import { PostPropsType } from "../../ui/components/Post/Post";
 
 function ApiPostToPropsPost(post: PostAnswer): PostPropsType {
   return {
+    username: post.author.username,
     id: post.id,
     avatar: post.author.profilePhotoUrl,
     name: `${post.author.firstName} ${post.author.lastName}`,
@@ -10,7 +11,7 @@ function ApiPostToPropsPost(post: PostAnswer): PostPropsType {
     about: post.description,
     likes: post.likesCount,
     isliked: post.isLiked,
-    time: new Date(post.createdAt ? `${post.createdAt.slice(0, -4)}+00:00` : 0),
+    time: post.createdAt ? `${post.createdAt.slice(0, -4)}+00:00` : "00:00",
   };
 }
 
