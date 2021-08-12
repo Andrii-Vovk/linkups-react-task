@@ -35,6 +35,7 @@ const EditPopUp: React.FC<EditPopUpProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfileState({
       ...profileState,
+      avatar: profileState.avatar,
       [e.target.name]: e.target.value,
     });
   };

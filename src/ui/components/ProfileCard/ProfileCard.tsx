@@ -57,7 +57,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, variant }) => {
       res = await updateProfile(requestProfile, token);
     }
 
-    if (res) setProfileState(res);
+    if (res) {
+      res.avatar = profileState.avatar;
+      setProfileState(res);
+    }
   }
 
   return (
