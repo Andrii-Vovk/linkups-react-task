@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useLocation } from "react-router";
 
+import { getCommentById, getPostById } from "../../core/services/requests";
+import { setError } from "../../core/store/errorSlice";
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
+import { changePopUp, changeStatus } from "../../core/store/postPopUpSlice";
 import { fetchPosts, setStateToPending } from "../../core/store/postsSlice";
 import { fetchProfiles } from "../../core/store/usersSlice";
+import ApiCommentsToPropsComments from "../../core/utils/ApiCommentsToPropsComments";
+import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
 import { PlaceholderProfileProps } from "../../core/utils/placeholders/placeholders";
+import { CommentAnswer } from "../../typings/CommentAnswer";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import Post from "../../ui/components/Post/Post";
 import ProfileCard from "../../ui/components/ProfileCard/ProfileCard";
@@ -13,12 +20,7 @@ import PostPopUp from "../../ui/components/common/PostPopUp/PostPopUp";
 import "./index.scss";
 import Spinner from "../../ui/components/spinner/Spinner";
 import useFetchProfile from "../../ui/hooks/useFetchProfile";
-import { useLocation } from "react-router";
-import { getCommentById, getPostById } from "../../core/services/requests";
-import { changePopUp, changeStatus } from "../../core/store/postPopUpSlice";
-import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
-import ApiCommentsToPropsComments from "../../core/utils/ApiCommentsToPropsComments";
-import { CommentAnswer } from "../../typings/CommentAnswer";
+
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -55,6 +57,34 @@ const HomePage: React.FC = () => {
     }
     getAllProfilesUseEffect();
   }, [dispatch, allProfiles.status, token]);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    async function getPopup() {
+      if (location.hash) {
+        try {
+          const id = parseInt(location.hash.slice(1), 10);
+          const res = await getPostById(id);
+          const commRes = await getCommentById(id);
+          if (res) {
+            const convertedRes = ApiPostToPropsPost(res);
+            if (commRes)
+              convertedRes.comments = commRes.map((item: CommentAnswer) =>
+                ApiCommentsToPropsComments(item)
+              );
+            dispatch(changePopUp(convertedRes));
+            dispatch(changeStatus());
+          }
+          if(!res) throw new Error("This post doesnt exist");
+        } catch (error) {
+          dispatch(setError(error.message))
+        }
+      }
+    }
+
+    getPopup();
+  }, [dispatch, location.hash]);
 
   return (
     <>

@@ -7,6 +7,7 @@ import postPopUpReducer from "./postPopUpSlice";
 import postsReducer from "./postsSlice"
 import profileReducer from "./profileSlice";
 import usersReducer from "./usersSlice";
+import errorReducer from "./errorSlice";
 
 const rootPersistConfig = {
   key: 'root',
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   posts: postsReducer,
   popUp: postPopUpReducer,
   auth: authReducer,
-  users: usersReducer
+  users: usersReducer,
+  error: errorReducer,
 })
 
  const persistRootReducer = persistReducer(rootPersistConfig, rootReducer);

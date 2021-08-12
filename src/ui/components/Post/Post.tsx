@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import ReactTimeAgo from "react-time-ago";
 
 import {
@@ -19,6 +20,7 @@ import PostComment, { CommentProps } from "../common/comment/PostComment";
 import thousandstoK from "../common/functions";
 
 import styles from "./Post.module.scss";
+
 
 export type PostPropsType = {
   username?: string;
@@ -50,7 +52,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   const date = new Date(post.time);
 
-  const dropDownData = author === post.username ? [{index: 0, text: "Delete", onClick: handleDelete}] : [];
+  const dropDownData =
+    author === post.username
+      ? [{ index: 0, text: "Delete", onClick: handleDelete }]
+      : [];
 
   useEffect(() => {
     async function getAllCommentsUseEffect() {
@@ -97,6 +102,16 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   const dispatch = useAppDispatch();
 
+
+  const [bufferVisible, setBufferVisible] = useState(false);
+
+  function handleShare() {
+    setBufferVisible(true);
+    setTimeout(() => {
+      setBufferVisible(false);
+    }, 1500);
+  }
+
   function togglePopUp() {
     setIsPopUpVisible(!isPopUpVisible);
 
@@ -123,6 +138,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </div>
 
         <div className={styles.rotator}>
+          <div
+            className={classNames([
+              styles.bufferOverlay,
+              { [styles.bufferVisible]: bufferVisible },
+            ])}
+          >
+            <p>Copied to clipboard</p>
+          </div>
           <ImageRotator post={post} imageClickFunc={togglePopUp} />
         </div>
 
@@ -136,34 +159,25 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 { [styles.hideLikes]: showCommments },
               ])}
             >
-              <i
-                className={classNames([
-                  "fas",
-                  "fa-heart",
-                  styles.heartMargin,
-                  { [styles.redHeart]: isLiked },
-                ])}
-                onClick={() => handleLikeClick()}
-                onKeyDown={() => handleLikeClick()}
-                tabIndex={0}
-                role="button"
-              />
-              <div
-                role="button"
-                onKeyDown={() => handleLikeClick()}
-                className={styles.likeCounter}
-                onClick={() => handleLikeClick()}
-                tabIndex={0}
-              >
-                <h3>{thousandstoK(likes)}</h3>
-              </div>
+              <button className={styles.flexBtn} type="button" onClick={() => handleLikeClick()}>
+                <i
+                  className={classNames([
+                    "fas",
+                    "fa-heart",
+                    styles.heartMargin,
+                    { [styles.redHeart]: isLiked },
+                  ])}
+                  role="button"
+                />
+                <div role="button" className={styles.likeCounter}>
+                  <h3>{thousandstoK(likes)}</h3>
+                </div>
+              </button>
             </div>
-            <div
-              className={styles.commentCountWrapper}
+            <button
+              className={classNames([styles.commentCountWrapper, styles.flexBtn])}
               onClick={() => setShowComments(!showCommments)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={() => setShowComments(!showCommments)}
+              type="button"
             >
               <svg
                 className={styles.commentSvg}
@@ -186,12 +200,18 @@ const Post: React.FC<PostProps> = ({ post }) => {
                   commentAnswer !== undefined ? commentAnswer.length : 0
                 )}
               </h3>
-            </div>
+            </button>
           </div>
           <div className={styles.rightFooterPart}>
-            <a href="https://google.com" className={styles.shareLink}>
-              Share
-            </a>
+            <CopyToClipboard text={`${window.location.host  }/#${  post.id}`}>
+              <button
+                type="button"
+                onClick={handleShare}
+                className={styles.shareLink}
+              >
+                Share
+              </button>
+            </CopyToClipboard>
           </div>
         </div>
         <div
