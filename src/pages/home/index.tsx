@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
 import { fetchPosts, setStateToPending } from "../../core/store/postsSlice";
@@ -12,6 +13,12 @@ import PostPopUp from "../../ui/components/common/PostPopUp/PostPopUp";
 import "./index.scss";
 import Spinner from "../../ui/components/spinner/Spinner";
 import useFetchProfile from "../../ui/hooks/useFetchProfile";
+import { useLocation } from "react-router";
+import { getCommentById, getPostById } from "../../core/services/requests";
+import { changePopUp, changeStatus } from "../../core/store/postPopUpSlice";
+import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
+import ApiCommentsToPropsComments from "../../core/utils/ApiCommentsToPropsComments";
+import { CommentAnswer } from "../../typings/CommentAnswer";
 
 const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,33 +30,12 @@ const HomePage: React.FC = () => {
   const myProfileStatus = useAppSelector((state) => state.profile.status);
 
   const allPosts = useAppSelector((state) => state.posts);
-  const isLastPage = useAppSelector((state) => state.posts.lastPage);
 
   const { post, status } = useAppSelector((state) => state.popUp);
 
   const [pageState, setPageState] = useState(1);
 
   useFetchProfile();
-
-  const handleScrollToBottom = useCallback(() => {
-    let bottom = false;
-    const div = document.getElementById("div-to-scroll");
-    if (div) {
-      bottom =
-        Math.ceil(window.innerHeight + window.scrollY) >= div.scrollHeight;
-    }
-    if (bottom) {
-      dispatch(setStateToPending());
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isLastPage) {
-      window.removeEventListener("scroll", handleScrollToBottom);
-    } else {
-      window.addEventListener("scroll", handleScrollToBottom);
-    }
-  }, [handleScrollToBottom, isLastPage]);
 
   useEffect(() => {
     async function getAllPostsUseEffect() {
@@ -78,9 +64,19 @@ const HomePage: React.FC = () => {
       <div className="layout-parent">
         <div className="layout-left" id="div-to-scroll">
           <StoriesLine profiles={allProfiles.profiles} />
-          {allPosts.posts.length > 0 &&
-            allPosts.posts.map((item) => <Post key={item.id} post={item} />)}
-          {allPosts.status === "pending" && <Spinner />}
+
+          <InfiniteScroll
+            dataLength={allPosts.posts.length}
+            hasMore={!allPosts.lastPage}
+            next={() => dispatch(setStateToPending())}
+            loader={<Spinner />}
+            endMessage={<h3>You scrolled to the bottom!</h3>}
+            className="no-scrollbar"
+          >
+            {allPosts.posts.map((item) => (
+              <Post key={item.id} post={item} />
+            ))}
+          </InfiniteScroll>
         </div>
         <div className="layout-right">
           {myProfileStatus === "loaded" ? (
