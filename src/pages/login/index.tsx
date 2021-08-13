@@ -97,7 +97,6 @@ const LoginPage: React.FC = () => {
 
                   if (response && response.headers.authorization) {
                     dispatch(setToken(response?.headers.authorization));
-                    history.push('/');
                   }
                 }}
               >
@@ -112,7 +111,7 @@ const LoginPage: React.FC = () => {
                       name="email"
                     />
                     <FormInput
-                      type="text"
+                      type="password"
                       labelText="Password"
                       placeholder="Your password"
                       name="password"
@@ -179,7 +178,7 @@ const LoginPage: React.FC = () => {
                       name="username"
                     />
                     <FormInput
-                      type="text"
+                      type="password"
                       labelText="Password"
                       placeholder="Alex..."
                       name="password"

@@ -4,10 +4,11 @@ import { ReactElement, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "./App.scss";
 
-import { useAppSelector } from "./core/store/hooks";
-
 import 'react-toastify/dist/ReactToastify.css';
 
+import { clearError } from "./core/store/errorSlice";
+import { useAppDispatch, useAppSelector } from "./core/store/hooks";
+import { clearPopUpError } from "./core/store/postPopUpSlice";
 import RouterNav from "./ui/boot/router";
 
 function App(): ReactElement {
@@ -16,12 +17,19 @@ function App(): ReactElement {
   })
 
   const error = useAppSelector((state) => state.error.error);
+  const popUpError = useAppSelector((state) => state.popUp.error);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if(error) {
       toast.error(error);
+      dispatch(clearError());
     }
-  }, [error])
+    if(popUpError) {
+      toast.error(popUpError);
+      dispatch(clearPopUpError());
+    }
+  }, [dispatch, error, popUpError])
 
   return (
     <div className="App">

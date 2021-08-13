@@ -1,10 +1,21 @@
 @import "../../../style/colors";
+.redoButton {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 
 .commentWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  i {
+    color: $red-accent;
+  }
+
+  
 
   & .rightCommentPart {
     margin-left: auto;

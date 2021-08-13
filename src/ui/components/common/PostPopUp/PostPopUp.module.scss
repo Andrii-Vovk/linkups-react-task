@@ -1,3 +1,5 @@
+@import "../../../style/colors";
+
 .postPopUpWrapper {
   position: fixed;
   width: 65%;
@@ -156,6 +158,22 @@
       color: #0087ff;
     }
   }
+}
+
+.flexBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+}
+
+.heartMargin {
+  margin-right: 12px;
+}
+
+.redHeart {
+  color: $red-accent !important;
 }
 
 .grayOverlay {

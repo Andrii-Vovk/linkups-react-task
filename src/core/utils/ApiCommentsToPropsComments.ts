@@ -6,6 +6,7 @@ export default function ApiCommentsToPropsComments(
 ): CommentProps {
     return {
         id: comment.id,
+        username: comment.commenter.username,
         avatar: comment.commenter.profilePhotoUrl,
         isLiked: false,
         likes: 0,

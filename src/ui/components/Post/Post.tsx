@@ -66,7 +66,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         );
       }
     }
-
+    
     getAllCommentsUseEffect();
   }, [post.id]);
 
@@ -115,7 +115,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   function togglePopUp() {
     setIsPopUpVisible(!isPopUpVisible);
 
-    dispatch(changePopUp(convertedPostProps));
+    dispatch(changePopUp({...convertedPostProps, likes, isliked: isLiked}));
     dispatch(changeStatus());
   }
 
@@ -230,6 +230,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 likes={item.likes}
                 time={item.time}
                 key={item.id}
+                username={item.username}
               />
             ))}
         </div>

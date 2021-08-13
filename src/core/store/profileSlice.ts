@@ -5,7 +5,7 @@ import { ProfileType } from "../../ui/components/ProfileCard/ProfileCard";
 import { getMyProfile } from "../services/requests";
 import ApiProfieToPropsProfile from "../utils/ApiPorfileToPropsProfile";
 
-interface ProfileStoreState {
+export interface ProfileStoreState {
     status: 'loaded' | 'pending' | 'error';
     profile?: ProfileType;
 }

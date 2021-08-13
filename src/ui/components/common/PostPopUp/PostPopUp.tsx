@@ -1,21 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 
 import {
-  getCommentById,
-  postComment,
+  removeLike,
+  setLike,
 } from "../../../../core/services/requests";
 import { useAppDispatch, useAppSelector } from "../../../../core/store/hooks";
 import {
-  changeComments,
+  addComment,
   changeStatus,
 } from "../../../../core/store/postPopUpSlice";
-import ApiCommentsToPropsComments from "../../../../core/utils/ApiCommentsToPropsComments";
 import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";
-import PostComment, { CommentProps } from "../comment/PostComment";
+import PostComment from "../comment/PostComment";
 import thousandstoK from "../functions";
 
 import styles from "./PostPopUp.module.scss";
@@ -23,20 +21,34 @@ import styles from "./PostPopUp.module.scss";
 const PostPopUp: React.FC<PostProps> = ({ post }) => {
   const [postState, setPostState] = useState(post);
   const [liked, setLiked] = useState(post.isliked);
-  const [commentState, setCommentState] = useState(postState.comments?.slice());
+  const [likes, setLikes] = useState(post.likes);
 
   const [comment, setComment] = useState("");
 
   const token = useAppSelector((state) => state.auth.authToken);
-  const currentUser = useAppSelector((state) => state.profile.profile);
+  const comments = useAppSelector((state) => state.popUp.post?.comments)
+
 
   useEffect(() => {
     setPostState(post);
     setLiked(post.isliked);
-  }, [post]);
+    setLikes(post.likes);
+  }, [post, postState]);
 
-  function handleLikeClick() {
-    setLiked(!liked);
+  async function handleLikeClick() {
+    if (!liked && token) {
+      const response = await setLike(post.id, token);
+      if (response) {
+        setLiked(!liked);
+        setLikes(likes + 1);
+      }
+    } else if (liked && token) {
+      const response = await removeLike(post.id, token);
+      if (response) {
+        setLiked(!liked);
+        setLikes(likes - 1);
+      }
+    }
   }
 
   const dispatch = useAppDispatch();
@@ -48,38 +60,9 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    const newComment: CommentProps = {
-      id: 99999,
-      avatar: currentUser?.avatar?.url,
-      time: new Date(),
-      text: comment,
-      likes: 0,
-      isLiked: false,
-      isPending: true,
-    };
-
-    const newCommentState = commentState?.concat(newComment);
-    console.log(newCommentState)
-    dispatch(changeComments(newCommentState));
-    if (token) {
-      const res = await postComment(comment, post.id, token);
-
-      if (res) {
-        setComment("");
-        const comments = await getCommentById(post.id);
-        if (comments) {
-          const convertedComments = comments.map((item) =>
-            ApiCommentsToPropsComments(item)
-          );
-          dispatch(changeComments(convertedComments));
-        }
-      }
-    }
+    dispatch(addComment(comment))
+    setComment('');
   }
-
-  useEffect(() => {
-    setCommentState(postState.comments)
-  }, [postState.comments])
 
   return (
     <>
@@ -112,8 +95,8 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
             />
           </div>
           <div className={styles.commentsGridCell}>
-            {commentState &&
-              commentState.map((item) => (
+            {comments &&
+              comments.map((item) => (
                 <PostComment
                   id={item.id}
                   key={item.id}
@@ -123,32 +106,35 @@ const PostPopUp: React.FC<PostProps> = ({ post }) => {
                   time={item.time}
                   isLiked={item.isLiked}
                   isPending={item.isPending}
+                  isError={item.isError}
+                  username={item.username}
                 />
               ))}
           </div>
           <div className={styles.likesGridCell}>
             <div className={styles.centered}>
-              <i
-                className={liked ? "fas fa-heart red-heart" : "fas fa-heart"}
-                onClick={() => handleLikeClick()}
-                onKeyDown={() => handleLikeClick()}
-                tabIndex={0}
-                role="button"
-              />
-              <div
-                onClick={() => handleLikeClick()}
-                onKeyDown={() => handleLikeClick()}
-                tabIndex={0}
-                role="button"
+              <button
+                className={styles.flexBtn}
+                type="button"
+                onClick={handleLikeClick}
               >
-                <h3 className={styles.likeCounter}>
-                  {thousandstoK(postState.likes)}
-                </h3>
-              </div>
+                <i
+                  className={classNames([
+                    "fas",
+                    "fa-heart",
+                    styles.heartMargin,
+                    { [styles.redHeart]: liked },
+                  ])}
+                  role="button"
+                />
+                <div role="button" className={styles.likeCounter}>
+                  <h3>{thousandstoK(likes)}</h3>
+                </div>
+              </button>
             </div>
           </div>
           <div className={styles.inputsGridCell}>
-            <form action="" onSubmit={(e) => handleSubmit(e)}>
+            <form action="" onSubmit={handleSubmit}>
               <input
                 className={styles.commentInput}
                 type="text"
