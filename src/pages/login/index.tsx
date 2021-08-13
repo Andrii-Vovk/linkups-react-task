@@ -118,15 +118,13 @@ const LoginPage: React.FC = () => {
 
               <div className="sign-up-links">
                 <span className="subtext">Dont have an account?</span>
-                <span
+                <button
                   onClick={() => switchAndClearStates()}
                   className="pseudolink"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={() => switchAndClearStates()}
+                  type="button"
                 >
                   Sign Up
-                </span>
+                </button>
               </div>
             </>
           )}
@@ -176,15 +174,13 @@ const LoginPage: React.FC = () => {
 
               <div className="sign-up-links">
                 <span className="subtext">Already have an account?</span>
-                <span
+                <button
                   onClick={() => switchAndClearStates()}
                   className="pseudolink"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={() => switchAndClearStates()}
+                  type="button"
                 >
                   Log In
-                </span>
+                </button>
               </div>
             </>
           )}
