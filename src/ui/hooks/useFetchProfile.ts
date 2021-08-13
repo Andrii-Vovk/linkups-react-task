@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
-import { fetchProfile } from "../../core/store/profileSlice";
+import fetchProfile from "../../core/store/profileSlice/thunks";
 
 const useFetchProfile = (): void => {
   const token = useAppSelector((state) => state.auth.authToken);

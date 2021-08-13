@@ -1,18 +1,17 @@
 import "./index.scss";
 import { Formik, Form } from "formik";
 import { useState } from "react";
-import { useHistory } from "react-router";
 import * as Yup from "yup";
 
-import { logInRequest, signUpRequest } from "../../core/services/requests";
-import { setToken } from "../../core/store/authSlice";
-import { useAppDispatch } from "../../core/store/hooks";
+import { login, signUp } from "../../core/store/authSlice/thunks";
+import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
 import one from "../../public/images/1.png";
 import two from "../../public/images/2.png";
 import three from "../../public/images/3.png";
 import mockup from "../../public/images/phone-mockup.png";
 import Navbar from "../../ui/components/Navbar/Navbar";
 import FormInput from "../../ui/components/common/input/FormInput";
+import Spinner from "../../ui/components/spinner/Spinner";
 import buttons from "../../ui/style/buttons.module.scss";
 
 const LoginSchema = Yup.object().shape({
@@ -51,10 +50,8 @@ interface SignUpInitialValue extends LoginInitialValue {
 
 const LoginPage: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(false);
-
-  const history = useHistory();
-
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.auth.status);
 
   function switchAndClearStates() {
     setIsSignUp(!isSignUp);
@@ -89,15 +86,8 @@ const LoginPage: React.FC = () => {
                 validationSchema={LoginSchema}
                 validateOnChange
                 validateOnBlur
-                onSubmit={async (values) => {
-                  const response = await logInRequest(
-                    values.email,
-                    values.password
-                  );
-
-                  if (response && response.headers.authorization) {
-                    dispatch(setToken(response?.headers.authorization));
-                  }
+                onSubmit={(values) => {
+                  dispatch(login({login: values.email, password: values.password}))
                 }}
               >
                 {() => (
@@ -120,6 +110,8 @@ const LoginPage: React.FC = () => {
                     <button className={buttons.blueBtn} type="submit">
                       Submit
                     </button>
+                    {authStatus === "pending" && <Spinner />}
+                    {authStatus === "error" && <Spinner error/>}
                   </Form>
                 )}
               </Formik>
@@ -146,19 +138,8 @@ const LoginPage: React.FC = () => {
                 validationSchema={SignUpSchema}
                 validateOnChange
                 validateOnBlur
-                onSubmit={async (values) => {
-                  let res = await signUpRequest(
-                    values.email,
-                    values.username,
-                    values.password
-                  );
-                  if (res) {
-                    res = await logInRequest(values.email, values.password);
-                    if (res && res.headers.authorization) {
-                      dispatch(setToken(res.headers.authorization));
-                      history.push('/');
-                    }
-                  }
+                onSubmit={(values) => {
+                  dispatch(signUp({login: values.email, username: values.username, password: values.password}))
                 }}
               >
                 {() => (
@@ -187,6 +168,8 @@ const LoginPage: React.FC = () => {
                     <button className={buttons.blueBtn} type="submit">
                       Submit
                     </button>
+                    {authStatus === "pending" && <Spinner />}
+                    {authStatus === "error" && <Spinner error/>}
                   </Form>
                 )}
               </Formik>

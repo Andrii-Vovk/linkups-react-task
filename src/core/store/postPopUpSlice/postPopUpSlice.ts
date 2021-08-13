@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { PostPropsType } from "../../ui/components/Post/Post";
-import { CommentProps } from "../../ui/components/common/comment/PostComment";
-import { postComment } from "../services/requests";
+import { PostPropsType } from "../../../ui/components/Post/Post";
+import { CommentProps } from "../../../ui/components/common/comment/PostComment";
 
-import { RootState } from "./store";
+import { addComment } from "./thunks";
+
 
 interface PopUpInitialState {
   error: string | null;
@@ -19,42 +19,10 @@ const initialState: PopUpInitialState = {
   error: null,
 };
 
-export const addComment = createAsyncThunk(
-  "postPopUp/addComment",
-
-  async (comment: string, { getState, rejectWithValue }) => {
-    const state = getState() as RootState;
-
-    if (state.popUp.post && state.auth.authToken) {
-      const res = await postComment(
-        comment,
-        state.popUp.post?.id,
-        state.auth.authToken
-      );
-
-      if (res === false) {
-        return rejectWithValue("Something went wrong while posting the comment")
-      }
-
-      return res;
-    }
-    return rejectWithValue('Not Authorized');
-  }
-);
-
 export interface ResendType {
   id: number;
   text: string;
 }
-
-export const resendComment = createAsyncThunk(
-  "postPopUp/resendComment",
-
-  async (comment: ResendType, { dispatch }) => {
-    dispatch(removeCommentById(comment.id));
-    dispatch(addComment(comment.text));
-  }
-);
 
 const postPopUpSlice = createSlice({
   name: "postPopUp",

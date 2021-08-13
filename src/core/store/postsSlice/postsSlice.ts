@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { PostAnswer } from "../../typings/PostAnswer";
-import { PostPropsType } from "../../ui/components/Post/Post";
-import { getAllPosts } from "../services/requests";
-import ApiPostToPropsPost from "../utils/ApiPostToPropsPost";
+import { PostPropsType } from "../../../ui/components/Post/Post";
+
+import fetchPosts from "./thunks";
 
 interface PostsStoreState {
   status: "loaded" | "pending" | "error";
@@ -17,17 +16,6 @@ const initialState: PostsStoreState = {
   posts: [],
   lastPage: false
 };
-
-export const fetchPosts = createAsyncThunk(
-  "posts/fetchPosts",
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  async (page: number = 1) => {
-    const response = await getAllPosts(page);
-    return {
-      post: response?.map((item: PostAnswer) => ApiPostToPropsPost(item)),
-    };
-  }
-);
 
 const postsSlice = createSlice({
   name: "posts",

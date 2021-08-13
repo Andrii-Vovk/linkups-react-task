@@ -61,7 +61,7 @@ export async function signUpRequest(
   _email: string,
   _username: string,
   _password: string
-): Promise<SignUpAnswer> {
+): Promise<SignUpAnswer | null> {
   const payload = {
     login: _email,
     username: _username,
@@ -73,14 +73,14 @@ export async function signUpRequest(
 
     return res.data;
   } catch (error) {
-    return error.message;
+    return null;
   }
 }
 
 export async function logInRequest(
   _email: string,
   _password: string
-): Promise<SignUpAnswer> {
+): Promise<SignUpAnswer | null> {
   const payload = {
     login: _email,
     password: _password,
@@ -93,7 +93,7 @@ export async function logInRequest(
       headers: { authorization: res.headers.authorization },
     };
   } catch (error) {
-    return error.message;
+    return null;
   }
 }
 

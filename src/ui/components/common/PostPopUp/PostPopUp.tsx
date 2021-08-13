@@ -7,9 +7,9 @@ import {
 } from "../../../../core/services/requests";
 import { useAppDispatch, useAppSelector } from "../../../../core/store/hooks";
 import {
-  addComment,
   changeStatus,
-} from "../../../../core/store/postPopUpSlice";
+} from "../../../../core/store/postPopUpSlice/postPopUpSlice";
+import { addComment } from "../../../../core/store/postPopUpSlice/thunks";
 import ImageRotator from "../../ImageRotator/ImageRotator";
 import { PostProps } from "../../Post/Post";
 import Avatar from "../../StoriesAvatar/StoriesAvatar";

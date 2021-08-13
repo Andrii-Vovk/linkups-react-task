@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { ProfileCardProps } from "../../ui/components/ProfileCard/ProfileCard";
-import { getAllProfiles } from "../services/requests";
-import ApiProfieToPropsProfile from "../utils/ApiPorfileToPropsProfile";
+import { ProfileCardProps } from "../../../ui/components/ProfileCard/ProfileCard";
+import { getAllProfiles } from "../../services/requests";
+import ApiProfieToPropsProfile from "../../utils/ApiPorfileToPropsProfile";
 
 interface UsersStoreState {
     status: 'loaded' | 'pending' | 'error';

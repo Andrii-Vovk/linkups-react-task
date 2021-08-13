@@ -6,10 +6,11 @@ import "./App.scss";
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import { clearError } from "./core/store/errorSlice";
+import { clearError } from "./core/store/errorSlice/errorSlice";
 import { useAppDispatch, useAppSelector } from "./core/store/hooks";
-import { clearPopUpError } from "./core/store/postPopUpSlice";
+import { clearPopUpError } from "./core/store/postPopUpSlice/postPopUpSlice";
 import RouterNav from "./ui/boot/router";
+import { clearLoginError } from "./core/store/authSlice/authSlice";
 
 function App(): ReactElement {
   useEffect(() => {
@@ -18,6 +19,7 @@ function App(): ReactElement {
 
   const error = useAppSelector((state) => state.error.error);
   const popUpError = useAppSelector((state) => state.popUp.error);
+  const loginError = useAppSelector((state) => state.popUp.error);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -29,7 +31,11 @@ function App(): ReactElement {
       toast.error(popUpError);
       dispatch(clearPopUpError());
     }
-  }, [dispatch, error, popUpError])
+    if(loginError) {
+      toast.error(loginError);
+      dispatch(clearLoginError());
+    }
+  }, [dispatch, error, popUpError, loginError])
 
   return (
     <div className="App">

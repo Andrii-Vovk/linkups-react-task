@@ -14,7 +14,7 @@ import styles from "./styles.module.scss";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
-import { addPost } from "../../../core/store/postsSlice";
+import { addPost } from "../../../core/store/postsSlice/postsSlice";
 import ApiPostToPropsPost from "../../../core/utils/ApiPostToPropsPost";
 
 interface PopUpProps {

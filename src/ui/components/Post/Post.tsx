@@ -10,8 +10,8 @@ import {
   setLike,
 } from "../../../core/services/requests";
 import { useAppDispatch, useAppSelector } from "../../../core/store/hooks";
-import { changePopUp, changeStatus } from "../../../core/store/postPopUpSlice";
-import { removePost } from "../../../core/store/postsSlice";
+import { changePopUp, changeStatus } from "../../../core/store/postPopUpSlice/postPopUpSlice";
+import { removePost } from "../../../core/store/postsSlice/postsSlice";
 import ApiCommentsToPropsComments from "../../../core/utils/ApiCommentsToPropsComments";
 import ImageRotator from "../ImageRotator/ImageRotator";
 import Avatar from "../StoriesAvatar/StoriesAvatar";

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FormEvent, useState } from "react";
 import { useHistory } from "react-router";
 
-import { destroyToken } from "../../../core/store/authSlice";
+import { destroyToken } from "../../../core/store/authSlice/authSlice";
 import { useAppDispatch } from "../../../core/store/hooks";
 import buttons from "../../style/buttons.module.scss";
 import { ProfileType } from "../ProfileCard/ProfileCard";

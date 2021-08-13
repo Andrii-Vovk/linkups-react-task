@@ -3,11 +3,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation } from "react-router";
 
 import { getCommentById, getPostById } from "../../core/services/requests";
-import { setError } from "../../core/store/errorSlice";
+import { setError } from "../../core/store/errorSlice/errorSlice";
 import { useAppDispatch, useAppSelector } from "../../core/store/hooks";
-import { changePopUp, changeStatus } from "../../core/store/postPopUpSlice";
-import { fetchPosts, setStateToPending } from "../../core/store/postsSlice";
-import { fetchProfiles } from "../../core/store/usersSlice";
+import { changePopUp, changeStatus } from "../../core/store/postPopUpSlice/postPopUpSlice";
+import { setStateToPending } from "../../core/store/postsSlice/postsSlice";
+import fetchPosts from "../../core/store/postsSlice/thunks";
+import { fetchProfiles } from "../../core/store/usersSlice/usersSlice";
 import ApiCommentsToPropsComments from "../../core/utils/ApiCommentsToPropsComments";
 import ApiPostToPropsPost from "../../core/utils/ApiPostToPropsPost";
 import { PlaceholderProfileProps } from "../../core/utils/placeholders/placeholders";
