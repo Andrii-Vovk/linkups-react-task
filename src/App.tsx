@@ -6,16 +6,16 @@ import "./App.scss";
 
 import 'react-toastify/dist/ReactToastify.css';
 
+import { clearLoginError } from "./core/store/authSlice/authSlice";
 import { clearError } from "./core/store/errorSlice/errorSlice";
 import { useAppDispatch, useAppSelector } from "./core/store/hooks";
 import { clearPopUpError } from "./core/store/postPopUpSlice/postPopUpSlice";
 import RouterNav from "./ui/boot/router";
-import { clearLoginError } from "./core/store/authSlice/authSlice";
 
 function App(): ReactElement {
   useEffect(() => {
     TimeAgo.addDefaultLocale(en)
-  })
+  }, [])
 
   const error = useAppSelector((state) => state.error.error);
   const popUpError = useAppSelector((state) => state.popUp.error);

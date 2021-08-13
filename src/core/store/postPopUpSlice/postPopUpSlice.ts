@@ -6,7 +6,6 @@ import { CommentProps } from "../../../ui/components/common/comment/PostComment"
 
 import { addComment } from "./thunks";
 
-
 interface PopUpInitialState {
   error: string | null;
   status: "opened" | "closed";
@@ -43,11 +42,7 @@ const postPopUpSlice = createSlice({
       state.post?.comments?.push(action.payload);
     },
     changeLastComment(state, action) {
-      if (
-        state.post &&
-        state.post?.comments &&
-        state.post?.comments?.length > 0
-      ) {
+      if (state.post && state.post.comments.length > 0) {
         state.post.comments[state.post.comments?.length - 1].isPending =
           action.payload.isPending;
         state.post.comments[state.post.comments?.length - 1].isError =
@@ -55,11 +50,7 @@ const postPopUpSlice = createSlice({
       }
     },
     removeCommentById(state, action) {
-      if (
-        state.post &&
-        state.post.comments &&
-        state.post.comments?.length > 0
-      ) {
+      if (state.post && state.post.comments.length > 0) {
         state.post.comments = state.post.comments.filter((item) => {
           return item.id !== action.payload;
         });
@@ -92,22 +83,14 @@ const postPopUpSlice = createSlice({
         }
       })
       .addCase(addComment.fulfilled, (state) => {
-        if (
-          state.post &&
-          state.post?.comments &&
-          state.post?.comments?.length > 0
-        ) {
+        if (state.post && state.post?.comments?.length > 0) {
           state.post.comments[state.post.comments?.length - 1].isPending =
             false;
           state.post.comments[state.post.comments?.length - 1].isError = false;
         }
       })
       .addCase(addComment.rejected, (state, action) => {
-        if (
-          state.post &&
-          state.post?.comments &&
-          state.post?.comments?.length > 0
-        ) {
+        if (state.post && state.post?.comments?.length > 0) {
           state.post.comments[state.post.comments?.length - 1].isPending =
             false;
           state.post.comments[state.post.comments?.length - 1].isError = true;

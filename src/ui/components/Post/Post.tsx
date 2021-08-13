@@ -32,7 +32,7 @@ export type PostPropsType = {
   about: string;
   likes: number;
   isliked: boolean;
-  comments?: CommentProps[];
+  comments: CommentProps[];
 };
 
 export interface PostProps {
@@ -48,7 +48,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const author = useAppSelector((state) => state.profile.profile?.username);
   const token = useAppSelector((state) => state.auth.authToken);
 
-  const [commentAnswer, setcommentAnswer] = useState<CommentProps[]>();
+  const [commentAnswer, setcommentAnswer] = useState<CommentProps[]>([]);
 
   const date = new Date(post.time);
 
