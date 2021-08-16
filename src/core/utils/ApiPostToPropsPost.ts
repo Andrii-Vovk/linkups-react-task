@@ -12,6 +12,7 @@ function ApiPostToPropsPost(post: PostAnswer): PostPropsType {
     likes: post.likesCount,
     isliked: post.isLiked,
     time: post.createdAt ? `${post.createdAt.slice(0, -4)}+00:00` : "00:00",
+    comments: []
   };
 }
 
