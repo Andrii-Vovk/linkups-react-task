@@ -5,7 +5,6 @@ import { useAppSelector } from "../../../core/store/hooks";
 export interface SecureRouteData {
   path: string;
   fallback: string;
-  children: React.ReactNode;
   authReqiured?: boolean;
 }
 
